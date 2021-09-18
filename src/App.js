@@ -7,6 +7,7 @@ import Home from "./Home";
 import Profile from "./Profile";
 import Reels from "./Reels"
 import {BrowserRouter as Router,Route,Switch} from "react-router-dom";
+import Chats from "./Chats";
 function App() {
   return (
     <>
@@ -30,6 +31,9 @@ function App() {
           </Route>
           <Route path="/reels">
             <Reels/>
+          </Route>
+          <Route path="/chats">
+            <Chats/>
           </Route>
          
         </Switch>

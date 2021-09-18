@@ -244,6 +244,10 @@ hr {
   justify-content: center;
   align-items: center;
 }
+.story {
+  width: 43vw;
+  height: 100vh;
+}
 .story-img-container {
   height: 88px;
   width: 6vw;
@@ -864,6 +868,44 @@ hr {
 }
 #reels-icon {
   color: black;
+}
+.chats-container,
+.chat-window-container {
+  position: absolute;
+  width: 42vw;
+  left: 26%;
+}
+.chat-window-container {
+  display: flex;
+  flex-direction: column;
+}
+.chats-header,
+.chat-window-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 15px;
+  height: 10vh;
+}
+.chats-header > h3,
+.chats-header > i {
+  margin-left: 20px;
+}
+.chats-header > i {
+  font-size: 1.3rem;
+}
+.chats {
+  display: flex;
+  flex-direction: column;
+}
+.chat {
+  display: flex;
+  flex-direction: row;
+}
+.chat-window-messages {
+  display: flex;
+  flex-direction: column;
 }
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~HOME PAGE DESIGN~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .home-header {

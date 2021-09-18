@@ -11,6 +11,7 @@ import "./Responsive.css";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Stories from "react-insta-stories";
 let Home = (props) => {
   let [userName, setUserName] = useState("");
   let [pfpUrl, setpfpUrl] = useState("");
@@ -28,7 +29,7 @@ let Home = (props) => {
   let [searchValue, setsearchValue] = useState("");
   let [notificationCount, setnotificationCount] = useState("");
   let history = useHistory();
-  let [stories, setStories] = useState([]);
+  let [storiesArr, setStoriesArr] = useState([]);
   let [ownStory, setOwnStroy] = useState(false);
   let [allUsers, setallUsers] = useState([
     {
@@ -41,7 +42,7 @@ let Home = (props) => {
     dots: true,
     //infinite: true,
     speed: 500,
-    slidesToShow: stories.length > 6 ? 6 : stories.length,
+    slidesToShow: storiesArr.length > 6 ? 6 : storiesArr.length,
     //slidesToScroll: 3,
     cssEase: "linear",
     responsive: [
@@ -88,20 +89,17 @@ let Home = (props) => {
       .doc(value.uid)
       .collection("stories")
       .onSnapshot((querySnapshot) => {
-        setStories(
+        setStoriesArr(
           querySnapshot.docs.map((doc) => {
             return { ...doc.data() };
           })
         );
       });
-    console.log(stories);
+    console.log(storiesArr);
     return () => {
       unsubscription();
     };
   }, []);
-  useEffect(() => {
-    console.log("Stories:", stories);
-  });
   useEffect(async () => {
     let unsubscription = firestore
       .collection("users")
@@ -168,6 +166,17 @@ let Home = (props) => {
       }}
     />;*/
     console.log(allUsers);
+  }
+  function handleStory(storyUrls) {
+    console.log("Handle Story");
+    return () => (
+      <Stories
+        stories={storyUrls}
+        defaultInterval={1500}
+        width={432}
+        height={768}
+      />
+    );
   }
   return (
     <div className="home-container">
@@ -375,6 +384,8 @@ let Home = (props) => {
             }}
           ></i>
           <span className="notifications">{notificationCount}</span>
+          <Link to="chats">
+          <i class="fas fa-paper-plane"></i></Link>
         </div>
       </div>
 
@@ -499,11 +510,16 @@ let Home = (props) => {
           <div className="home-stories">
             <ul className="stories-container">
               <Slider {...settings}>
-                {stories.map((e) => {
+                {storiesArr.map((e) => {
                   return (
                     <li className="story-list-item">
                       <div className="story-img-container">
-                        <img src={e.storyBypfp} />
+                        <img
+                          src={e.storyBypfp}
+                          onClick={() => {
+                            handleStory(e.storyUrls);
+                          }}
+                        />
                       </div>
                       <h6>{e.storyByUn}</h6>
                     </li>
