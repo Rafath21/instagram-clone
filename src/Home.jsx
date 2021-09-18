@@ -6,8 +6,11 @@ import Suggestions from "./Suggestions";
 import { AuthContext } from "./AuthProvider";
 import { useEffect, useContext, useState } from "react";
 import Postcard from "./Postcard";
-import { Link } from "react-router-dom";
-
+import { Link, useHistory } from "react-router-dom";
+import "./Responsive.css";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 let Home = (props) => {
   let [userName, setUserName] = useState("");
   let [pfpUrl, setpfpUrl] = useState("");
@@ -24,6 +27,9 @@ let Home = (props) => {
   let [feedPosts, setfeedPosts] = useState([]);
   let [searchValue, setsearchValue] = useState("");
   let [notificationCount, setnotificationCount] = useState("");
+  let history = useHistory();
+  let [stories, setStories] = useState([]);
+  let [ownStory, setOwnStroy] = useState(false);
   let [allUsers, setallUsers] = useState([
     {
       uid: "",
@@ -31,6 +37,26 @@ let Home = (props) => {
       pfpUrl: "",
     },
   ]);
+  let settings = {
+    dots: true,
+    //infinite: true,
+    speed: 500,
+    slidesToShow: stories.length > 6 ? 6 : stories.length,
+    //slidesToScroll: 3,
+    cssEase: "linear",
+    responsive: [
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          infinite: true,
+          dots: true,
+          cssEase: "linear",
+        },
+      },
+    ],
+  };
   let id = Date.now();
   let atHour = new Date().getHours(); //Hour at which the post was created
   console.log(atHour);
@@ -42,6 +68,7 @@ let Home = (props) => {
     setUserName(creds.username);
     setpfpUrl(creds.photoURL);
   }, []);
+
   /*  useEffect(async () => {
     let querySnapshotReq = await firestore
       .collection("users")
@@ -55,6 +82,26 @@ let Home = (props) => {
     setRequests(arr);
     console.log(allRequests);
   }, []);*/
+  useEffect(async () => {
+    let unsubscription = firestore
+      .collection("users")
+      .doc(value.uid)
+      .collection("stories")
+      .onSnapshot((querySnapshot) => {
+        setStories(
+          querySnapshot.docs.map((doc) => {
+            return { ...doc.data() };
+          })
+        );
+      });
+    console.log(stories);
+    return () => {
+      unsubscription();
+    };
+  }, []);
+  useEffect(() => {
+    console.log("Stories:", stories);
+  });
   useEffect(async () => {
     let unsubscription = firestore
       .collection("users")
@@ -105,9 +152,23 @@ let Home = (props) => {
     });
     console.log(typeof allUsers);
   }, []);
-  useEffect(() => {
+  function handleSearch() {
+    allUsers = allUsers.filter((e) => {
+      return e.username == searchValue;
+    });
+    let luid = allUsers[0];
+    console.log(luid.uid);
+    history.push("/profile", { state: { uid: luid.uid } });
+    /*<Redirect
+      to={{
+        pathname: "/profile",
+        state: {
+          uid: luid,
+        },
+      }}
+    />;*/
     console.log(allUsers);
-  });
+  }
   return (
     <div className="home-container">
       {value ? "" : <Redirect to="/register" />}
@@ -122,7 +183,13 @@ let Home = (props) => {
               setsearchValue(e.target.value);
             }}
           />
-          <i class="fas fa-search" id="search-icon"></i>
+          <i
+            class="fas fa-search"
+            id="search-icon"
+            onClick={() => {
+              handleSearch(searchValue);
+            }}
+          ></i>
         </div>
         <div className="other-icons">
           <i
@@ -431,12 +498,18 @@ let Home = (props) => {
         <div class="stories-posts-container">
           <div className="home-stories">
             <ul className="stories-container">
-              <li className="story-list-item">
-                <div className="story-list-div">
-                  <img src="" />
-                </div>
-                <span class="story-username">Username</span>
-              </li>
+              <Slider {...settings}>
+                {stories.map((e) => {
+                  return (
+                    <li className="story-list-item">
+                      <div className="story-img-container">
+                        <img src={e.storyBypfp} />
+                      </div>
+                      <h6>{e.storyByUn}</h6>
+                    </li>
+                  );
+                })}
+              </Slider>
             </ul>
           </div>
           {feedPosts.length > 0 ? (

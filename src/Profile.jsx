@@ -34,6 +34,7 @@ let Profile = (props) => {
     isOpen: false,
     postId: "",
   });
+  console.log(value.uid);
   console.log("Location:" + location.state.uid);
   useEffect(async () => {
     let doc = await firestore.collection("users").doc(value.uid).get();
