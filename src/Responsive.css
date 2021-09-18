@@ -1,0 +1,79 @@
+@media screen and (max-width: 500px) {
+  body {
+    width: 100vw;
+  }
+  .stories-posts-sidebar-container {
+    margin-left: 0;
+    width: 100%;
+  }
+  .home-sidebar {
+    display: none;
+  }
+  .requests-container {
+    width: 80%;
+  }
+  .home-header {
+    height: 32%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .stories-posts-container {
+    width: 100%;
+  }
+  .profile-main-container {
+    width: 100vw;
+  }
+  .profile-container {
+    width: 100%;
+    left: 0;
+  }
+  .profile-pfp {
+    height: 104px;
+    width: 105px;
+  }
+  .profile-username {
+    margin-left: 5px;
+    font-size: 30px;
+  }
+  .posts-followers-following-container {
+    width: 0;
+    margin-left: 117px;
+    font-size: 20px;
+    justify-content: space-around;
+  }
+
+  .profile-posts {
+    width: 100%;
+    grid-template-columns: auto auto;
+  }
+  .profile-post {
+    width: 176px;
+    height: 164px;
+  }
+  .main-post-card-container {
+    width: 100%;
+    margin-left: 0;
+  }
+  .create-post-container {
+    left: 10px;
+    right: 0;
+    width: 94%;
+  }
+  .create-post-caption {
+    max-width: 60%;
+    left: 38%;
+    top: 58%;
+  }
+  .create-new-post-btn {
+    top: 86%;
+  }
+  .other-icons {
+    position: fixed;
+    z-index: 100;
+    top: -13px;
+    width: 100%;
+    background: rgb(255, 255, 255);
+  }
+}
