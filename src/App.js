@@ -8,6 +8,7 @@ import Profile from "./Profile";
 import Reels from "./Reels"
 import {BrowserRouter as Router,Route,Switch} from "react-router-dom";
 import Chats from "./Chats";
+import ChatWindow from "./ChatWindow";
 function App() {
   return (
     <>
@@ -23,9 +24,7 @@ function App() {
            <Route path="/setup">
             <Setup/>
           </Route>
-          <Route path="/home">
-            <Home/>
-          </Route>
+         
           <Route path="/profile">
             <Profile/>
           </Route>
@@ -35,7 +34,12 @@ function App() {
           <Route path="/chats">
             <Chats/>
           </Route>
-         
+          <Route path="/chatwindow">
+            <ChatWindow/>
+          </Route>
+          <Route path="/">
+            <Home/>
+          </Route>
         </Switch>
         </AuthProvider>
     </Router>

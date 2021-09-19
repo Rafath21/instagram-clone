@@ -725,6 +725,18 @@ hr {
   display: flex;
   flex-direction: row;
 }
+.profile-header > button {
+  margin-top: 151px;
+  margin-left: -270px;
+  width: 210px;
+  height: 31px;
+  border: none;
+  color: white;
+  background: rgb(30, 144, 255);
+}
+.profile-sendMsg:hover {
+  background: #21568a;
+}
 .profile-pfp {
   height: 170px;
   width: 200px;
@@ -888,6 +900,55 @@ hr {
   margin-top: 15px;
   height: 10vh;
 }
+.chat-window-messages {
+  height: 72vh;
+  width: 100%;
+  overflow: auto;
+}
+.chat-window-msgform {
+  width: 100%;
+  position: relative;
+}
+.chat-window-msgform > textarea {
+  width: 85%;
+  height: 7vh;
+}
+.chat-window-header > img {
+  max-width: 11%;
+  border-radius: b;
+  height: 10vh;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 10px;
+}
+.chat-message-sender {
+  display: block;
+  background: #8080803d;
+  padding: 10px;
+  border-radius: 19px;
+  width: fit-content;
+  margin-top: 7px;
+}
+.chat-message-own {
+  display: block;
+  margin-left: auto;
+  margin-right: 0;
+  background: #00800047;
+  width: fit-content;
+  padding: 10px;
+  margin-top: 7px;
+  border-radius: 19px;
+}
+.chat-window-msgform > button {
+  position: absolute;
+  top: 3%;
+  padding: 13px;
+  right: 2%;
+  border: none;
+  color: rgb(255, 255, 255);
+  background: rgb(30, 144, 255);
+  border-radius: 5px;
+}
 .chats-header > h3,
 .chats-header > i {
   margin-left: 20px;
@@ -902,11 +963,18 @@ hr {
 .chat {
   display: flex;
   flex-direction: row;
+  height: 16vh;
+  width: 42vw;
 }
-.chat-window-messages {
-  display: flex;
-  flex-direction: column;
+.chat > img {
+  max-width: 17%;
+  border-radius: 50%;
 }
+.chat > h4 {
+  margin-top: 38px;
+  margin-left: 20px;
+}
+
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~HOME PAGE DESIGN~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .home-header {
   height: 58px;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { firestore } from "./firebase";
 import "./App.css";
 import Postcard from "./Postcard";
@@ -127,6 +127,19 @@ let Profile = (props) => {
               </p>
             </div>
           </div>
+          <Link
+            to={{
+              pathname: "/chatwindow",
+              state: {
+                senderUid: value.uid,
+                senderPfp:pfpUrl,
+                senderUn:username
+              },
+            }}
+            style={{ textDecoration: "none" }}
+          >
+            <button className="profile-sendMsg">Send Message</button>
+          </Link>
         </div>
         {followersBoxOpen ? (
           <div className="followers-box-container">

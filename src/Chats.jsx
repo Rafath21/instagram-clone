@@ -19,11 +19,12 @@ let Chats = () => {
           })
         );
       });
-    console.log(allChats);
     return () => {
       unsubscription();
     };
   }, []);
+  console.log("All chats:", allChats);
+
   return (
     <div className="chats-container">
       <div className="chats-header">
@@ -36,15 +37,25 @@ let Chats = () => {
       <div className="chats">
         {allChats.map((e) => {
           return (
-            <div
-              className="chat"
-              onClick={() => {
-                <ChatWindow />;
-              }}
-            >
-              <img src={e.chatPfp} />
-              <h4>{e.chatUsername}</h4>
-            </div>
+            <>
+              <Link
+                to={{
+                  pathname: "/chatwindow",
+                  state: {
+                    senderUid: e.senderUid,
+                    senderPfp: e.senderPfp,
+                    senderUn: e.senderUsername,
+                  },
+                }}
+                style={{ textDecoration: "none" }}
+              >
+                <div className="chat">
+                  <img src={e.senderPfp} />
+                  <h4>{e.senderUsername}</h4>
+                </div>
+              </Link>
+              <hr></hr>
+            </>
           );
         })}
       </div>
