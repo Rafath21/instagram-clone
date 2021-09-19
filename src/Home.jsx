@@ -27,6 +27,7 @@ let Home = (props) => {
   let [uploadCaption, setuploadCaption] = useState("");
   let [feedPosts, setfeedPosts] = useState([]);
   let [searchValue, setsearchValue] = useState("");
+  let [searchUid, setsearchUid] = useState("");
   let [notificationCount, setnotificationCount] = useState("");
   let history = useHistory();
   let [storiesArr, setStoriesArr] = useState([]);
@@ -60,31 +61,16 @@ let Home = (props) => {
   };
   let id = Date.now();
   let atHour = new Date().getHours(); //Hour at which the post was created
-  console.log(atHour);
   let value = useContext(AuthContext);
   useEffect(async () => {
-    let document = await firestore.collection("users").doc(value.uid).get();
+    let document = await firestore.collection("users").doc(value?.uid).get();
     let creds = document.data();
     settypeOfAccount(creds.typeOfAccount);
     setUserName(creds.username);
     setpfpUrl(creds.photoURL);
   }, []);
-
-  /*  useEffect(async () => {
-    let querySnapshotReq = await firestore
-      .collection("users")
-      .doc(value.uid)
-      .collection("requests")
-      .get();
-    let arr = [];
-    querySnapshotReq.forEach((doc) => {
-      arr.push(doc.data());
-    });
-    setRequests(arr);
-    console.log(allRequests);
-  }, []);*/
   useEffect(async () => {
-    let unsubscription = firestore
+    let unsubscription = await firestore
       .collection("users")
       .doc(value.uid)
       .collection("stories")
@@ -95,7 +81,6 @@ let Home = (props) => {
           })
         );
       });
-    console.log(storiesArr);
     return () => {
       unsubscription();
     };
@@ -119,7 +104,6 @@ let Home = (props) => {
   }, []);
 
   useEffect(async () => {
-    console.log("new use effect");
     let unsubscription = await firestore
       .collection("users")
       .doc(value.uid)
@@ -140,7 +124,6 @@ let Home = (props) => {
     let arr = [];
     let obj = {};
     users.forEach((doc) => {
-      console.log(doc.data());
       obj = {
         uid: doc.data().uid,
         username: doc.data().username,
@@ -148,7 +131,6 @@ let Home = (props) => {
       };
       setallUsers((allUsers) => [...allUsers, obj]);
     });
-    console.log(typeof allUsers);
   }, []);
   function handleSearch() {
     allUsers = allUsers.filter((e) => {
@@ -165,8 +147,9 @@ let Home = (props) => {
         },
       }}
     />;*/
-    console.log(allUsers);
   }
+  console.log("feedPosts:", feedPosts);
+
   function handleStory(storyUrls) {
     console.log("Handle Story");
     return () => (
@@ -195,7 +178,7 @@ let Home = (props) => {
           <i
             class="fas fa-search"
             id="search-icon"
-            onClick={() => {
+            onChange={() => {
               handleSearch(searchValue);
             }}
           ></i>
@@ -363,12 +346,11 @@ let Home = (props) => {
             ""
           )}
           <i class="fas fa-home" id="home-icon"></i>
-
           <Link
             to={{
               pathname: "/reels",
               state: {
-                uid: value.uid,
+                uid: value ? value.uid : "",
               },
             }}
             style={{ textDecoration: "none" }}
@@ -384,8 +366,20 @@ let Home = (props) => {
             }}
           ></i>
           <span className="notifications">{notificationCount}</span>
-          <Link to="chats">
-          <i class="fas fa-paper-plane"></i></Link>
+
+          <Link
+            to={{
+              pathname: "/chats",
+              state: {
+                uid: value ? value.uid : "",
+                username: userName,
+                pfpUrl: pfpUrl,
+              },
+            }}
+            style={{ textDecoration: "none" }}
+          >
+            <i class="fas fa-paper-plane"></i>
+          </Link>
         </div>
       </div>
 
@@ -484,9 +478,8 @@ let Home = (props) => {
                         <i
                           class="far fa-times-circle"
                           id="follows-container-close"
-                          onClick={(e) => {
-                            console.log("request" + request.ruid);
-                            firestore
+                          onClick={async (e) => {
+                            await firestore
                               .collection("users")
                               .doc(value.uid)
                               .collection("requests")
@@ -531,7 +524,6 @@ let Home = (props) => {
           {feedPosts.length > 0 ? (
             <div className="home-posts">
               {feedPosts.map((post, index) => {
-                console.log(post);
                 return (
                   <Postcard
                     key={index}

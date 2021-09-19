@@ -20,7 +20,6 @@ let Suggestions = (props) => {
       following.forEach((doc) => {
         followingArr.push(doc.data().fluid);
       });
-      console.log(followingArr);
       let querySnapshot = await firestore.collection("users").get();
       querySnapshot.forEach((doc) => {
         let newDoc = doc.data();
@@ -36,7 +35,6 @@ let Suggestions = (props) => {
       arr = arr.filter((e) => {
         return !followingArr.includes(e.uid);
       });
-      console.log(arr);
       setSuggestions(arr);
     };
     f();
@@ -109,14 +107,12 @@ let Suggestions = (props) => {
                           pfp: props.profilepic,
                           ruid: props.uid,
                         });
-                      console.log(element.followStatus);
                     } else {
                       let docc = "fl" + element.uid;
                       let flr = "fr" + props.uid;
                       element.followStatus = "Following";
                       e.target.innerText = "Following";
 
-                      console.log(element.followStatus);
                       await firestore //adding the current user to suggested user's followers
                         .collection("users")
                         .doc(props.uid)

@@ -20,6 +20,9 @@ let Profile = (props) => {
   let [followersBoxOpen, setfollowersBoxOpen] = useState(false);
   let [followers, setFollowers] = useState([]);
   let [follows, setFollows] = useState([]);
+  let [currUn, setcurrUn] = useState("");
+  let [currPfp, setcurrPfp] = useState("");
+
   let [post, setPost] = useState({
     postedCaption: "",
     comments: [],
@@ -34,8 +37,6 @@ let Profile = (props) => {
     isOpen: false,
     postId: "",
   });
-  console.log(value.uid);
-  console.log("Location:" + location.state.uid);
   useEffect(async () => {
     let doc = await firestore.collection("users").doc(value.uid).get();
     let details = doc.data();
@@ -64,9 +65,7 @@ let Profile = (props) => {
         arr.push(obj);
       });
       setPosts(arr);
-      console.log(posts);
     }
-    console.log(followingCount);
   }, []);
   useEffect(async () => {
     let followers = await firestore
@@ -79,7 +78,6 @@ let Profile = (props) => {
       arr.push(doc.data());
     });
     setFollowers(arr);
-    console.log(followers);
   }, []);
   useEffect(async () => {
     let follows = await firestore
@@ -92,12 +90,12 @@ let Profile = (props) => {
       arr.push(doc.data());
     });
     setFollows(arr);
-    console.log(follows);
   }, []);
-  useEffect(() => {
-    console.log(followers);
-    console.log(follows);
-  });
+  useEffect(async () => {
+    let doc = await firestore.collection("users").doc(currUser.uid).get();
+    setcurrPfp(doc.data().photoURL);
+    setcurrUn(doc.data().username);
+  }, []);
   return (
     <div class="profile-main-container">
       <div class="profile-container">
@@ -132,8 +130,11 @@ let Profile = (props) => {
               pathname: "/chatwindow",
               state: {
                 senderUid: value.uid,
-                senderPfp:pfpUrl,
-                senderUn:username
+                senderPfp: pfpUrl,
+                senderUn: username,
+                ownUid: currUser.uid,
+                ownUsername: currUn,
+                ownpfp: currPfp,
               },
             }}
             style={{ textDecoration: "none" }}
@@ -215,14 +216,14 @@ let Profile = (props) => {
                       .doc(e.postId)
                       .get();
                     console.log(doc.data());
-                    let obj = {};
+                    /* let obj = {};
                     obj["postedCaption"] = doc.data().caption;
                     obj["comments"] = doc.data().comments;
                     obj["likes"] = doc.data().likes;
                     obj["feedItemurl"] = doc.data().postUrl;
                     obj["postId"] = e.postId;
                     obj["postedBy"] = username;
-                    obj["postedBypfp"] = pfpUrl;
+                    obj["postedBypfp"] = pfpUrl;*/
                     setPost({
                       ...post,
 
@@ -264,8 +265,3 @@ let Profile = (props) => {
   );
 };
 export default Profile;
-/*<Showpost
-            postId={modal.postId}
-            uid={uid}
-            close={() => setModal({ isOpen: false, postId: "" })}
-          />*/

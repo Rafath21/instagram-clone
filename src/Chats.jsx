@@ -1,5 +1,5 @@
 import "./App.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { AuthContext } from "./AuthProvider";
 import { useContext, useEffect, useState } from "react";
 import { firestore } from "./firebase";
@@ -7,6 +7,7 @@ import ChatWindow from "./ChatWindow";
 let Chats = () => {
   let [allChats, setAllChats] = useState([]);
   let value = useContext(AuthContext);
+  let location = useLocation();
   useEffect(async () => {
     let unsubscription = await firestore
       .collection("users")
@@ -23,7 +24,6 @@ let Chats = () => {
       unsubscription();
     };
   }, []);
-  console.log("All chats:", allChats);
 
   return (
     <div className="chats-container">
@@ -45,6 +45,9 @@ let Chats = () => {
                     senderUid: e.senderUid,
                     senderPfp: e.senderPfp,
                     senderUn: e.senderUsername,
+                    ownUid: location.state.uid ? location.state.uid : "",
+                    ownUsername: location.state.username,
+                    ownpfp: location.state.pfpUrl,
                   },
                 }}
                 style={{ textDecoration: "none" }}

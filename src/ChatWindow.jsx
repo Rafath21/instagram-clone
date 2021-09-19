@@ -22,7 +22,7 @@ let ChatWindow = () => {
       .doc(location.state.senderUid)
       .onSnapshot((querySnapshot) => {
         console.log(querySnapshot.data());
-        setMsgs(querySnapshot.data().msgs);
+        setMsgs(querySnapshot.data()?.msgs);
       });
     return () => {
       unsubscription();
@@ -37,6 +37,9 @@ let ChatWindow = () => {
       .doc(location.state.senderUid)
       .set(
         {
+          senderPfp: senderpfp,
+          senderUid: location.state.senderUid,
+          senderUsername: senderUn,
           msgs: firebase.firestore.FieldValue.arrayUnion({
             chatId: msgId,
             msg: currMsg,
@@ -51,6 +54,9 @@ let ChatWindow = () => {
       .doc(value.uid)
       .set(
         {
+          senderPfp: location.state.ownpfp,
+          senderUid: location.state.ownUid,
+          senderUsername: location.state.ownUsername,
           msgs: firebase.firestore.FieldValue.arrayUnion({
             chatId: msgId,
             msg: currMsg,
@@ -59,12 +65,20 @@ let ChatWindow = () => {
         { merge: true }
       );
   }
-
-  console.log("Msgs:", msgs);
   return (
     <div className="chat-window-container">
       <div className="chat-window-header">
-        <Link to="chats">
+        <Link
+          to={{
+            pathname: "/chats",
+            state: {
+              ownUid: location.state.ownUid,
+              ownUsername: location.state.ownUsername,
+              ownpfp: location.state.ownpfp,
+            },
+          }}
+          style={{ textDecoration: "none" }}
+        >
           <i class="fas fa-arrow-left"></i>
         </Link>
         <img src={senderpfp} />

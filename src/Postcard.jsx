@@ -16,9 +16,18 @@ let Postcard = (props) => {
     };
     f();
   }, []);
-  console.log(comments);
-  console.log(props);
-
+  console.log("props from homepage:", props.post.postId);
+  useEffect(async () => {
+    let tests = await firestore
+      .collection("users")
+      .doc(props?.value.uid)
+      .collection("posts")
+      .doc(props.post.postId)
+      .get();
+    //console.log(tests.data());
+    //setComments(tests.data().comments);
+  }, []);
+  //console.log(props.post);
   return (
     <div className="post-card-container">
       <div className="post-card-header">
@@ -106,9 +115,7 @@ let Postcard = (props) => {
                 onChange={(e) => {
                   setcurrUserComment(e.currentTarget.value);
                 }}
-              >
-                My comment is here
-              </textarea>
+              ></textarea>
               <button
                 class="user-comment-post-button"
                 onClick={async () => {
@@ -144,7 +151,15 @@ let Postcard = (props) => {
                       },
                       { merge: true }
                     );
-
+                  let arr = [];
+                  arr = [...comments];
+                  arr.push({
+                    uname: props.username,
+                    ucomment: currUserComment,
+                    upfpUrl: props.pfpUrl,
+                    uid: props.value.uid,
+                  });
+                  setComments(arr);
                   let querySnapshot = await firestore
                     .collection("users")
                     .doc(props.post.postedByUid)

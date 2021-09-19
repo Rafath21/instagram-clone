@@ -606,7 +606,7 @@ hr {
   margin-left: 42px;
 }
 .comment-form-comments {
-  overflow: scroll;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   margin-left: 15px;
@@ -636,8 +636,9 @@ hr {
   margin-left: 13px;
   background: white;
   border: none;
-  color: black;
-  border: 2px solid dodgerblue;
+  color: white;
+  background: dodgerblue;
+  border-radius: 12px;
 }
 .user-comment-post-button:hover {
   background: #27278e;
@@ -725,14 +726,14 @@ hr {
   display: flex;
   flex-direction: row;
 }
-.profile-header > button {
-  margin-top: 151px;
-  margin-left: -270px;
-  width: 210px;
-  height: 31px;
+.profile-sendMsg {
+  margin-top: 147px;
+  margin-left: -297px;
+  padding: 13px;
   border: none;
   color: white;
-  background: rgb(30, 144, 255);
+  background: dodgerblue;
+  border-radius: 10px;
 }
 .profile-sendMsg:hover {
   background: #21568a;
@@ -776,7 +777,7 @@ hr {
   margin-left: -13%;
   margin-top: -4%;
   font-size: 19px;
-  background: red;
+  background: #b72e2ed1;
   color: white;
   margin-bottom: auto;
   width: 17px;
