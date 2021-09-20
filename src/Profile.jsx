@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { firestore } from "./firebase";
+import firebase from "firebase/app";
 import "./App.css";
 import Postcard from "./Postcard";
 import { AuthContext } from "./AuthProvider";
@@ -22,7 +23,9 @@ let Profile = (props) => {
   let [follows, setFollows] = useState([]);
   let [currUn, setcurrUn] = useState("");
   let [currPfp, setcurrPfp] = useState("");
-
+  let [ownProfile, setownProfile] = useState(false);
+  let [currUserFollow, setcurrUserFollow] = useState("Follow");
+  let [restrictedStatus, setrestrictedStatus] = useState(false); //if the current user follows the user whose profile they're viewing
   let [post, setPost] = useState({
     postedCaption: "",
     comments: [],
@@ -96,6 +99,103 @@ let Profile = (props) => {
     setcurrPfp(doc.data().photoURL);
     setcurrUn(doc.data().username);
   }, []);
+  useEffect(async () => {
+    //checking if the user's account is public or private
+    let data = await firestore
+      .collection("users")
+      .doc(location.state.uid)
+      .get();
+
+    if (location.state.uid == currUser.uid) {
+      setownProfile(true);
+    }
+    if (
+      data.data().typeOfAccount == "public" ||
+      location.state.uid == currUser.uid
+    ) {
+      console.log("in if");
+      setrestrictedStatus(true);
+    } else {
+      let ownData = await firestore
+        .collection("users")
+        .doc(currUser.uid)
+        .collection("following")
+        .get();
+      ownData.forEach((doc) => {
+        if (doc.data().fluid == location.state.uid) {
+          setcurrUserFollow("Following");
+          console.log("conditional render:", doc.data().fluid);
+          setrestrictedStatus(true);
+        }
+      });
+    }
+  }, []);
+  async function handleFollow(e) {
+    let reqDoc = await firestore.collection("users").doc(value.uid).get();
+    let req = "request" + currUser.uid;
+    if (reqDoc.data().typeOfAccount == "private") {
+      setcurrUserFollow("Requested");
+      await firestore
+        .collection("users")
+        .doc(value.uid)
+        .collection("requests")
+        .doc(req)
+        .set({
+          name: currUn,
+          pfp: currPfp,
+          ruid: currUser.uid,
+        });
+    } else {
+      let docc = "fl" + value.uid;
+      let flr = "fr" + currUser.uid;
+      setcurrUserFollow("Following");
+
+      await firestore //adding the current user to suggested user's followers
+        .collection("users")
+        .doc(currUser.uid)
+        .collection("following")
+        .doc(value.uid)
+        .set({
+          name: username,
+          fluid: value.uid,
+          pfp: pfpUrl,
+        });
+      await firestore
+        .collection("users")
+        .doc(currUser.uid)
+        .update({
+          followingCount: firebase.firestore.FieldValue.increment(1),
+        });
+
+      await firestore //adding the current user to suggested user's request list
+        .collection("users") //will be deleted after the user deletes it themselves
+        .doc(value.uid)
+        .collection("requests")
+        .doc(req)
+        .set({
+          name: currUn,
+          pfp: currPfp,
+          ruid: currUser.uid,
+        });
+      await firestore //adding the current user to suggested user's followers list
+        .collection("users")
+        .doc(value.uid)
+        .collection("followers")
+        .doc(currUser.uid)
+        .set({
+          name: currUn,
+          pfp: currPfp,
+          ruid: currUser.uid,
+        });
+      await firestore
+        .collection("users")
+        .doc(value.uid)
+        .update({
+          followersCount: firebase.firestore.FieldValue.increment(1),
+        });
+    }
+  }
+  console.log("status:", restrictedStatus);
   return (
     <div class="profile-main-container">
       <div class="profile-container">
@@ -125,22 +225,36 @@ let Profile = (props) => {
               </p>
             </div>
           </div>
-          <Link
-            to={{
-              pathname: "/chatwindow",
-              state: {
-                senderUid: value.uid,
-                senderPfp: pfpUrl,
-                senderUn: username,
-                ownUid: currUser.uid,
-                ownUsername: currUn,
-                ownpfp: currPfp,
-              },
-            }}
-            style={{ textDecoration: "none" }}
-          >
-            <button className="profile-sendMsg">Send Message</button>
-          </Link>
+          {ownProfile ? (
+            <div className="edit-profile-btn">Edit profile</div>
+          ) : (
+            <div className="two-btns">
+              <Link
+                to={{
+                  pathname: "/chatwindow",
+                  state: {
+                    senderUid: value.uid,
+                    senderPfp: pfpUrl,
+                    senderUn: username,
+                    ownUid: currUser.uid,
+                    ownUsername: currUn,
+                    ownpfp: currPfp,
+                  },
+                }}
+                style={{ textDecoration: "none" }}
+              >
+                <button className="profile-sendMsg">Send Message</button>
+              </Link>
+              <button
+                className="follow-status"
+                onClick={(e) => {
+                  handleFollow(e);
+                }}
+              >
+                {currUserFollow}
+              </button>
+            </div>
+          )}
         </div>
         {followersBoxOpen ? (
           <div className="followers-box-container">
@@ -198,50 +312,46 @@ let Profile = (props) => {
         <div class="profile-posts-container">
           <p class="posts-title">POSTS</p>
           <hr />
-          <div class="profile-posts">
-            {posts.map((e) => {
-              return (
-                <img
-                  class="profile-post"
-                  src={e.postUrl}
-                  onClick={async () => {
-                    setModal({
-                      isOpen: true,
-                      postId: e.postId,
-                    });
-                    let doc = await firestore
-                      .collection("users")
-                      .doc(value.uid)
-                      .collection("posts")
-                      .doc(e.postId)
-                      .get();
-                    console.log(doc.data());
-                    /* let obj = {};
-                    obj["postedCaption"] = doc.data().caption;
-                    obj["comments"] = doc.data().comments;
-                    obj["likes"] = doc.data().likes;
-                    obj["feedItemurl"] = doc.data().postUrl;
-                    obj["postId"] = e.postId;
-                    obj["postedBy"] = username;
-                    obj["postedBypfp"] = pfpUrl;*/
-                    setPost({
-                      ...post,
+          {restrictedStatus ? (
+            <div class="profile-posts">
+              {posts.map((e) => {
+                return (
+                  <img
+                    class="profile-post"
+                    src={e.postUrl}
+                    onClick={async () => {
+                      setModal({
+                        isOpen: true,
+                        postId: e.postId,
+                      });
+                      let doc = await firestore
+                        .collection("users")
+                        .doc(value.uid)
+                        .collection("posts")
+                        .doc(e.postId)
+                        .get();
+                      console.log(doc.data());
+                      setPost({
+                        ...post,
 
-                      postedCaption: doc.data().caption,
-                      comments: doc.data().comments,
-                      likes: doc.data().likes,
-                      feedItemurl: doc.data().postUrl,
-                      postId: e.postId,
-                      postedBy: username,
-                      postedBypfp: pfpUrl,
-                      postedByUid: value.uid,
-                    });
-                    console.log(post);
-                  }}
-                />
-              );
-            })}
-          </div>
+                        postedCaption: doc.data().caption,
+                        comments: doc.data().comments,
+                        likes: doc.data().likes,
+                        feedItemurl: doc.data().postUrl,
+                        postId: e.postId,
+                        postedBy: username,
+                        postedBypfp: pfpUrl,
+                        postedByUid: value.uid,
+                      });
+                      console.log(post);
+                    }}
+                  />
+                );
+              })}
+            </div>
+          ) : (
+            <div className="acc-is-private">This Account is private</div>
+          )}
         </div>
       </div>
       {modal.isOpen && (

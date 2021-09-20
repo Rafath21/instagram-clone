@@ -284,6 +284,9 @@ hr {
   width: 34%;
   background: rgba(255, 255, 255, 0);
 }
+#suggestions-container-close {
+  display: none;
+}
 .home-posts {
   margin-top: 30px;
   height: 80vh;
@@ -726,14 +729,19 @@ hr {
   display: flex;
   flex-direction: row;
 }
-.profile-sendMsg {
+#suggestions-icon {
+  display: none;
+}
+.profile-sendMsg,
+.edit-profile-btn {
   margin-top: 147px;
   margin-left: -297px;
   padding: 13px;
   border: none;
-  color: white;
-  background: dodgerblue;
+  color: rgb(0, 0, 0);
+  background: rgb(255, 255, 255);
   border-radius: 10px;
+  border: 1px solid black;
 }
 .profile-sendMsg:hover {
   background: #21568a;
@@ -830,14 +838,18 @@ hr {
   margin-left: 8px;
 }
 .setup-container {
-  width: 405px;
-  height: 370px;
+  width: 28vw;
+  height: 50vh;
   margin: auto;
   background: rgb(255, 255, 255);
-  margin-top: 100px;
+  margin-top: 8%;
   display: flex;
   flex-direction: column;
   position: relative;
+}
+.setup-username {
+  margin-top: 222px;
+  margin-left: 20px;
 }
 .profile-pic {
   position: absolute;
@@ -858,18 +870,24 @@ hr {
 }
 .setup-name-input {
   position: absolute;
-  top: 58%;
+  top: 59%;
   left: 30%;
   padding: 10px;
 }
 .pfp-submit-btn {
   position: absolute;
-  bottom: 3%;
+  bottom: -25%;
   left: 46%;
   padding: 15px;
   color: white;
   background: dodgerblue;
   border: none;
+}
+.setup-bio {
+  bottom: -36px;
+}
+.setup-bio > textarea {
+  min-height: 70px;
 }
 .pfp-submit-btn:hover {
   background: #21568a;
@@ -877,7 +895,7 @@ hr {
 .account-type {
   position: absolute;
   left: 31%;
-  top: 72%;
+  top: 75%;
 }
 #reels-icon {
   color: black;
@@ -974,6 +992,20 @@ hr {
 .chat > h4 {
   margin-top: 38px;
   margin-left: 20px;
+}
+.acc-is-private {
+  text-align: center;
+  margin-top: 134px;
+  font-size: 25px;
+}
+.follow-status {
+  padding: 11px;
+  border: none;
+  background: dodgerblue;
+  color: white;
+  border-radius: 4px;
+  margin-top: 146px;
+  margin-left: -167px;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~HOME PAGE DESIGN~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

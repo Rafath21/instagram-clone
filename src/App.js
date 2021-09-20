@@ -9,6 +9,7 @@ import Reels from "./Reels"
 import {BrowserRouter as Router,Route,Switch} from "react-router-dom";
 import Chats from "./Chats";
 import ChatWindow from "./ChatWindow";
+import Mainpost from "./Mainpost";
 function App() {
   return (
     <>
@@ -33,6 +34,9 @@ function App() {
           </Route>
           <Route path="/chats">
             <Chats/>
+          </Route>
+          <Route path="/mainpost">
+            <Mainpost/>
           </Route>
           <Route path="/chatwindow">
             <ChatWindow/>

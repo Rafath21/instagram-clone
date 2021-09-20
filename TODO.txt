@@ -2,3 +2,76 @@
 [+]fix stories
 [+]fix likes feature
 [+]suggestion box responsive
+[+] ipad pro responsive
+element.uid=value.uid//other user
+props.uid=currUser.uid//curr user
+onClick={async (e) => {
+                    let reqDoc = await firestore
+                      .collection("users")
+                      .doc(value.uid)
+                      .get();
+                    let req = "request" + currUser.uid;
+                    if (reqDoc.data().typeOfAccount == "private") {
+                      e.target.innerText = "Requested";
+                      await firestore
+                        .collection("users")
+                        .doc(value.uid)
+                        .collection("requests")
+                        .doc(req)
+                        .set({
+                          name: currUn,
+                          pfp: currPfp,
+                          ruid: currUser.uid,
+                        });
+                    } else {
+                      let docc = "fl" + value.uid;
+                      let flr = "fr" + currUser.uid;
+                      e.target.innerText = "Following";
+
+                      await firestore //adding the current user to suggested user's followers
+                        .collection("users")
+                        .doc(currUser.uid)
+                        .collection("following")
+                        .doc(value.uid)
+                        .set({
+                          name: username,
+                          fluid: value.uid,
+                          pfp: pfpUrl,
+                        });
+                      await firestore
+                        .collection("users")
+                        .doc(currUser.uid)
+                        .update({
+                          followingCount:
+                            firebase.firestore.FieldValue.increment(1),
+                        });
+
+                      await firestore //adding the current user to suggested user's request list
+                        .collection("users") //will be deleted after the user deletes it themselves
+                        .doc(value.uid)
+                        .collection("requests")
+                        .doc(req)
+                        .set({
+                          name: currUn,
+                          pfp: currPfp,
+                          ruid: currUser.uid,
+                        });
+                      await firestore //adding the current user to suggested user's followers list
+                        .collection("users")
+                        .doc(value.uid)
+                        .collection("followers")
+                        .doc(currUser.uid)
+                        .set({
+                          name: currUn,
+                          pfp: currPfp,
+                          ruid: currUser.uid,
+                        });
+                      await firestore
+                        .collection("users")
+                        .doc(value.uid)
+                        .update({
+                          followersCount:
+                            firebase.firestore.FieldValue.increment(1),
+                        });
+                    }
+                  }}

@@ -32,6 +32,7 @@ let Home = (props) => {
   let history = useHistory();
   let [storiesArr, setStoriesArr] = useState([]);
   let [ownStory, setOwnStroy] = useState(false);
+  let [suggestionsOpen, setSuggestionsOpen] = useState(false);
   let [allUsers, setallUsers] = useState([
     {
       uid: "",
@@ -40,9 +41,9 @@ let Home = (props) => {
     },
   ]);
   let settings = {
-    dots: true,
     //infinite: true,
     speed: 500,
+    arrows: false,
     slidesToShow: storiesArr.length > 6 ? 6 : storiesArr.length,
     //slidesToScroll: 3,
     cssEase: "linear",
@@ -50,10 +51,11 @@ let Home = (props) => {
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          infinite: true,
-          dots: true,
+          slidesToShow: storiesArr.length > 4 ? 4 : storiesArr.length,
+          arrows: false,
+
+          //slidesToScroll: 2,
+          //infinite: true,
           cssEase: "linear",
         },
       },
@@ -182,6 +184,15 @@ let Home = (props) => {
               handleSearch(searchValue);
             }}
           ></i>
+          <i
+            class="fas fa-comments"
+            id="suggestions-icon"
+            onClick={() => {
+              setSuggestionsOpen(true);
+            }}
+          >
+            Suggestions
+          </i>
         </div>
         <div className="other-icons">
           <i
@@ -544,7 +555,18 @@ let Home = (props) => {
             </div>
           )}
         </div>
-        <div className="home-sidebar">
+        <div
+          className={
+            suggestionsOpen ? "home-sidebar-responsive" : "home-sidebar"
+          }
+        >
+          <i
+            class="far fa-times-circle"
+            id="suggestions-container-close"
+            onClick={() => {
+              setSuggestionsOpen(false);
+            }}
+          ></i>
           {value ? (
             <>
               <Suggestions

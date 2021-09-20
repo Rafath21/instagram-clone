@@ -71,6 +71,7 @@ let Setup = () => {
         </select>
       </div>
       <div className="setup-username">
+        <p>Username:</p>
         <input
           onChange={(e) => {
             setUserName(e.currentTarget.value);
@@ -130,6 +131,10 @@ let Setup = () => {
         >
           Submit
         </button>
+      </div>
+      <div className="setup-bio">
+        <p>Bio:</p>
+        <textarea placeholder="what best describes you?"></textarea>
       </div>
     </div>
   );

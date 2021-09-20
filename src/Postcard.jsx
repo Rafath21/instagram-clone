@@ -3,7 +3,6 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import { firestore } from "./firebase";
 import firebase from "firebase/app";
-
 let Postcard = (props) => {
   let [comments, setComments] = useState([]);
   let [likes, setLikes] = useState();
@@ -17,16 +16,7 @@ let Postcard = (props) => {
     f();
   }, []);
   console.log("props from homepage:", props.post.postId);
-  useEffect(async () => {
-    let tests = await firestore
-      .collection("users")
-      .doc(props?.value.uid)
-      .collection("posts")
-      .doc(props.post.postId)
-      .get();
-    //console.log(tests.data());
-    //setComments(tests.data().comments);
-  }, []);
+  //console.log(tests.data());
   //console.log(props.post);
   return (
     <div className="post-card-container">
@@ -72,7 +62,18 @@ let Postcard = (props) => {
         </div>
         <div className="post-likes-number">{props.post.likes} likes</div>
         <div className="post-username-and-caption-container">
-          <p className="post-username-bottom">{props.post.postedBy}</p>
+          <Link
+            to={{
+              pathname: "/profile",
+              state: {
+                uid: props.post.postedByUid,
+              },
+            }}
+            style={{ textDecoration: "none" }}
+          >
+            <p className="post-username-bottom">{props.post.postedBy}</p>
+          </Link>
+
           <p className="post-caption">{props.post.postedCaption}</p>
         </div>
         {commentBoxOpen ? (
