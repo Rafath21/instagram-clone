@@ -1,39 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import "./App.css";
+import { AuthContext } from "./AuthProvider";
+import VideoCard from "./VideoCard";
 let Reels = () => {
   let [commentboxOpen, setCommentBoxOpen] = useState(false);
   let [playing, setPlaying] = useState(true);
-  return (
-    <div className="video-card">
-      <video
-        onClick={(e) => {
-          if (playing) {
-            setPlaying(false);
-            e.currentTarget.pause();
-          } else {
-            setPlaying(true);
-            e.currentTarget.play();
-          }
-        }}
-        src=""
-      ></video>
-      <span className="material-icons-outlined like">favorite_border</span>
-      <span
-        className="material-icons-outlined comment"
-        onClick={() => {
-          if (commentboxOpen) setCommentBoxOpen(false);
-          else setCommentBoxOpen(true);
-        }}
-      >
-        chat_bubble
-      </span>
-      <p className="username">
-        <b>Username</b>
-      </p>
-      <p className="song">
-        <span className="material-icons-outlined">music_note</span>
-        <marquee>song name</marquee>
-      </p>
-    </div>
-  );
+  let value = useContext(AuthContext);
+
+  return <VideoCard value={value} />;
 };
 export default Reels;

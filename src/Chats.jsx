@@ -29,7 +29,7 @@ let Chats = () => {
     <div className="chats-container">
       <div className="chats-header">
         <Link to="home">
-          <i class="fas fa-arrow-left"></i>
+          <i class="fas fa-arrow-left" id="link"></i>
         </Link>
         <h3>Chats</h3>
         <hr></hr>
@@ -52,7 +52,7 @@ let Chats = () => {
                 }}
                 style={{ textDecoration: "none" }}
               >
-                <div className="chat">
+                <div className="chat" id="link">
                   <img src={e.senderPfp} />
                   <h4>{e.senderUsername}</h4>
                 </div>

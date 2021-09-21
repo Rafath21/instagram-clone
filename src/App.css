@@ -1,9 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Oleo+Script&display=swap");
 
+:root {
+  --secondary: #1e90ff;
+}
 body {
   font-family: Arial, Helvetica, sans-serif;
   /*background: linear-gradient(to right, #f80759, #bc4e9c) !important;*/
-  background: rgb(250, 250, 250);
+  background: rgb(0, 0, 0);
   overflow-y: scroll;
   overflow-x: hidden;
   /*background: linear-gradient(to right, #6a82fb, #fc5c7d);*/
@@ -72,7 +75,7 @@ body {
   margin-left: 17%;
   margin-top: 15px;
   padding: 8px;
-  background: dodgerblue;
+  background: var(--secondary);
   border: none;
   color: white;
   font-weight: 400;
@@ -204,7 +207,7 @@ hr {
 
 /* Add a blue text color to links */
 .sign-in-link {
-  color: dodgerblue;
+  color: var(--secondary);
 }
 
 /* Set a grey background color and center the text of the "sign in" section */
@@ -377,14 +380,21 @@ hr {
   font-size: 27px;
   margin-left: 8px;
 }
+#link {
+  color: #ffff;
+}
 .post-likes-number {
   font-weight: 700;
   margin-left: 8px;
+}
+#paper-plane {
+  color: black;
 }
 .post-username-bottom {
   font-weight: 700;
   margin-left: 8px;
   font-size: 20px;
+  color: rgb(0, 0, 0);
 }
 .post-caption {
   margin-left: 10px;
@@ -441,7 +451,7 @@ hr {
   display: flex;
   flex-direction: row;
   margin-top: 5px;
-  color: black;
+  color: #ffff;
 }
 .sidebar-pfp {
   margin-top: 13px;
@@ -455,7 +465,7 @@ hr {
   margin-left: 14px;
   font-size: 22px;
   font-weight: 600;
-  color: black;
+  color: #ffff;
 }
 .home-signout-btn {
   height: 43px;
@@ -463,7 +473,7 @@ hr {
   margin-right: 2px;
   margin-top: 31px;
   border: none;
-  background: dodgerblue;
+  background: var(--secondary);
   color: white;
   border-radius: 10px;
 }
@@ -475,6 +485,7 @@ hr {
   margin-top: 20px;
 }
 .suggestions-title {
+  color: #ffff;
   margin-top: -17px;
   margin-left: 8px;
   font-weight: 700;
@@ -484,7 +495,7 @@ hr {
   overflow-x: hidden;
   overflow-y: auto;
   margin-top: 4px;
-  color: black;
+  color: #ffff;
 }
 .suggestion-inner {
   display: flex;
@@ -503,14 +514,14 @@ hr {
   margin-top: 21px;
   font-size: 18px;
   font-weight: 600;
-  color: black;
+  color: #ffffffeb;
 }
 .suggestion-follow-btn {
   position: absolute;
   right: 1%;
   margin-top: 13px;
   padding: 10px;
-  background: dodgerblue;
+  background: var(--secondary);
   border: none;
   color: white;
   border-radius: 10%;
@@ -519,7 +530,8 @@ hr {
   background: #27278e;
 }
 /*Create Post*/
-.create-post-container {
+.create-post-container,
+.create-reel-container {
   position: absolute;
   left: 37%;
   right: 50%;
@@ -531,7 +543,8 @@ hr {
   z-index: 100;
 }
 
-.create-post-heading {
+.create-post-heading,
+.create-reel-heading {
   position: absolute;
   left: 35%;
   right: 30%;
@@ -540,43 +553,59 @@ hr {
   border-bottom: 2px solid #e0d3d3;
   font-size: 20px;
 }
-.create-post-input {
+.create-post-input,
+.create-reel-input {
   position: absolute;
   top: 38%;
   left: 30%;
   right: 20%;
 }
-.create-post-caption-heading {
+.create-post-caption-heading,
+.create-reel-caption-heading {
   position: absolute;
   left: 2%;
   font-size: 15px;
   top: 53%;
 }
-.create-post-caption {
+.create-post-caption,
+.create-reel-caption {
   position: absolute;
   top: 53%;
   left: 37%;
   width: 300px;
   height: 101px;
 }
+
 .create-new-post-btn {
   padding: 20px;
   position: absolute;
   top: 83%;
   left: 42%;
   border: none;
-  background: #ce42b6;
+  background: var(--secondary);
   color: white;
   border-radius: 30px;
 }
-#create-post-container-close {
+#create-post-container-close,
+#create-reel-container-close {
   position: absolute;
   right: 2%;
   top: 2%;
   font-size: 26px;
+  color: black;
 }
-#create-post-container-close:hover {
+#create-post-container-close:hover,
+#create-reel-container-close:hover {
   background: rgb(184, 183, 183);
+}
+.create-reel-container {
+  position: absolute;
+  left: 1%;
+  width: 98%;
+  color: rgb(0, 0, 0);
+}
+.create-reel-caption {
+  left: 30%;
 }
 .show-comments-title {
   font-size: 16px;
@@ -640,7 +669,7 @@ hr {
   background: white;
   border: none;
   color: white;
-  background: dodgerblue;
+  background: var(--secondary);
   border-radius: 12px;
 }
 .user-comment-post-button:hover {
@@ -658,7 +687,7 @@ hr {
 .no-posts-container {
   position: relative;
   background: #fafafa00;
-  color: black;
+  color: #ffff;
   width: 100%;
   height: 100%;
 }
@@ -708,10 +737,10 @@ hr {
 }
 
 .posts-title {
-  color: rgb(0, 0, 0);
+  color: #ffff;
   text-decoration: underline;
   margin-left: 8px;
-  margin-top: 8px;
+  margin-top: 60px;
   font-size: 30px;
   font-weight: 600;
 }
@@ -724,6 +753,7 @@ hr {
   padding: 4px;
   width: 194px;
   height: 174px;
+  object-fit: contain;
 }
 .profile-header {
   display: flex;
@@ -743,9 +773,13 @@ hr {
   border-radius: 10px;
   border: 1px solid black;
 }
-.profile-sendMsg:hover {
-  background: #21568a;
+.edit-profile-btn {
+  text-align: center;
 }
+.profile-details {
+  color: #ffff;
+}
+
 .profile-pfp {
   height: 170px;
   width: 200px;
@@ -880,7 +914,7 @@ hr {
   left: 46%;
   padding: 15px;
   color: white;
-  background: dodgerblue;
+  background: var(--secondary);
   border: none;
 }
 .setup-bio {
@@ -905,6 +939,7 @@ hr {
   position: absolute;
   width: 42vw;
   left: 26%;
+  color: #ffff;
 }
 .chat-window-container {
   display: flex;
@@ -948,11 +983,17 @@ hr {
   width: fit-content;
   margin-top: 7px;
 }
+.link {
+  text-decoration: none !important;
+}
+.chat-window-msgform {
+  margin-top: 5%;
+}
 .chat-message-own {
   display: block;
   margin-left: auto;
   margin-right: 0;
-  background: #00800047;
+  background: var(--secondary);
   width: fit-content;
   padding: 10px;
   margin-top: 7px;
@@ -1001,310 +1042,43 @@ hr {
 .follow-status {
   padding: 11px;
   border: none;
-  background: dodgerblue;
+  background: var(--secondary);
   color: white;
   border-radius: 4px;
   margin-top: 146px;
-  margin-left: -167px;
+  margin-left: 15px;
 }
-
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~HOME PAGE DESIGN~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.home-header {
-  height: 58px;
-  width: 100vw;
-  background: rgb(255, 255, 255);
-}
-.home-stories {
-  height: 110px;
-  width: 611px;
-  position: absolute;
-  background: rgb(255, 255, 255);
-  left: 202px;
-  top: 10%;
-}
-.home-sidebar {
-  background: rgb(255, 255, 255);
-  height: 680px;
-  width: 358px;
-  position: absolute;
-  left: 827px;
-  top: 10%;
-}
-
-hr {
-  border: 1px solid #8080804a;
-  margin-bottom: 25px;
-  width: 361px;
-}
-.sidebar-profile {
-  height: 97px;
-  width: 320px;
-  position: absolute;
-}
-.sidebar-suggestions-container {
-  position: absolute;
-  top: 27%;
-  left: 7px;
-  overflow-x: hidden;
-  overflow-y: scroll;
-  height: 490px;
-  right: 0;
-  bottom: 10%;
-  margin-bottom: 100px;
-}
-.suggestions-title {
-  position: absolute;
-  top: 23%;
-  left: 5%;
-  font-weight: 600;
-  font-size: 17px;
-}
-.suggestion-follow-btn {
-  position: absolute;
-  right: 10%;
-  padding: 8px;
-  background: dodgerblue;
-  border: none;
+.video-card {
   color: white;
-  font-weight: 400;
-}
-.suggestion-follow-btn:hover {
-  background: #21568a;
-}
-#suggestion-pfp {
-  border-radius: 50%;
-  width: 70px;
-  height: 70px;
-}
-.sidebar-pfp {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  margin: 15px;
-}
-.suggestion-inner {
-  display: flex;
-  flex-direction: row;
-  width: 358px;
-}
-.suggestion-username {
-  margin: 17px;
-}
-.sidebar-username {
-  position: absolute;
-  top: 52px;
-  left: 130px;
-  font-weight: bold;
-  font-size: 1rem;
-}
-
-.home-signout-btn {
-  position: absolute;
-  top: 50px;
-  left: 260px;
-  padding: 10px;
-  width: 80px;
-  color: white;
-  background: dodgerblue;
-  border: none;
-}
-.home-signout-btn:hover {
-  background: #21568a;
-}
-.setup-container {
-  width: 405px;
-  height: 370px;
   margin: auto;
-  background: rgb(255, 255, 255);
-  margin-top: 100px;
-}
-.profile-pic {
-  position: absolute;
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  border: o;
-  right: 46%;
-  top: 120px;
-}
-.setup-pfp-input {
-  position: absolute;
-  top: 39%;
-  left: 46%;
-  padding: 7px;
-  color: black;
-  border: none;
-}
-.setup-name-input {
-  position: absolute;
-  top: 55%;
-  left: 43%;
-  padding: 10px;
-}
-.pfp-submit-btn {
-  position: absolute;
-  bottom: 30%;
-  left: 46%;
-  padding: 15px;
-  color: white;
-  background: dodgerblue;
-  border: none;
-}
-/*~~~~~~~~~~~~~~~~~~~HEADER~~~~~~~~~~~~~~~~~~~~
-.home-header-title {
-  font-family: "Oleo Script", cursive;
-  font-weight: 400;
-  position: absolute;
-  left: 15%;
-  font-size: 2rem;
-  top: 12px;
-}
-.header-search-box {
-  width: 213px;
-  height: 27px;
-  position: absolute;
-  top: 14px;
-  left: 569px;
-  background: #fafafa;
-  border: 1px solid #f1f1f1;
-}
-.header-search-box:focus {
-  border: 1px solid hsl(0, 0%, 95%);
-}
-.header-search-input {
-  width: 190px;
-  height: 27px;
-  position: absolute;
-  background: #fafafa;
-  border: 1px solid #f1f1f1;
-}
-#search-icon {
-  position: absolute;
-  right: 5px;
-  top: 3px;
-  color: grey;
+  width: 33vw;
+  border: 2px solid white;
+  height: 100vh;
+  position: relative;
 }
 
-#home-icon,
-#reels-icon,
-#requests-icon {
+.reels-actions {
   position: absolute;
-  font-size: 1.7rem;
-  top: 2%;
-}
-#home-icon {
-  right: 32%;
-}
-#reels-icon {
-  right: 27%;
-}
-#requests-icon {
-  right: 23%;
-}
-.home-posts {
-  /*height: 657px;*
-  min-height: 657px;
-  overflow-x: hidden;
-  width: 614px;
-  overflow-y: scroll;
-  left: 15%;
-  top: 31%;
-  background: #fafafa;
-}
-.post-card-container {
-  background: rgb(255, 255, 255);
-  /*height: 500px; max-content
-  position: relative;
-  width: 614px;
-  margin: auto;
-  margin-bottom: 5px;
-}
-
-.post-card-header {
-  width: 615px;
-  height: 61px;
-  position: absolute;
-  border-bottom: 1px solid grey;
-  background: #fafafa;
-}
-.post-username {
-  position: relative;
-  left: 100px;
-  top: 22px;
-  font-size: 0.9rem;
-}
-.post-img {
-  position: relative;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
+  bottom: 0%;
   left: 3%;
 }
-.post-photo {
-  position: relative;
-  width: 614px;
-  height: 438px;
-  top: 61px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-#post-pic {
-  max-width: 100%;
-  max-height: 100%;
-}
-.account-type {
-  position: absolute;
-  top: 45%;
-  width: 300px;
-  padding: 12px;
-  left: 43%;
-  font-size: 13px;
-}
-#account-type {
-  position: absolute;
-  left: 52%;
-  top: 30%;
-}
-
-
-.post-card-likes-comments {
-  height: 120px;
-  background: white;
-  width: 615px;
-  position: absolute;
-  top: 500px;
-  margin-bottom: 200px;
-}
-#heart-icon-likes {
-  font-size: 35px;
-}
-#comment-icon {
-  font-size: 35px;
-  margin-left: 13px;
-}
-.post-liking-commenting {
-  display: flex;
-  margin-left: 20px;
-}
-.post-likes-number {
-  margin-left: 30px;
-}
-.post-comments-number-container {
-  position: absolute;
-  top: 42%;
-  left: 3%;
-}
-.post-comments-number {
-  margin-top: 39px;
-  margin-left: -5px;
-}
-.post-username-bottom {
-  margin-left: 13px;
-  font-weight: 700;
+.reels-actions * {
   margin-top: 10px;
 }
-.post-caption {
-  margin-left: 95px;
-  margin-top: -18px;
-}*/
+#reels-comments-icon {
+  color: #ffff;
+}
+#reel-like,
+#reels-comments-icon {
+  font-size: 30px;
+  margin-left: 10px;
+}
+#create-reel {
+  font-size: 30px;
+  margin-left: 211%;
+}
+.video-card > video {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}

@@ -9,15 +9,40 @@ let Postcard = (props) => {
   let [currUserLike, setCurrUserLike] = useState(false);
   let [currUserComment, setcurrUserComment] = useState("");
   let [commentBoxOpen, setcommentBoxOpen] = useState(false);
+  let currUserId = props.value?.uid;
+
   useEffect(() => {
     let f = async () => {
       setComments(props.post.comments);
     };
     f();
   }, []);
-  console.log("props from homepage:", props.post.postId);
-  //console.log(tests.data());
-  //console.log(props.post);
+  async function handleCurrUserlike() {
+    let postDocRef = await firestore
+      .collection("users")
+      .doc(props.post.postedByUid)
+      .collection("posts")
+      .doc(props.post.postId);
+    let likesArr = await postDocRef.get();
+    likesArr = likesArr.data().likes;
+    console.log(likesArr);
+    if (likesArr.length >= 0 && !likesArr.includes(currUserId)) {
+      await postDocRef.set(
+        {
+          likes: firebase.firestore.FieldValue.arrayUnion(currUserId),
+        },
+        { merge: true }
+      );
+    } else {
+      console.log("in else");
+      await postDocRef.set(
+        {
+          likes: firebase.firestore.FieldValue.arrayRemove(currUserId),
+        },
+        { merge: true }
+      );
+    }
+  }
   return (
     <div className="post-card-container">
       <div className="post-card-header">
@@ -42,6 +67,7 @@ let Postcard = (props) => {
           <div
             className="post-like"
             onClick={async () => {
+              handleCurrUserlike();
               if (currUserLike == false) setCurrUserLike(true);
               else setCurrUserLike(false);
             }}

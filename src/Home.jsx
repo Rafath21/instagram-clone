@@ -310,7 +310,7 @@ let Home = (props) => {
                           postedBy: userName,
                           postedBypfp: pfpUrl,
                           postedCaption: uploadCaption,
-                          likes: 0,
+                          likes: [],
                           comments: [],
                           postId: value.uid + "post" + id,
                           postedByUid: value.uid,
@@ -327,7 +327,7 @@ let Home = (props) => {
                             postedBy: userName,
                             postedBypfp: pfpUrl,
                             postedCaption: uploadCaption,
-                            likes: 0,
+                            likes: [],
                             comments: [],
                             postId: value.uid + "post" + id,
                             postedByUid: value.uid,
@@ -379,6 +379,7 @@ let Home = (props) => {
           <span className="notifications">{notificationCount}</span>
 
           <Link
+            className="link"
             to={{
               pathname: "/chats",
               state: {
@@ -389,7 +390,7 @@ let Home = (props) => {
             }}
             style={{ textDecoration: "none" }}
           >
-            <i class="fas fa-paper-plane"></i>
+            <i class="fas fa-paper-plane" id="paper-plane"></i>
           </Link>
         </div>
       </div>
@@ -412,7 +413,9 @@ let Home = (props) => {
                   return (
                     <div key={index} className="requests-inner">
                       <img className="request-pfp" src={request.pfp} />
-                      <p className="request-username">{request.name}</p>
+                      <p className="request-username">
+                        {request.name} wants to follow you
+                      </p>
 
                       <button
                         className="request-allow-btn"
@@ -452,7 +455,18 @@ let Home = (props) => {
                       >
                         Allow
                       </button>
-                      <i class="far fa-times-circle" id="request-close-btn"></i>
+                      <i
+                        class="far fa-times-circle"
+                        id="request-close-btn"
+                        onClick={async (e) => {
+                          await firestore
+                            .collection("users")
+                            .doc(value.uid)
+                            .collection("requests")
+                            .doc("request" + request.ruid)
+                            .delete();
+                        }}
+                      ></i>
                     </div>
                   );
                 })}

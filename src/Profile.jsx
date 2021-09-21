@@ -24,6 +24,7 @@ let Profile = (props) => {
   let [currUn, setcurrUn] = useState("");
   let [currPfp, setcurrPfp] = useState("");
   let [ownProfile, setownProfile] = useState(false);
+  let [bio, setBio] = useState("");
   let [currUserFollow, setcurrUserFollow] = useState("Follow");
   let [restrictedStatus, setrestrictedStatus] = useState(false); //if the current user follows the user whose profile they're viewing
   let [post, setPost] = useState({
@@ -45,6 +46,7 @@ let Profile = (props) => {
     let details = doc.data();
     setpfpUrl(details.photoURL);
     setusername(details.username);
+    setBio(details.bio);
     if (details.followersCount != undefined) {
       setFollowersCount(details.followersCount);
     }
@@ -226,7 +228,9 @@ let Profile = (props) => {
             </div>
           </div>
           {ownProfile ? (
-            <div className="edit-profile-btn">Edit profile</div>
+            <Link to={{ pathname: "/setup" }}>
+              <div className="edit-profile-btn">Edit profile</div>
+            </Link>
           ) : (
             <div className="two-btns">
               <Link
@@ -309,6 +313,7 @@ let Profile = (props) => {
         ) : (
           ""
         )}
+        <div className="profile-bio">{bio}</div>
         <div class="profile-posts-container">
           <p class="posts-title">POSTS</p>
           <hr />

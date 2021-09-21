@@ -137,6 +137,9 @@
   .chat-window-msgform > button {
     right: -4%;
   }
+  .chat-window-msgform {
+    margin-top: 5%;
+  }
   .chat-window-messages,
   .chat-window-msgform {
     width: 90%;

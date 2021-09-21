@@ -1,0 +1,59 @@
+.setup-container {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  height: 70vh;
+  width: 30vw;
+  margin-top: 100px;
+  padding: 10px;
+}
+.setup-profile-pic-container,
+.setup-username-container,
+.setup-account-type-container,
+.setup-bio-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.setup-profile-pic-container {
+  height: 10%;
+  width: 100%;
+}
+.setup-profile-pic-container > img {
+  max-width: 20%;
+  border-radius: 50%;
+}
+.setup-container > div {
+  margin-top: 7%;
+}
+.setup-username-container > input {
+  padding: 11px;
+  margin-left: 10px;
+  border-radius: 10px;
+}
+.setup-account-type-container > select {
+  padding: 8px;
+  border-radius: 10px;
+  margin-left: 6px;
+}
+.setup-bio-container > textarea {
+  margin-left: 18px;
+  border-radius: 10px;
+  width: 80%;
+  height: 90%;
+}
+.setup-profile-pic-container > input {
+  margin-left: 20px;
+}
+.setup-submit-btn {
+  margin: auto;
+}
+.setup-submit-btn > button {
+  padding: 14px;
+  border-radius: 15px;
+  border: none;
+  background: rgb(30, 144, 255);
+  color: white;
+}

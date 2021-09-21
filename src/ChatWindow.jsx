@@ -79,7 +79,7 @@ let ChatWindow = () => {
           }}
           style={{ textDecoration: "none" }}
         >
-          <i class="fas fa-arrow-left"></i>
+          <i class="fas fa-arrow-left" id="link"></i>
         </Link>
         <img src={senderpfp} />
         <h4>{senderUn}</h4>
