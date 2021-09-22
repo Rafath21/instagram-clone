@@ -3,6 +3,7 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import { firestore } from "./firebase";
 import firebase from "firebase/app";
+import handleLikes from "./handleLikes";
 let Postcard = (props) => {
   let [comments, setComments] = useState([]);
   let [likes, setLikes] = useState(0);
@@ -10,6 +11,7 @@ let Postcard = (props) => {
   let [currUserComment, setcurrUserComment] = useState("");
   let [commentBoxOpen, setcommentBoxOpen] = useState(false);
   let currUserId = props.value?.uid;
+  let [flag, setFlag] = useState(false);
 
   useEffect(() => {
     let f = async () => {
@@ -23,61 +25,20 @@ let Postcard = (props) => {
   }, []);
   console.log(props.post.likes);
   async function handleCurrUserlike() {
-    let postDocRef = firestore
+    handleLikes(currUserId, props.post.postedByUid, props.post.postId);
+    /*let postDocRef = firestore
       .collection("users")
       .doc(props.post.postedByUid)
       .collection("posts")
       .doc(props.post.postId);
-    let likesArr = await postDocRef.get();
-    likesArr = likesArr.data().likes;
-    console.log(likesArr);
-    if (likesArr?.length >= 0 && !likesArr.includes(currUserId)) {
-      let temp = props.post.likes?.length;
-      temp = temp + 1;
-      setLikes(temp);
-      await postDocRef.set(
-        {
-          likes: firebase.firestore.FieldValue.arrayUnion(currUserId),
-        },
-        { merge: true }
-      );
-    } else {
-      console.log("in else");
-      let temp = props.post.likes?.length;
-      temp = temp - 1;
-      setLikes(temp);
-      await postDocRef.set(
-        {
-          likes: firebase.firestore.FieldValue.arrayRemove(currUserId),
-        },
-        { merge: true }
-      );
-    }
+    perform(postDocRef);
     if (props.post.postedByUid == currUserId) {
       let ownDocRef = firestore
         .collection("users")
         .doc(currUserId)
         .collection("feedItems")
         .doc(props.post.postId);
-      let ownDocDetails = await ownDocRef.get();
-      if (ownDocDetails.exists) {
-        let checkOwnLikes = ownDocDetails.data().likes;
-        if (checkOwnLikes.length >= 0 && !checkOwnLikes.includes(currUserId)) {
-          await ownDocRef.update(
-            {
-              likes: firebase.firestore.FieldValue.arrayUnion(currUserId),
-            },
-            { merge: true }
-          );
-        } else {
-          await ownDocRef.update(
-            {
-              likes: firebase.firestore.FieldValue.arrayRemove(currUserId),
-            },
-            { merge: true }
-          );
-        }
-      }
+      perform(ownDocRef);
     }
     let querySnapshot = await firestore
       .collection("users")
@@ -90,31 +51,10 @@ let Postcard = (props) => {
         .doc(doc.data().ruid)
         .collection("feedItems")
         .doc(props.post.postId);
-      let checkExists = await feedItemDocRef.get();
-      console.log(checkExists);
-      if (checkExists.exists) {
-        let feedItemLikes = checkExists.data().likes;
-        if (feedItemLikes.length >= 0 && !feedItemLikes.includes(currUserId)) {
-          await feedItemDocRef.update(
-            {
-              likes: firebase.firestore.FieldValue.arrayUnion(currUserId),
-            },
-            { merge: true }
-          );
-        } else {
-          console.log("in else");
-          await feedItemDocRef.update(
-            {
-              likes: firebase.firestore.FieldValue.arrayRemove(currUserId),
-            },
-            { merge: true }
-          );
-        }
-      } else {
-        console.log("it does not exist");
-      }
-    });
+      perform(feedItemDocRef);
+    });*/
   }
+
   return (
     <div className="post-card-container">
       <div className="post-card-header">

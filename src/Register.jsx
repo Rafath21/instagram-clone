@@ -1,6 +1,6 @@
 import "./App.css";
 import { signInWithGoogle, signUpWithUsername, auth } from "./firebase";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import { AuthContext } from "./AuthProvider";
 import { useContext, useState } from "react";
 
@@ -53,11 +53,11 @@ let Register = () => {
             onClick={(e) => {
               e.preventDefault();
 
-             if (!currUserEmail.match(validRegex)) {
-               alert("Invalid email address!");
-               return;
-             } 
-             if (currUserPswd.length < 10) {
+              if (!currUserEmail.match(validRegex)) {
+                alert("Invalid email address!");
+                return;
+              }
+              if (currUserPswd.length < 10) {
                 alert("Please make a strong password");
                 return;
               }
@@ -77,15 +77,9 @@ let Register = () => {
         <div class="container-signin">
           <p>
             Already have an account?
-            <a
-              className="sign-in-link"
-              href="#"
-              onClick={() => {
-                <Redirect to="/login" />;
-              }}
-            >
+            <Link id="link-login" to="/login">
               Sign in
-            </a>
+            </Link>
             .
           </p>
         </div>

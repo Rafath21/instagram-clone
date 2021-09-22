@@ -150,7 +150,6 @@ let Home = (props) => {
       }}
     />;*/
   }
-  console.log("feedPosts:", feedPosts);
 
   function handleStory(storyUrls) {
     console.log("Handle Story");
