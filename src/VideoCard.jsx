@@ -19,6 +19,7 @@ let VideoCard = (props) => {
   let [feedReels, setFeedReels] = useState([]);
   let [audio, setAudio] = useState("");
   let [currUserComment, setcurrUserComment] = useState("");
+  let [currUserLike, setCurrUserlike] = useState(false);
   let uid = props.value.uid;
   let id = Date.now();
   let atHour = new Date().getHours();
@@ -44,29 +45,8 @@ let VideoCard = (props) => {
     };
   }, []);
   console.log(feedReels);
-  function handleCurrUserComments() {
-    /*comments: []
-feedItemurl: "https://firebasestorage.googleapis.com/v0/b/instagram-clone-dfad6.appspot.com/o/posts%2FcjBlh3I4CPQBGz0jyIe97AkQBeq1%2F1632404749874large.mp4?alt=media&token=8be54846-56d9-4514-849a-eb596dde6039"
-hour: 19
-likes: []
-postId: "cjBlh3I4CPQBGz0jyIe97AkQBeq1reel1632404745830"
-postedBy: "max_mills"
-postedByUid: "cjBlh3I4CPQBGz0jyIe97AkQBeq1"
-postedBypfp: "https://firebasestorage.googleapis.com/v0/b/instagram-clone-dfad6.appspot.com/o/pfps%2FcjBlh3I4CPQBGz0jyIe97AkQBeq1%2F1629888483964photo-1579952363873-27f3bade9f55.jpg?alt=media&token=6ab8c5f8-83f5-4129-9c08-97abf3b632b7"
-postedCaption: "New Video"*/
-    /* handleComments(
-       uid,
-       feedReels.postedByUid,
-       feedReels.postId,
-       currUserComment,
-       "posts",
-       "feedItems",
-       props.username,
-       props.pfpUrl
-     );*/
-  }
   return (
-    <>
+    <div className="main-video-container">
       {feedReels.map((e) => {
         return (
           <div className="video-card">
@@ -85,22 +65,44 @@ postedCaption: "New Video"*/
                 src={e.feedItemurl}
               ></video>
               <div className="reels-actions">
-                <i class="far fa-heart" id="reel-like"></i>
-                <i
-                  class="fas fa-comments"
-                  id="reels-comments-icon"
-                  onClick={() => {
-                    if (commentboxOpen) setCommentBoxOpen(false);
-                    else setCommentBoxOpen(true);
-                  }}
-                ></i>
-                <i
-                  class="far fa-plus-square"
-                  id="create-reel"
-                  onClick={(e) => {
-                    setCreateReelOpen(true);
-                  }}
-                ></i>
+                <div className="actions">
+                  <div
+                    className="reel-like"
+                    onClick={() => {
+                      if (currUserLike) setCurrUserlike(false);
+                      else setCurrUserlike(true);
+                      handleLikes(
+                        uid,
+                        e.postedByUid,
+                        e.postId,
+                        "reels",
+                        "reelsFeed"
+                      );
+                    }}
+                  >
+                    {currUserLike ? (
+                      <i class="fa fa-heart" id="heart-icon-like"></i>
+                    ) : (
+                      <i class="far fa-heart" id="heart-icon-likes"></i>
+                    )}
+                  </div>
+                  <i
+                    class="fas fa-comments"
+                    id="reels-comments-icon"
+                    onClick={() => {
+                      if (commentboxOpen) setCommentBoxOpen(false);
+                      else setCommentBoxOpen(true);
+                    }}
+                  ></i>
+                  <i
+                    class="far fa-plus-square"
+                    id="create-reel"
+                    onClick={(e) => {
+                      setCreateReelOpen(true);
+                    }}
+                  ></i>
+                </div>
+                <h4>{e.likes?.length} likes</h4>
                 <div className="username-pfp-container">
                   <img src={e.postedBypfp} />
                   <p className="username">
@@ -198,11 +200,15 @@ postedCaption: "New Video"*/
                   <h3>Comments</h3>
                 </div>
                 <div className="reel-comments">
-                  <div className="reel-comments-inner">
-                    <img src="" />
-                    <h5>Username</h5>
-                    <p>Comment Here</p>
-                  </div>
+                  {e.comments?.map((element) => {
+                    return (
+                      <div className="reel-comments-inner">
+                        <img src={element.upfpUrl} />
+                        <h5>{element.uname}</h5>
+                        <p>{element.ucomment}</p>
+                      </div>
+                    );
+                  })}
                 </div>
                 <div class="reel-comment-form">
                   <textarea
@@ -214,16 +220,16 @@ postedCaption: "New Video"*/
                   <button
                     class="user-comment-post-button"
                     onClick={async () => {
-                      handleCurrUserComments();
-                      /*let arr = [];
-                arr = [...comments];
-                arr.push({
-                  uname: props.username,
-                  ucomment: currUserComment,
-                  upfpUrl: props.pfpUrl,
-                  uid: props.value.uid,
-                });
-                setComments(arr);*/
+                      handleComments(
+                        uid,
+                        e.postedByUid,
+                        e.postId,
+                        currUserComment,
+                        "reels",
+                        "reelsFeed",
+                        username,
+                        pfpUrl
+                      );
                     }}
                   >
                     POST
@@ -236,7 +242,7 @@ postedCaption: "New Video"*/
           </div>
         );
       })}
-    </>
+    </div>
   );
 };
 export default VideoCard;

@@ -33,7 +33,10 @@ let Home = (props) => {
   let history = useHistory();
   let [storiesArr, setStoriesArr] = useState([]);
   let [ownStory, setOwnStroy] = useState(false);
+  let [messagesCount, setmessagesCount] = useState(0);
   let [suggestionsOpen, setSuggestionsOpen] = useState(false);
+  let [searchSuggOpen, setSearchSuggOpen] = useState(false);
+  let [searchSugg, setSearchSugg] = useState([]);
   let [allUsers, setallUsers] = useState([
     {
       uid: "",
@@ -62,6 +65,7 @@ let Home = (props) => {
       },
     ],
   };
+  console.log("searchSugg:", searchSugg);
   let id = Date.now();
   let atHour = new Date().getHours(); //Hour at which the post was created
   let value = useContext(AuthContext);
@@ -105,6 +109,22 @@ let Home = (props) => {
       unsubscription();
     };
   }, []);
+  useEffect(async () => {
+    let unsubscription = firestore
+      .collection("users")
+      .doc(value.uid)
+      .collection("chats")
+      .onSnapshot((querySnapshot) => {
+        querySnapshot.docs.map((doc) => {
+          return { ...doc.data() };
+        });
+
+        setmessagesCount(querySnapshot.docs.length);
+      });
+    return () => {
+      unsubscription();
+    };
+  }, []);
 
   useEffect(async () => {
     let unsubscription = await firestore
@@ -132,26 +152,11 @@ let Home = (props) => {
         username: doc.data().username,
         pfpUrl: doc.data().photoURL,
       };
-      setallUsers((allUsers) => [...allUsers, obj]);
+      arr.push(obj);
     });
+    setallUsers(arr);
   }, []);
-  function handleSearch() {
-    allUsers = allUsers.filter((e) => {
-      return e.username == searchValue;
-    });
-    let luid = allUsers[0];
-    console.log(luid.uid);
-    history.push("/profile", { state: { uid: luid.uid } });
-    /*<Redirect
-      to={{
-        pathname: "/profile",
-        state: {
-          uid: luid,
-        },
-      }}
-    />;*/
-  }
-
+  console.log("all Users:", allUsers);
   function handleStory(storyUrls) {
     console.log("Handle Story");
     return () => (
@@ -164,26 +169,60 @@ let Home = (props) => {
     );
   }
   return (
-    <div className="home-container">
+    <div
+      className="home-container"
+      onClick={() => {
+        if (searchSuggOpen) setSearchSuggOpen(false);
+      }}
+    >
       {value ? "" : <Redirect to="/register" />}
       <div className="home-header">
-        <div className="home-header-title">Instagram-clone</div>
+        <Link id="link" to="/home">
+          <div className="home-header-title">Instagram-clone</div>
+        </Link>
         <div className="header-search-box">
           <input
             className="header-search-input"
             type="text"
             placeholder="Search"
             onChange={(e) => {
+              setSearchSuggOpen(true);
               setsearchValue(e.target.value);
+              setSearchSugg(
+                allUsers.filter((obj) => {
+                  return obj.username
+                    .toLowerCase()
+                    .includes(searchValue.toLowerCase());
+                })
+              );
             }}
           />
-          <i
-            class="fas fa-search"
-            id="search-icon"
-            onChange={() => {
-              handleSearch(searchValue);
-            }}
-          ></i>
+          <i class="fas fa-search" id="search-icon"></i>
+          {searchSuggOpen ? (
+            <div className="search-suggestions">
+              {searchSugg.map((suggestion) => {
+                return (
+                  <div className="search-suggestion">
+                    <img src={suggestion.pfpUrl} />
+                    <Link
+                      to={{
+                        pathname: "/profile",
+                        state: {
+                          uid: suggestion.uid,
+                        },
+                      }}
+                      id="link-spl"
+                      style={{ textDecoration: "none" }}
+                    >
+                      <p>{suggestion.username}</p>
+                    </Link>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            ""
+          )}
           <i
             class="fas fa-comments"
             id="suggestions-icon"
@@ -198,6 +237,7 @@ let Home = (props) => {
           <i
             class="far fa-plus-square"
             id="plus-icon"
+            title="Create post"
             onClick={() => {
               if (createBoxOpen) setcreateBoxOpen(false);
               else setcreateBoxOpen(true);
@@ -276,8 +316,11 @@ let Home = (props) => {
           ) : (
             ""
           )}
-          <i class="fas fa-home" id="home-icon"></i>
+          <Link id="link" to={{ pathname: "/home" }}>
+            <i class="fas fa-home" title="Home" id="home-icon"></i>
+          </Link>
           <Link
+            className="link"
             to={{
               pathname: "/reels",
               state: {
@@ -286,11 +329,12 @@ let Home = (props) => {
             }}
             style={{ textDecoration: "none" }}
           >
-            <i class="fas fa-video" id="reels-icon"></i>
+            <i class="fas fa-video" id="reels-icon" title="reels"></i>
           </Link>
           <i
             class="fas fa-bell"
             id="requests-icon"
+            title="Notifications"
             onClick={() => {
               if (reqOpen) setreqOpen(false);
               else setreqOpen(true);
@@ -310,7 +354,8 @@ let Home = (props) => {
             }}
             style={{ textDecoration: "none" }}
           >
-            <i class="fas fa-paper-plane" id="paper-plane"></i>
+            <i class="fas fa-paper-plane" id="paper-plane" title="Messages"></i>
+            <span className="messages">{messagesCount}</span>
           </Link>
         </div>
       </div>

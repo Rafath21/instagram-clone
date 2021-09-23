@@ -1,18 +1,18 @@
 import { firestore } from "./firebase";
 import firebase from "firebase/app";
 import { useState } from "react";
-const handleLikes=async(currUserId,postedByUid,postId)=>{
+const handleLikes=async(currUserId,postedByUid,postId,collectionO,collectionf)=>{
  let postDocRef = firestore
       .collection("users")
       .doc(postedByUid)
-      .collection("posts")
+      .collection(collectionO)
       .doc(postId);
     perform(postDocRef,currUserId);
     if(postedByUid==currUserId){
 let ownDocRef = firestore
         .collection("users")
         .doc(currUserId)
-        .collection("feedItems")
+        .collection(collectionf)
         .doc(postId);
       perform(ownDocRef,currUserId);
     }
@@ -25,7 +25,7 @@ let ownDocRef = firestore
       let feedItemDocRef = firestore
         .collection("users")
         .doc(doc.data().ruid)
-        .collection("feedItems")
+        .collection(collectionf)
         .doc(postId);
       perform(feedItemDocRef,currUserId);
     });

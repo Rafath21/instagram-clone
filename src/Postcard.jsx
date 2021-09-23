@@ -18,7 +18,7 @@ let Postcard = (props) => {
     let f = async () => {
       setComments(props.post.comments);
       setLikes(props.post.likes?.length);
-      if (props.post.likes.includes(currUserId)) {
+      if (props.post.likes?.includes(currUserId)) {
         setCurrUserLike(true);
       }
     };
@@ -26,7 +26,13 @@ let Postcard = (props) => {
   }, []);
   console.log(props.post.likes);
   async function handleCurrUserlike() {
-    handleLikes(currUserId, props.post.postedByUid, props.post.postId);
+    handleLikes(
+      currUserId,
+      props.post.postedByUid,
+      props.post.postId,
+      "posts",
+      "feedItems"
+    );
   }
   async function handleCurrUserComments() {
     handleComments(

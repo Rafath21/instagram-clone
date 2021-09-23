@@ -5,3 +5,4 @@
 [+] ipad pro responsive
 [+]fix images
 [+] theme
+[+] reels snap effect

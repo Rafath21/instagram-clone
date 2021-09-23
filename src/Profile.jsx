@@ -30,7 +30,7 @@ let Profile = (props) => {
   let [post, setPost] = useState({
     postedCaption: "",
     comments: [],
-    likes: 0,
+    likes: [],
     feedItemurl: "",
     postId: "",
     postedBy: "",
