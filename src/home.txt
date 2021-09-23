@@ -12,7 +12,6 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Stories from "react-insta-stories";
-import Createpost from "./Createpost";
 let Home = (props) => {
   let [userName, setUserName] = useState("");
   let [pfpUrl, setpfpUrl] = useState("");
@@ -32,7 +31,7 @@ let Home = (props) => {
   let [notificationCount, setnotificationCount] = useState("");
   let history = useHistory();
   let [storiesArr, setStoriesArr] = useState([]);
-  let [ownStory, setOwnStroy] = useState(false);
+  let [helperPosts, sethelperPosts] = useState([]);
   let [suggestionsOpen, setSuggestionsOpen] = useState(false);
   let [allUsers, setallUsers] = useState([
     {
@@ -65,6 +64,7 @@ let Home = (props) => {
   let id = Date.now();
   let atHour = new Date().getHours(); //Hour at which the post was created
   let value = useContext(AuthContext);
+
   useEffect(async () => {
     let document = await firestore.collection("users").doc(value?.uid).get();
     let creds = document.data();
@@ -72,6 +72,7 @@ let Home = (props) => {
     setUserName(creds.username);
     setpfpUrl(creds.photoURL);
   }, []);
+
   useEffect(async () => {
     let unsubscription = await firestore
       .collection("users")
@@ -88,6 +89,7 @@ let Home = (props) => {
       unsubscription();
     };
   }, []);
+
   useEffect(async () => {
     let unsubscription = firestore
       .collection("users")
@@ -107,21 +109,29 @@ let Home = (props) => {
   }, []);
 
   useEffect(async () => {
-    let unsubscription = await firestore
+    let unsubscription;
+    console.log("executed use effect");
+    unsubscription = await firestore
       .collection("users")
       .doc(value.uid)
       .collection("feedItems")
       .onSnapshot((querySnapshot) => {
-        setfeedPosts(
-          querySnapshot.docs.map((doc) => {
-            return { ...doc.data() };
-          })
-        );
+        let feedItems = querySnapshot.docs.map((doc) => {
+          return { ...doc.data() };
+        });
+        console.log("feed Items:", feedItems);
+        feedItems.map(async (e) => {
+          e.docRef.get().then((res) => {
+            setfeedPosts([...feedPosts, res.data()]);
+          });
+        });
+        console.log("feed posts length:", feedPosts);
       });
     return () => {
       unsubscription();
     };
   }, []);
+  //console.log("feedPosts arr:", JSON.stringify(feedPosts));
   useEffect(async () => {
     let users = await firestore.collection("users").get();
     let arr = [];
@@ -255,19 +265,88 @@ let Home = (props) => {
                   console.log(e);
                   e.target.innerText = "POSTED";
                   setcreateBoxOpen(false);
-                  Createpost(
-                    value.uid,
-                    uploadFilename,
-                    uploadCaption,
-                    id,
-                    userName,
-                    pfpUrl,
-                    uploadFile,
-                    "feedItems",
-                    "posts",
-                    "post",
-                    atHour
-                  );
+                  await firestore
+                    .collection("posts")
+                    .doc(value.uid + "post" + id)
+                    .set({
+                      caption: uploadCaption,
+                    });
+                  console.log(uploadCaption);
+                  let followers = []; //followers of the current follower
+                  let querySnapshotfr = await firestore
+                    .collection("users")
+                    .doc(value.uid)
+                    .collection("followers")
+                    .get();
+                  querySnapshotfr.forEach((doc) => {
+                    followers.push(doc.data());
+                  });
+                  let f1 = (snapshot) => {
+                    console.log(snapshot.bytesTransferred);
+                    console.log(snapshot.totalBytes);
+                  };
+                  //f2 function passed to state_changed event for error handling
+                  let f2 = (error) => {
+                    console.log(error);
+                  };
+                  let f3 = () => {
+                    let p = uploadPost.snapshot.ref.getDownloadURL();
+
+                    p.then(async (url) => {
+                      await firestore
+                        .collection("posts")
+                        .doc(value.uid + "post" + id)
+                        .update({
+                          hour: atHour,
+                          postUrl: url,
+                          comments: [],
+                          likes: [],
+                          postId: value.uid + "post" + id,
+                          postedBy: userName,
+                          postedBypfp: pfpUrl,
+                          postId: value.uid + "post" + id,
+                          postedByUid: value.uid,
+                        });
+                      let docRef = firestore
+                        .collection("posts")
+                        .doc(value.uid + "post" + id);
+                      setUploadFileurl(url);
+                      console.log(url);
+                      firestore
+                        .collection("users")
+                        .doc(value.uid)
+                        .collection("feedItems")
+                        .doc(value.uid + "post" + id)
+                        .set({
+                          docRef: docRef,
+                          hour: atHour,
+                        });
+                      followers.map(async (e) => {
+                        await firestore
+                          .collection("users")
+                          .doc(e.ruid)
+                          .collection("feedItems")
+                          .doc(value.uid + "post" + id)
+                          .set({
+                            docRef: docRef,
+                            hour: atHour,
+                          });
+                        console.log("Successfully added");
+                      });
+                    });
+                  };
+                  await firestore
+                    .collection("users")
+                    .doc(value.uid)
+                    .update({
+                      postsCount: firebase.firestore.FieldValue.increment(1),
+                    });
+
+                  let uploadPost = storage
+                    .ref(`/posts/${value.uid}/${Date.now() + uploadFilename}`)
+                    .put(uploadFile);
+
+                  uploadPost.on("clicked", f1, f2, f3);
                 }}
               >
                 POST

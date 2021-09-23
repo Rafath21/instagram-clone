@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Oleo+Script&display=swap");
 
 :root {
-  --secondary: #1e90ff;
+  --secondary: rgb(211, 37, 81);
 }
 body {
   font-family: Arial, Helvetica, sans-serif;
@@ -380,6 +380,19 @@ hr {
   font-size: 27px;
   margin-left: 8px;
 }
+.other-icons > i {
+  color: #ffff;
+}
+#paper-plane,
+#reels-icon {
+  color: #ffff !important;
+}
+.home-header-title {
+  color: #ffff;
+}
+.home-header {
+  background: rgb(0, 0, 0);
+}
 #link-login {
   color: var(--secondary);
 }
@@ -579,7 +592,8 @@ hr {
   height: 101px;
 }
 
-.create-new-post-btn {
+.create-new-post-btn,
+.create-new-reel-btn {
   padding: 20px;
   position: absolute;
   top: 83%;
@@ -607,15 +621,36 @@ hr {
   width: 98%;
   color: rgb(0, 0, 0);
 }
+.video-card > span {
+  position: absolute;
+}
 .create-reel-caption {
   left: 30%;
+}
+.song {
+  display: flex;
+  flex-direction: row;
+}
+
+.username-pfp-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 200px;
+  height: 60px;
+}
+.username-pfp-container > img {
+  width: 20%;
+  max-height: 83%;
+  border-radius: 50%;
 }
 .show-comments-title {
   font-size: 16px;
   color: #808080;
   margin-top: 5px;
 }
-.post-comment-form-container {
+.post-comment-form-container,
+.reels-comments-container {
   background: #fafafa;
 }
 .post-comment-form-container {
@@ -628,7 +663,17 @@ hr {
   flex-direction: column;
   justify-content: flex-start;
 }
+.reels-comments-container {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
 .comment-form-header {
+  color: rgb(0, 0, 0);
   border-bottom: 2px solid #80808069;
   border-top: 2px solid #80808069;
   font-size: 20px;
@@ -636,6 +681,19 @@ hr {
   padding: 20px;
   display: flex;
   flex-direction: row;
+}
+.reels-comments-header {
+  color: rgb(0, 0, 0);
+  border-bottom: 2px solid #80808069;
+  border-top: 2px solid #80808069;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 7px;
+  display: flex;
+  flex-direction: row;
+}
+.reels-comments-header > h3 {
+  margin-left: 7px;
 }
 .comment-title {
   margin-left: 42px;
@@ -647,10 +705,23 @@ hr {
   margin-left: 15px;
   margin-bottom: 12%;
 }
+.reel-comments {
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  margin-left: 7px;
+  margin-bottom: 5%;
+}
 .comment-form-inner {
   display: flex;
   flex-direction: row;
   margin-top: 5px;
+  align-items: center;
+}
+.reel-comments-inner {
+  display: flex;
+  flex-direction: row;
+  margin-top: 3px;
   align-items: center;
 }
 .comment-form {
@@ -662,9 +733,24 @@ hr {
   width: 97%;
   height: 55px;
 }
+.reel-comment-form {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  bottom: 2%;
+  width: 100%;
+}
 
 .user-comment {
   width: 87%;
+  border-radius: 10px;
+}
+
+.user-comment:focus,
+.header-search-input:focus,
+.chat-window-msgform > textarea:focus {
+  outline: none;
+  -webkit-box-shadow: 0 0 5px 3px rgb(211 37 81 / 57%);
 }
 .user-comment-post-button {
   width: 54px;
@@ -1009,7 +1095,7 @@ hr {
   right: 2%;
   border: none;
   color: rgb(255, 255, 255);
-  background: rgb(30, 144, 255);
+  background: var(--secondary);
   border-radius: 5px;
 }
 .chats-header > h3,
@@ -1078,7 +1164,7 @@ hr {
 }
 #create-reel {
   font-size: 30px;
-  margin-left: 211%;
+  margin-left: 7%;
 }
 .video-card > video {
   height: 100%;

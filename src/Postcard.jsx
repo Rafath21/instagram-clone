@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { firestore } from "./firebase";
 import firebase from "firebase/app";
 import handleLikes from "./handleLikes";
+import handleComments from "./handleComments";
 let Postcard = (props) => {
   let [comments, setComments] = useState([]);
   let [likes, setLikes] = useState(0);
@@ -26,33 +27,18 @@ let Postcard = (props) => {
   console.log(props.post.likes);
   async function handleCurrUserlike() {
     handleLikes(currUserId, props.post.postedByUid, props.post.postId);
-    /*let postDocRef = firestore
-      .collection("users")
-      .doc(props.post.postedByUid)
-      .collection("posts")
-      .doc(props.post.postId);
-    perform(postDocRef);
-    if (props.post.postedByUid == currUserId) {
-      let ownDocRef = firestore
-        .collection("users")
-        .doc(currUserId)
-        .collection("feedItems")
-        .doc(props.post.postId);
-      perform(ownDocRef);
-    }
-    let querySnapshot = await firestore
-      .collection("users")
-      .doc(props.post.postedByUid)
-      .collection("followers")
-      .get();
-    querySnapshot.forEach(async (doc) => {
-      let feedItemDocRef = firestore
-        .collection("users")
-        .doc(doc.data().ruid)
-        .collection("feedItems")
-        .doc(props.post.postId);
-      perform(feedItemDocRef);
-    });*/
+  }
+  async function handleCurrUserComments() {
+    handleComments(
+      currUserId,
+      props.post.postedByUid,
+      props.post.postId,
+      currUserComment,
+      "posts",
+      "feedItems",
+      props.username,
+      props.pfpUrl
+    );
   }
 
   return (
@@ -158,38 +144,7 @@ let Postcard = (props) => {
               <button
                 class="user-comment-post-button"
                 onClick={async () => {
-                  await firestore
-                    .collection("users")
-                    .doc(props.post.postedByUid)
-                    .collection("posts")
-                    .doc(props.post.postId)
-                    .set(
-                      {
-                        comments: firebase.firestore.FieldValue.arrayUnion({
-                          uname: props.username,
-                          ucomment: currUserComment,
-                          upfpUrl: props.pfpUrl,
-                          uid: props.value.uid,
-                        }),
-                      },
-                      { merge: true }
-                    );
-                  await firestore
-                    .collection("users")
-                    .doc(props.post.postedByUid)
-                    .collection("feedItems")
-                    .doc(props.post.postId)
-                    .set(
-                      {
-                        comments: firebase.firestore.FieldValue.arrayUnion({
-                          uname: props.username,
-                          ucomment: currUserComment,
-                          upfpUrl: props.pfpUrl,
-                          uid: props.value.uid,
-                        }),
-                      },
-                      { merge: true }
-                    );
+                  handleCurrUserComments();
                   let arr = [];
                   arr = [...comments];
                   arr.push({
@@ -199,39 +154,6 @@ let Postcard = (props) => {
                     uid: props.value.uid,
                   });
                   setComments(arr);
-                  let querySnapshot = await firestore
-                    .collection("users")
-                    .doc(props.post.postedByUid)
-                    .collection("followers")
-                    .get();
-                  querySnapshot.forEach(async (doc) => {
-                    let update = await firestore
-                      .collection("users")
-                      .doc(doc.data().ruid)
-                      .collection("feedItems")
-                      .doc(props.post.postId)
-                      .get();
-                    if (update.exists) {
-                      await firestore
-                        .collection("users")
-                        .doc(doc.data().ruid)
-                        .collection("feedItems")
-                        .doc(props.post.postId)
-                        .set(
-                          {
-                            comments: firebase.firestore.FieldValue.arrayUnion({
-                              uname: props.username,
-                              ucomment: currUserComment,
-                              upfpUrl: props.pfpUrl,
-                              uid: props.value.uid,
-                            }),
-                          },
-                          { merge: true }
-                        );
-                    } else {
-                      console.log("it does not exist");
-                    }
-                  });
                 }}
               >
                 POST
