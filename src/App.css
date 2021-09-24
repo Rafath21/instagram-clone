@@ -662,11 +662,21 @@ hr {
 .video-card > span {
   position: absolute;
 }
-.main-video-container {
+/*.main-video-container {
+  overflow: scroll;
+  scroll-snap-type: mandatory;
+  scroll-snap-points-y: repeat(100vh);
   scroll-snap-type: y mandatory;
-}
-.username-pfp-container > p {
+}*/
+.username-pfp-container p {
   margin-left: 10px;
+  color: #ffff !important;
+}
+.reels-container {
+  overflow: scroll;
+  scroll-snap-type: mandatory;
+  scroll-snap-points-y: repeat(100vh);
+  scroll-snap-type: y mandatory;
 }
 .video-card {
   scroll-snap-align: start;
@@ -687,14 +697,14 @@ hr {
   font-size: 30px;
 }
 
-.username-pfp-container {
+.username-pfp-container > a {
   display: flex;
   flex-direction: row;
   align-items: center;
   width: 200px;
   height: 60px;
 }
-.username-pfp-container > img {
+.username-pfp-container img {
   width: 20%;
   max-height: 83%;
   border-radius: 50%;
@@ -772,23 +782,24 @@ hr {
   margin-top: 5px;
   align-items: center;
 }
-.reel-comments-inner {
+.reel-comments-inner,
+.reel-comments-inner > a {
   display: flex;
   flex-direction: row;
   margin-top: 3px;
   align-items: center;
-  width: 100%;
+  width: 52%;
   height: 54px;
   color: rgb(0, 0, 0) !important;
 }
-.reel-comments-inner > p {
+.reel-comments-inner p {
   font-size: 13px;
 }
 .reel-comments-inner > * {
   margin-left: 5px;
 }
-.reel-comments-inner > img {
-  max-width: 15%;
+.reel-comments-inner img {
+  width: 38%;
   height: 50px;
   border-radius: 50%;
   object-fit: cover;
