@@ -41,6 +41,7 @@ let Profile = (props) => {
     isOpen: false,
     postId: "",
   });
+  console.log(value.uid);
   useEffect(async () => {
     let doc = await firestore.collection("users").doc(value.uid).get();
     let details = doc.data();
@@ -226,39 +227,39 @@ let Profile = (props) => {
                 <b>{followingCount}</b> Following
               </p>
             </div>
-          </div>
-          {ownProfile ? (
-            <Link to={{ pathname: "/setup" }}>
-              <div className="edit-profile-btn">Edit profile</div>
-            </Link>
-          ) : (
-            <div className="two-btns">
-              <Link
-                to={{
-                  pathname: "/chatwindow",
-                  state: {
-                    senderUid: value.uid,
-                    senderPfp: pfpUrl,
-                    senderUn: username,
-                    ownUid: currUser.uid,
-                    ownUsername: currUn,
-                    ownpfp: currPfp,
-                  },
-                }}
-                style={{ textDecoration: "none" }}
-              >
-                <button className="profile-sendMsg">Send Message</button>
+            {ownProfile ? (
+              <Link to={{ pathname: "/setup" }}>
+                <div className="edit-profile-btn">Edit profile</div>
               </Link>
-              <button
-                className="follow-status"
-                onClick={(e) => {
-                  handleFollow(e);
-                }}
-              >
-                {currUserFollow}
-              </button>
-            </div>
-          )}
+            ) : (
+              <div className="two-btns">
+                <Link
+                  to={{
+                    pathname: "/chatwindow",
+                    state: {
+                      senderUid: value.uid,
+                      senderPfp: pfpUrl,
+                      senderUn: username,
+                      ownUid: currUser.uid,
+                      ownUsername: currUn,
+                      ownpfp: currPfp,
+                    },
+                  }}
+                  style={{ textDecoration: "none" }}
+                >
+                  <button className="profile-sendMsg">Send Message</button>
+                </Link>
+                <button
+                  className="follow-status"
+                  onClick={(e) => {
+                    handleFollow(e);
+                  }}
+                >
+                  {currUserFollow}
+                </button>
+              </div>
+            )}
+          </div>
         </div>
         {followersBoxOpen ? (
           <div className="followers-box-container">

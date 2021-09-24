@@ -1,4 +1,5 @@
 import "./App.css";
+import "./Responsive.css"
 import { signInWithGoogle, signUpWithUsername, auth } from "./firebase";
 import { Redirect, Link } from "react-router-dom";
 import { AuthContext } from "./AuthProvider";
@@ -14,7 +15,7 @@ let Register = () => {
     <div>
       {value ? <Redirect to="/setup" /> : ""}
       <div className="register-form-container">
-        <div class="form-container">
+        <div className="form-container">
           <h1>Register</h1>
           <p>Please fill in this form to create an account.</p>
           <hr />
@@ -68,20 +69,20 @@ let Register = () => {
           >
             Register
           </button>
-        </div>
-        <div class="container-signin">
-          <button onClick={signInWithGoogle} className="login-with-google">
-            SignUp with Google
-          </button>
-        </div>
-        <div class="container-signin">
-          <p>
-            Already have an account?
-            <Link id="link-login" to="/login">
-              Sign in
-            </Link>
-            .
-          </p>
+          <div class="container-signin">
+            <button onClick={signInWithGoogle} className="login-with-google">
+              SignUp with Google
+            </button>
+          </div>
+          <div class="container-signin">
+            <p>
+              Already have an account?
+              <Link id="link-login" to="/login">
+                Sign in
+              </Link>
+              .
+            </p>
+          </div>
         </div>
       </div>
     </div>

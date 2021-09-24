@@ -36,16 +36,16 @@
     margin-left: 8%;
   }
   .profile-pfp {
-    height: 57%;
-    width: 28%;
+    height: 54%;
+    width: 31%;
   }
   .profile-username {
-    margin-left: 5px;
+    margin-left: -12px;
     font-size: 219%;
   }
   .posts-followers-following-container {
     width: 0;
-    margin-left: 151px;
+    margin-left: 101px;
     font-size: 116%;
     justify-content: space-around;
   }
@@ -54,8 +54,11 @@
   }
   .profile-posts {
     width: 100%;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto auto auto;
     grid-gap: 15px;
+  }
+  .post-img {
+    height: 91%;
   }
   .profile-post {
     width: 176px;
@@ -84,7 +87,6 @@
     z-index: 100;
     top: -12px;
     width: 100%;
-    background: rgb(255, 255, 255);
   }
   .notifications {
     margin-top: -1%;
@@ -108,8 +110,6 @@
     width: 100%;
   }
   .profile-sendMsg {
-    margin-left: -259px;
-    margin-top: 171px;
     padding: 13px;
     border: none;
     color: white;
@@ -120,10 +120,10 @@
     margin-left: 3px;
   }
   .chat > img {
-    max-width: 60%;
+    width: 26%;
   }
   .chat-window-header > img {
-    max-width: 18%;
+    width: 18%;
   }
   .chats-container,
   .chat-window-container {
@@ -151,6 +151,7 @@
     position: absolute;
     left: 103px;
     top: 27%;
+    z-index: -1;
   }
   .header-search-box {
     margin-top: 15px;
@@ -174,8 +175,31 @@
     top: 0%;
     left: 1%;
   }
-  .follow-status {
-    margin-top: 170px;
-    margin-left: -134px;
+
+  .post-like,
+  #comment-icon {
+    width: 14%;
+  }
+  .sidebar-container {
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+    background: #d1d8ec;
+    -webkit-box-shadow: 12px 12px 24px #a9afbf, -12px -12px 24px #f9ffff;
+    box-shadow: 12px 12px 24px #a9afbf, -12px -12px 24px #f9ffff;
+  }
+  .chat {
+    width: 100%;
+  }
+  .profile-post {
+    -webkit-border-radius: 50px;
+    border-radius: 15px;
+    background: #d1d8ec;
+    -webkit-box-shadow: 12px 12px 24px #a9afbf, -12px -12px 24px #f9ffff;
+    box-shadow: 12px 12px 24px #a9afbf, -12px -12px 24px #f9ffff;
+  }
+  .register-form-container,
+  .login-form-container {
+    width: 100%;
+    left: 0;
   }
 }

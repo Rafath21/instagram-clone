@@ -49,7 +49,14 @@ let VideoCard = (props) => {
     <div className="main-video-container">
       {feedReels.map((e) => {
         return (
-          <div className="video-card">
+          <div
+            className="video-card"
+            onMouseOver={() => {
+              if (e.likes.includes(uid)) {
+                setCurrUserlike(true);
+              }
+            }}
+          >
             <>
               <video
                 autoPlay="true"

@@ -28,7 +28,6 @@ let Home = (props) => {
   let [uploadCaption, setuploadCaption] = useState("");
   let [feedPosts, setfeedPosts] = useState([]);
   let [searchValue, setsearchValue] = useState("");
-  let [searchUid, setsearchUid] = useState("");
   let [notificationCount, setnotificationCount] = useState("");
   let history = useHistory();
   let [storiesArr, setStoriesArr] = useState([]);
@@ -37,6 +36,7 @@ let Home = (props) => {
   let [suggestionsOpen, setSuggestionsOpen] = useState(false);
   let [searchSuggOpen, setSearchSuggOpen] = useState(false);
   let [searchSugg, setSearchSugg] = useState([]);
+  let [searchUid, setsearchUid] = useState(null);
   let [allUsers, setallUsers] = useState([
     {
       uid: "",
@@ -65,7 +65,6 @@ let Home = (props) => {
       },
     ],
   };
-  console.log("searchSugg:", searchSugg);
   let id = Date.now();
   let atHour = new Date().getHours(); //Hour at which the post was created
   let value = useContext(AuthContext);
@@ -156,7 +155,6 @@ let Home = (props) => {
     });
     setallUsers(arr);
   }, []);
-  console.log("all Users:", allUsers);
   function handleStory(storyUrls) {
     console.log("Handle Story");
     return () => (
@@ -169,12 +167,7 @@ let Home = (props) => {
     );
   }
   return (
-    <div
-      className="home-container"
-      onClick={() => {
-        if (searchSuggOpen) setSearchSuggOpen(false);
-      }}
-    >
+    <div className="home-container">
       {value ? "" : <Redirect to="/register" />}
       <div className="home-header">
         <Link id="link" to="/home">
@@ -185,7 +178,7 @@ let Home = (props) => {
             className="header-search-input"
             type="text"
             placeholder="Search"
-            onChange={(e) => {
+            onClick={(e) => {
               setSearchSuggOpen(true);
               setsearchValue(e.target.value);
               setSearchSugg(
@@ -197,25 +190,33 @@ let Home = (props) => {
               );
             }}
           />
-          <i class="fas fa-search" id="search-icon"></i>
+          <Link
+            to={{
+              pathname: "/profile",
+              state: {
+                uid: searchUid,
+              },
+            }}
+          >
+            <i class="fas fa-search" id="search-icon"></i>
+          </Link>
           {searchSuggOpen ? (
-            <div className="search-suggestions">
+            <div
+              className="search-suggestions"
+              onClick={() => {
+                console.log("entire container");
+              }}
+            >
               {searchSugg.map((suggestion) => {
                 return (
-                  <div className="search-suggestion">
+                  <div
+                    className="search-suggestion"
+                    onClick={() => {
+                      console.log("image wass clicked");
+                    }}
+                  >
                     <img src={suggestion.pfpUrl} />
-                    <Link
-                      to={{
-                        pathname: "/profile",
-                        state: {
-                          uid: suggestion.uid,
-                        },
-                      }}
-                      id="link-spl"
-                      style={{ textDecoration: "none" }}
-                    >
-                      <p>{suggestion.username}</p>
-                    </Link>
+                    <p>{suggestion.username}</p>
                   </div>
                 );
               })}
@@ -355,8 +356,8 @@ let Home = (props) => {
             style={{ textDecoration: "none" }}
           >
             <i class="fas fa-paper-plane" id="paper-plane" title="Messages"></i>
-            <span className="messages">{messagesCount}</span>
           </Link>
+          <span className="messages">{messagesCount}</span>
         </div>
       </div>
 

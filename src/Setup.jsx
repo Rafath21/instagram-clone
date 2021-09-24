@@ -77,7 +77,7 @@ let Setup = () => {
       <div class="setup-bio-container">
         <p>Bio:</p>
         <textarea
-          placeholder="what best describes you?"
+          placeholder="what describes you best?"
           onChange={(e) => {
             setBio(e.target.value);
           }}

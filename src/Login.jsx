@@ -1,6 +1,7 @@
 import "./App.css";
+import "./Responsive.css";
 import { signInWithGoogle, auth } from "./firebase";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import { AuthContext } from "./AuthProvider";
 import { useContext, useState } from "react";
 let Login = () => {
@@ -64,6 +65,12 @@ let Login = () => {
             Login with Google
           </button>
         </div>
+        <p>
+          Don't have an account?
+          <Link id="link-login" to="register">
+            Register
+          </Link>
+        </p>
       </div>
       ;
     </div>

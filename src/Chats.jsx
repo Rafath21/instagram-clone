@@ -57,7 +57,6 @@ let Chats = () => {
                   <h4>{e.senderUsername}</h4>
                 </div>
               </Link>
-              <hr></hr>
             </>
           );
         })}

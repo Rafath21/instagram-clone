@@ -1,3 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Oleo+Script&display=swap");
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
 .setup-container {
   margin: auto;
   display: flex;
@@ -42,7 +46,8 @@
   margin-left: 18px;
   border-radius: 10px;
   width: 80%;
-  height: 90%;
+  height: 165%;
+  padding: 15px;
 }
 .setup-profile-pic-container > input {
   margin-left: 20px;
@@ -52,8 +57,27 @@
 }
 .setup-submit-btn > button {
   padding: 14px;
-  border-radius: 15px;
   border: none;
-  background: rgb(30, 144, 255);
-  color: white;
+  margin-top: 20px;
+  background: rgb(211, 37, 81);
+  color: #ffff;
+  border-radius: 50px;
+  box-shadow: 12px 12px 24px #a9afbf, -12px -12px 24px #f9ffff;
+}
+.setup-username-container > input,
+.setup-container,
+#account-type,
+.setup-bio-container > textarea {
+  -webkit-border-radius: 50px;
+  border-radius: 50px;
+  background: #d1d8ec;
+  -webkit-box-shadow: 12px 12px 24px #c9cfe3, -12px -12px 24px #d9e1f5;
+  box-shadow: 12px 12px 24px #c9cfe3, -12px -12px 24px #d9e1f5;
+  border: none;
+  outline: none;
+}
+@media screen and (max-width: 1024px) {
+  .setup-container {
+    width: 100vw;
+  }
 }
