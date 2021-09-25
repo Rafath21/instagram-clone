@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
-import "./App.css";
+import "../css/App.css";
 import { useEffect, useState } from "react";
-import { firestore } from "./firebase";
+import { firestore } from "../firebase";
 import firebase from "firebase/app";
-import handleLikes from "./handleLikes";
-import handleComments from "./handleComments";
+import handleLikes from "../handlers/handleLikes";
+import handleComments from "../handlers/handleComments";
 let Postcard = (props) => {
   let [comments, setComments] = useState([]);
   let [likes, setLikes] = useState(0);

@@ -1,5 +1,5 @@
 import firebase from "firebase/app";
-import { auth, storage, firestore } from "./firebase";
+import { auth, storage, firestore } from "../firebase";
 
 let handleComments=async(currUserId,postedByUid,postId,currUserComment,collectionO,collectionf,currUsername,currPfpurl)=>{
  await firestore

@@ -1,18 +1,17 @@
-import { auth, storage, firestore } from "./firebase";
+import { auth, storage, firestore } from "../firebase";
 import firebase from "firebase/app";
 import { Redirect } from "react-router-dom";
-import "./App.css";
+import "../css/App.css";
 import Suggestions from "./Suggestions";
-import { AuthContext } from "./AuthProvider";
+import { AuthContext } from "../AuthProvider";
 import { useEffect, useContext, useState } from "react";
 import Postcard from "./Postcard";
 import { Link, useHistory } from "react-router-dom";
-import "./Responsive.css";
+import "../css/Responsive.css";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Stories from "react-insta-stories";
-import Createpost from "./Createpost";
+import Createpost from "../handlers/Createpost";
 let Home = (props) => {
   let [userName, setUserName] = useState("");
   let [pfpUrl, setpfpUrl] = useState("");
@@ -79,7 +78,7 @@ let Home = (props) => {
     let unsubscription = await firestore
       .collection("users")
       .doc(value.uid)
-      .collection("stories")
+      .collection("storiesFeed")
       .onSnapshot((querySnapshot) => {
         setStoriesArr(
           querySnapshot.docs.map((doc) => {
@@ -155,17 +154,6 @@ let Home = (props) => {
     });
     setallUsers(arr);
   }, []);
-  function handleStory(storyUrls) {
-    console.log("Handle Story");
-    return () => (
-      <Stories
-        stories={storyUrls}
-        defaultInterval={1500}
-        width={432}
-        height={768}
-      />
-    );
-  }
   return (
     <div className="home-container">
       {value ? "" : <Redirect to="/register" />}
@@ -493,23 +481,63 @@ let Home = (props) => {
         <div class="stories-posts-container">
           <div className="home-stories">
             <ul className="stories-container">
-              <Slider {...settings}>
-                {storiesArr.map((e) => {
-                  return (
-                    <li className="story-list-item">
-                      <div className="story-img-container">
-                        <img
-                          src={e.storyBypfp}
-                          onClick={() => {
-                            handleStory(e.storyUrls);
-                          }}
-                        />
-                      </div>
-                      <h6>{e.storyByUn}</h6>
-                    </li>
-                  );
-                })}
-              </Slider>
+              <li className="story-list-item">
+                <div className="story-img-container">
+                  <img
+                    src={pfpUrl}
+                    onClick={() => {
+                      history.push({
+                        pathname: `/story/${value.uid}`,
+                        state: {
+                          uid: value.uid,
+                          uname: userName,
+                          upfp: pfpUrl,
+                        },
+                      });
+                    }}
+                  />
+                </div>
+                <button
+                  className="own-story"
+                  onClick={() => {
+                    history.push({
+                      pathname: "/createstory",
+                      state: {
+                        uid: value.uid,
+                        uname: userName,
+                        upfp: pfpUrl,
+                      },
+                    });
+                  }}
+                >
+                  +
+                </button>
+                <h6>{userName}</h6>
+              </li>
+              {storiesArr.map((e) => {
+                console.log(storiesArr);
+                return (
+                  <li className="story-list-item">
+                    <div className="story-img-container">
+                      <img
+                        src={e.storyBypfp}
+                        onClick={() => {
+                          console.log("story clicked");
+                          history.push({
+                            pathname: `/story/${e.storyByUn}`,
+                            state: {
+                              uid: e.storyByUid,
+                              uname: e.storyByUn,
+                              upfp: e.storyBypfp,
+                            },
+                          });
+                        }}
+                      />
+                    </div>
+                    <h6>{e.storyByUn}</h6>
+                  </li>
+                );
+              })}
             </ul>
           </div>
           {feedPosts.length > 0 ? (

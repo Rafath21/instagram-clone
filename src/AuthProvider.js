@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { auth,storage,firestore } from "./firebase";
-import { currUserName } from "./Register";
+import { currUserName } from "./components/Register";
 export const AuthContext=createContext();
 
 

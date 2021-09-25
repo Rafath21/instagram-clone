@@ -1,4 +1,4 @@
-import { auth, storage, firestore } from "./firebase";
+import { auth, storage, firestore } from "../firebase";
 import firebase from "firebase/app";
 let Createpost=async(currUserId,filename,caption,id,userName,pfpUrl,uploadFile,collectionf,collectionO,docname,atHour)=>{
                     await firestore

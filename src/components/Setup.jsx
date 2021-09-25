@@ -1,8 +1,8 @@
 import { useContext, useState, createContext, useEffect } from "react";
-import "./setup.css";
+import "../css/setup.css";
 import { Redirect } from "react-router-dom";
-import { firestore, storage, auth } from "./firebase";
-import { AuthContext } from "./AuthProvider";
+import { firestore, storage, auth } from "../firebase";
+import { AuthContext } from "../AuthProvider";
 let Setup = () => {
   let [userName, setUserName] = useState("");
   let [name, setName] = useState("");

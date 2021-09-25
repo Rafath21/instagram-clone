@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import "./App.css";
-import { firestore, auth } from "./firebase";
-import { AuthContext } from "./AuthProvider";
+import "../css/App.css";
+import { firestore, auth } from "../firebase";
+import { AuthContext } from "../AuthProvider";
 import firebase from "firebase/app";
 import { Link } from "react-router-dom";
 

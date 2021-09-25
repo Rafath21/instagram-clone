@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { firestore } from "./firebase";
+import { firestore } from "../firebase";
 import firebase from "firebase/app";
-import "./App.css";
+import "../css/App.css";
 import Postcard from "./Postcard";
-import { AuthContext } from "./AuthProvider";
+import { AuthContext } from "../AuthProvider";
 let Profile = (props) => {
   const location = useLocation();
   let value = {

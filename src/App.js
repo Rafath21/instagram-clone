@@ -1,15 +1,17 @@
 import {firestore} from "./firebase";
-import Login from "./Login";
-import Register from "./Register";
+import Login from "./components/Login";
+import Register from "./components/Register";
 import AuthProvider from "./AuthProvider";
-import Setup from "./Setup";
-import Home from "./Home";
-import Profile from "./Profile";
-import Reels from "./Reels"
+import Setup from "./components/Setup";
+import Home from "./components/Home";
+import Profile from "./components/Profile";
+import Reels from "./components/Reels"
 import {BrowserRouter as Router,Route,Switch} from "react-router-dom";
-import Chats from "./Chats";
-import ChatWindow from "./ChatWindow";
-import Mainpost from "./Mainpost";
+import Chats from "./components/Chats";
+import ChatWindow from "./components/ChatWindow";
+import Mainpost from "./components/Mainpost";
+import StoryComponent from "./components/StoryComponent";
+import Createstory from './components/Createstory';
 function App() {
   return (
     <>
@@ -41,6 +43,12 @@ function App() {
           <Route path="/chatwindow">
             <ChatWindow/>
           </Route>
+          <Route path="/createstory">
+            <Createstory/>
+            </Route>
+          <Route path="/story/:uid">
+            <StoryComponent/>
+            </Route>
           <Route path="/">
             <Home/>
           </Route>

@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
-import "./App.css";
-import { firestore } from "./firebase";
-import { AuthContext } from "./AuthProvider";
+import "../css/App.css";
+import { firestore } from "../firebase";
+import { AuthContext } from "../AuthProvider";
 import VideoCard from "./VideoCard";
 let Reels = () => {
   let [commentboxOpen, setCommentBoxOpen] = useState(false);

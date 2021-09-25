@@ -1,5 +1,5 @@
 import "./App.css";
-import { firestore } from "./firebase";
+import { firestore } from "../firebase";
 
 let Showpost = async (props) => {
   let postId = props.postId;

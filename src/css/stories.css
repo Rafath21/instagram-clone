@@ -1,0 +1,97 @@
+@import url("https://fonts.googleapis.com/css2?family=Oleo+Script&display=swap");
+
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
+.story-container {
+  width: 50vw;
+  height: 100vh;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #ffff;
+  background: black;
+}
+.story-image-container {
+  height: 70%;
+  width: 100%;
+  margin-top: 5%;
+}
+.story-image {
+  max-width: 100%;
+  max-height: 80%;
+}
+.story-container > span {
+  font-size: 30px;
+  margin-top: 15px;
+}
+.story-header {
+  height: 10%;
+  width: 100%;
+  display: inline-flex;
+}
+.story-header > img {
+  height: 73%;
+  width: 7%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.story-header > p {
+  margin: 10px;
+}
+.create-story-container {
+  position: absolute;
+  top: 18%;
+  width: 30%;
+  left: 35%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 57vh;
+  padding: 36px;
+}
+.choose-story-file {
+  display: flex;
+  flex-direction: row;
+  margin: 50px;
+}
+.story-write-caption {
+  display: inline-flex;
+  margin-left: -48px;
+}
+.story-write-caption > textarea {
+  margin-left: 20px;
+  height: 81px;
+  width: 179px;
+  padding: 15px;
+}
+.create-story-container,
+.story-write-caption > textarea {
+  -webkit-border-radius: 50px;
+  border-radius: 50px;
+  background: #d1d8ec;
+  -webkit-box-shadow: 12px 12px 24px #c9cfe3, -12px -12px 24px #d9e1f5;
+  box-shadow: 12px 12px 24px #c9cfe3, -12px -12px 24px #d9e1f5;
+  border: none;
+  outline: none;
+}
+.create-story-container > button {
+  margin-top: 35px;
+  padding: 10px;
+  background: rgb(211, 37, 81);
+  color: #ffff;
+  border: none;
+  border-radius: 50px;
+  box-shadow: 12px 12px 24px #a9afbf, -12px -12px 24px #f9ffff;
+}
+.main-story-container > h1 {
+  text-align: center;
+  margin-top: 18%;
+}
+@media screen and (max-width: 1024px) {
+  .story-container {
+    width: 100vw;
+  }
+}

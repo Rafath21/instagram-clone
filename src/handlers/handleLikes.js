@@ -1,4 +1,4 @@
-import { firestore } from "./firebase";
+import { firestore } from "../firebase";
 import firebase from "firebase/app";
 import { useState } from "react";
 const handleLikes=async(currUserId,postedByUid,postId,collectionO,collectionf)=>{

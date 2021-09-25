@@ -1,8 +1,8 @@
-import "./App.css";
-import "./Responsive.css"
-import { signInWithGoogle, signUpWithUsername, auth } from "./firebase";
+import "../css/App.css";
+import "../css/Responsive.css";
+import { signInWithGoogle, signUpWithUsername, auth } from "../firebase";
 import { Redirect, Link } from "react-router-dom";
-import { AuthContext } from "./AuthProvider";
+import { AuthContext } from "../AuthProvider";
 import { useContext, useState } from "react";
 
 let Register = () => {

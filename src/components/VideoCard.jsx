@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import "./App.css";
-import Createpost from "./Createpost";
-import { firestore } from "./firebase";
-import handleLikes from "./handleLikes";
-import handleComments from "./handleComments";
+import "../css/App.css";
+import Createpost from "../handlers/Createpost";
+import { firestore } from "../firebase";
+import handleLikes from "../handlers/handleLikes";
+import handleComments from "../handlers/handleComments";
 import { Link } from "react-router-dom";
-import "./reels.css";
+import "../css/reels.css";
 let VideoCard = (props) => {
   let [username, setUsername] = useState("");
   let [pfpUrl, setpfpUrl] = useState("");
@@ -210,6 +210,7 @@ postedCaption: "New Video"*/
             </div>
             <div className="reel-comments">
               {props.reel.comments?.map((element) => {
+                console.log(props.reel.comments);
                 return (
                   <div className="reel-comments-inner">
                     <Link

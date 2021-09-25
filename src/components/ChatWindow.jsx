@@ -1,10 +1,10 @@
 import { useState, useEffect, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { firestore } from "./firebase";
-import { AuthContext } from "./AuthProvider";
+import { firestore } from "../firebase";
+import { AuthContext } from "../AuthProvider";
 import firebase from "firebase/app";
 
-import "./App.css";
+import "../css/App.css";
 let ChatWindow = () => {
   let [currMsg, setCurrMsg] = useState("");
   let value = useContext(AuthContext);

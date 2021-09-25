@@ -1,8 +1,8 @@
-import "./App.css";
+import "../css/App.css";
 import { Link, useLocation } from "react-router-dom";
-import { AuthContext } from "./AuthProvider";
+import { AuthContext } from "../AuthProvider";
 import { useContext, useEffect, useState } from "react";
-import { firestore } from "./firebase";
+import { firestore } from "../firebase";
 import ChatWindow from "./ChatWindow";
 let Chats = () => {
   let [allChats, setAllChats] = useState([]);

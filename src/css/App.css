@@ -1,5 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Oleo+Script&display=swap");
-
 :root {
   --secondary: rgb(211, 37, 81);
   --boxshadow1: #c9cfe3;
@@ -10,11 +9,9 @@
 }
 body {
   font-family: Arial, Helvetica, sans-serif;
-  /*background: linear-gradient(to right, #f80759, #bc4e9c) !important;*/
   background: var(--background-bs);
   overflow-y: scroll;
   overflow-x: hidden;
-  /*background: linear-gradient(to right, #6a82fb, #fc5c7d);*/
 }
 
 * {
@@ -242,7 +239,11 @@ hr {
 }
 .home-stories {
   width: 43vw;
-  z-index: -1;
+  z-index: 100;
+}
+.stories-container {
+  display: flex;
+  flex-direction: row;
 }
 .search-suggestions {
   background: #ffff;
@@ -368,7 +369,17 @@ hr {
   max-height: 101%;
   width: 40%;
 }
-
+.own-story {
+  width: 1rem;
+  height: 1.2rem;
+  padding: 0rem;
+  margin-left: 51px;
+  margin-top: -18px;
+  text-align: center;
+  color: #ffff;
+  background: rgb(170, 186, 202);
+  border: none;
+}
 .post-card-likes-comments {
   height: 16%;
 }
