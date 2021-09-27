@@ -248,6 +248,7 @@ hr {
   background: #ffff;
   width: 100%;
   min-height: 200px;
+  position: relative;
   z-index: 100;
   overflow: auto;
   -webkit-box-shadow: 0 0 5px 3px rgb(211 37 81 / 57%);
@@ -491,7 +492,7 @@ hr {
 .header-search-input {
   width: 221px;
   height: 26px;
-  background: #d9e1f5;
+  background: none;
   outline: none;
   border: none;
   margin-left: 1px;
@@ -1323,6 +1324,7 @@ hr {
 .edit-profile-btn,
 .profile-pfp,
 .create-post-container,
+.create-reel-container,
 .setup-container {
   -webkit-border-radius: 50px;
   border-radius: 50px;
@@ -1333,7 +1335,8 @@ hr {
   outline: none;
 }
 
-.create-post-container > textarea {
+.create-post-container > textarea,
+.create-reel-container > textarea {
   box-shadow: 12px 12px 24px #c9cfe3, -12px -12px 24px #d9e1f5;
   border: none;
   outline: none;

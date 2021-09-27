@@ -47,7 +47,7 @@ let Suggestions = (props) => {
         <img className="sidebar-pfp" src={props.profilepic} />
         <Link
           to={{
-            pathname: "/profile",
+            pathname: `/profile/${props.username}`,
             state: {
               uid: props.uid,
             },
@@ -77,7 +77,7 @@ let Suggestions = (props) => {
               </div>
               <Link
                 to={{
-                  pathname: "/profile",
+                  pathname: `/profile/${element.username}`,
                   state: {
                     uid: element.uid,
                   },

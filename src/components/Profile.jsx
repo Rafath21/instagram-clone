@@ -263,7 +263,7 @@ let Profile = (props) => {
                 <div className="two-btns">
                   <Link
                     to={{
-                      pathname: "/chatwindow",
+                      pathname: `/chatwindow/${username}`,
                       state: {
                         senderUid: value.uid,
                         senderPfp: pfpUrl,

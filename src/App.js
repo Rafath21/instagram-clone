@@ -12,6 +12,7 @@ import ChatWindow from "./components/ChatWindow";
 import StoryComponent from "./components/StoryComponent";
 import Createstory from './components/Createstory';
 import Post from "./components/Post";
+import Loadtest from "./components/Loadtest";
 function App() {
   return (
     <>
@@ -28,7 +29,7 @@ function App() {
             <Setup/>
           </Route>
          
-          <Route path="/profile">
+          <Route path="/profile/:username">
             <Profile/>
           </Route>
           <Route path="/reels">
@@ -37,9 +38,12 @@ function App() {
           <Route path="/chats">
             <Chats/>
           </Route>
-          <Route path="/chatwindow">
+          <Route path="/chatwindow/username">
             <ChatWindow/>
           </Route>
+          <Route path="/loadtest">
+            <Loadtest/>
+            </Route>
           <Route path="/createstory">
             <Createstory/>
             </Route>

@@ -1,0 +1,93 @@
+.home-loader-container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  background: #ffff;
+  padding: 2rem;
+  overflow: hidden;
+  justify-content: space-around;
+}
+.stories-loader-container {
+  display: flex;
+  flex-direction: row;
+  width: 50vw;
+  justify-content: space-evenly;
+}
+
+.home-main-container,
+.header-load {
+  margin-left: 4rem;
+}
+.profile-loader-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #fafafa;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+.profile-loader-header {
+  display: flex;
+  flex-direction: row;
+}
+.profile-loader-posts {
+  margin-left: 40px;
+}
+.profile-details {
+  margin-left: 20px;
+}
+.profile-circle {
+  margin-left: -258px;
+}
+.chats-loader-container,
+.reels-loader-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.reel-postedby-loader {
+  margin-top: 65vh;
+}
+.chat-loader {
+  margin-top: 10%;
+  display: flex;
+  flex-direction: row;
+}
+.msg-loader {
+  display: flex;
+  flex-direction: column;
+  margin-left: 3%;
+}
+.videocard-loader {
+  width: 33vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  border: 2px solid #ffff;
+}
+.reels-loader-container {
+  background: #00000082;
+}
+@media screen and (max-width: 1024px) {
+  .home-loader-container {
+    padding: 0;
+  }
+  .stories-loader-container {
+    width: 100vw;
+  }
+  .home-main-container,
+  .header-load {
+    margin-left: 0;
+  }
+  .profile-circle {
+    margin-left: 0;
+  }
+}

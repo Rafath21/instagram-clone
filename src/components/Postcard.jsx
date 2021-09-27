@@ -53,7 +53,7 @@ let Postcard = (props) => {
         <img className="post-img" src={props.post.postedBypfp}></img>
         <Link
           to={{
-            pathname: "/profile",
+            pathname: `/profile/${props.post.postedBy}`,
             state: {
               uid: props.post.postedByUid,
             },
@@ -94,7 +94,7 @@ let Postcard = (props) => {
         <div className="post-username-and-caption-container">
           <Link
             to={{
-              pathname: "/profile",
+              pathname: `/profile/${props.post.postedBy}`,
               state: {
                 uid: props.post.postedByUid,
               },
@@ -125,7 +125,7 @@ let Postcard = (props) => {
                     <img class="comment-pfp" src={e.upfpUrl} />
                     <Link
                       to={{
-                        pathname: "/profile",
+                        pathname: `/profile/${e.uname}`,
                         state: {
                           uid: e.uid,
                         },
@@ -177,7 +177,7 @@ let Postcard = (props) => {
                 <div class="post-comments-inner">
                   <Link
                     to={{
-                      pathname: "/profile",
+                      pathname: `/profile/${e.uname}`,
                       state: {
                         uid: e.uid,
                       },

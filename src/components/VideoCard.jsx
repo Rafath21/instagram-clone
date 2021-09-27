@@ -15,8 +15,6 @@ let VideoCard = (props) => {
   let [playing, setPlaying] = useState(true);
   let [createReelOpen, setCreateReelOpen] = useState(false);
   let [uploadFilename, setuploadFilename] = useState("");
-  let [uploadFilesize, setuploadFilesize] = useState("");
-  let [uploadFiletype, setuploadFiletype] = useState("");
   let [uploadFile, setuploadFile] = useState("");
   let [uploadFileUrl, setUploadFileurl] = useState(null);
   let [uploadCaption, setuploadCaption] = useState("");
@@ -107,7 +105,7 @@ postedCaption: "New Video"*/
             <div className="username-pfp-container">
               <Link
                 to={{
-                  pathname: "/profile",
+                  pathname: `/profile/${props.reel.postedBy}`,
                   state: {
                     uid: props.reel.postedByUid,
                   },
@@ -148,23 +146,12 @@ postedCaption: "New Video"*/
               onChange={(e) => {
                 if (!e.target.files[0]) return;
                 setuploadFilename(e.target.files[0].name);
-                setuploadFilesize(e.target.files[0].size);
-                setuploadFiletype(e.target.files[0].type);
+                let size = e.target.files[0].size;
                 setuploadFile(e.target.files[0]);
-                console.log(uploadFilename + " " + uploadFilesize);
-                /* if (uploadFilesize > 15728640) {
+                if (size > 15728640) {
                   alert("Sorry! The video size cannot be more than 15mb😅");
                   e.target.value = null;
-                }*/
-                /*if (uploadFiletype.split("/")[0] !== "video") {
-                setuploadFile("");
-                setCreateReelOpen(false);
-                alert("Please upload a video");
-              } else if (uploadFilesize / 1000000 > 10) {
-                alert("File is too big");
-                setuploadFile("");
-                setCreateReelOpen(false);
-              }*/
+                }
               }}
             />
             <p className="create-reel-caption-heading">
@@ -222,9 +209,9 @@ postedCaption: "New Video"*/
                   <div className="reel-comments-inner">
                     <Link
                       to={{
-                        pathname: "/profile",
+                        pathname: `/profile/${element.uname}`,
                         state: {
-                          uid: element.uid,
+                          uid: element?.uid,
                         },
                       }}
                       style={{ textDecoration: "none" }}

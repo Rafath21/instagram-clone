@@ -12,6 +12,8 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Createpost from "../handlers/Createpost";
+import HomeLoader from "../Loaders/HomeLoader";
+import Skeleton from "@yisheng90/react-loading";
 let Home = (props) => {
   let [userName, setUserName] = useState("");
   let [pfpUrl, setpfpUrl] = useState("");
@@ -20,23 +22,18 @@ let Home = (props) => {
   let [allRequests, setRequests] = useState([]);
   let [typeOfAccount, settypeOfAccount] = useState("");
   let [uploadFilename, setuploadFilename] = useState("");
-  let [uploadFilesize, setuploadFilesize] = useState("");
-  let [uploadFiletype, setuploadFiletype] = useState("");
   let [uploadFile, setuploadFile] = useState("");
-  let [uploadFileUrl, setUploadFileurl] = useState(null);
   let [uploadCaption, setuploadCaption] = useState("");
   let [feedPosts, setfeedPosts] = useState([]);
   let [searchValue, setsearchValue] = useState("");
   let [notificationCount, setnotificationCount] = useState("");
   let history = useHistory();
   let [storiesArr, setStoriesArr] = useState([]);
-  let [ownStory, setOwnStroy] = useState(false);
   let [messagesCount, setmessagesCount] = useState(0);
   let [suggestionsOpen, setSuggestionsOpen] = useState(false);
   let [searchSuggOpen, setSearchSuggOpen] = useState(false);
   let [searchSugg, setSearchSugg] = useState([]);
   let [searchUid, setsearchUid] = useState(null);
-  let [correctfileType, setCorrectfiletype] = useState(true);
   let [allUsers, setallUsers] = useState([
     {
       uid: "",
@@ -78,7 +75,7 @@ let Home = (props) => {
   useEffect(async () => {
     let unsubscription = await firestore
       .collection("users")
-      .doc(value.uid)
+      .doc(value?.uid)
       .collection("storiesFeed")
       .onSnapshot((querySnapshot) => {
         setStoriesArr(
@@ -94,7 +91,7 @@ let Home = (props) => {
   useEffect(async () => {
     let unsubscription = firestore
       .collection("users")
-      .doc(value.uid)
+      .doc(value?.uid)
       .collection("requests")
       .onSnapshot((querySnapshot) => {
         setRequests(
@@ -111,7 +108,7 @@ let Home = (props) => {
   useEffect(async () => {
     let unsubscription = firestore
       .collection("users")
-      .doc(value.uid)
+      .doc(value?.uid)
       .collection("chats")
       .onSnapshot((querySnapshot) => {
         querySnapshot.docs.map((doc) => {
@@ -128,7 +125,7 @@ let Home = (props) => {
   useEffect(async () => {
     let unsubscription = await firestore
       .collection("users")
-      .doc(value.uid)
+      .doc(value?.uid)
       .collection("feedItems")
       .orderBy("timestamp", "desc")
       .onSnapshot((querySnapshot) => {
@@ -168,8 +165,9 @@ let Home = (props) => {
             className="header-search-input"
             type="text"
             placeholder="Who are you looking for?"
-            onClick={(e) => {
-              setSearchSuggOpen(true);
+            onChange={(e) => {
+              if (e.target.value.length == 0) setSearchSuggOpen(false);
+              else setSearchSuggOpen(true);
               setsearchValue(e.target.value);
               setSearchSugg(
                 allUsers.filter((obj) => {
@@ -180,34 +178,30 @@ let Home = (props) => {
               );
             }}
           />
-          <Link
-            to={{
-              pathname: "/profile",
-              state: {
-                uid: searchUid,
-              },
-            }}
-          >
-            <i class="fas fa-search" id="search-icon"></i>
-          </Link>
+
+          <i class="fas fa-search" id="search-icon"></i>
           {searchSuggOpen ? (
-            <div
-              className="search-suggestions"
-              onClick={() => {
-                console.log("entire container");
-              }}
-            >
+            <div className="search-suggestions">
               {searchSugg.map((suggestion) => {
                 return (
-                  <div
-                    className="search-suggestion"
-                    onClick={() => {
-                      console.log("image wass clicked");
-                    }}
-                  >
-                    <img src={suggestion.pfpUrl} />
-                    <p>{suggestion.username}</p>
-                  </div>
+                  <>
+                    <Link
+                      to={{
+                        pathname: `/profile/${suggestion.username}`,
+                        state: { uid: suggestion.uid },
+                      }}
+                    >
+                      <div
+                        className="search-suggestion"
+                        onClick={() => {
+                          searchUid(suggestion.uid);
+                        }}
+                      >
+                        <img src={suggestion.pfpUrl} />
+                        <p>{suggestion.username}</p>
+                      </div>
+                    </Link>
+                  </>
                 );
               })}
             </div>
@@ -253,19 +247,9 @@ let Home = (props) => {
                 }}
                 onChange={(e) => {
                   if (!e.target.files[0]) return;
-
                   setuploadFilename(e.target.files[0].name);
                   console.log("checking");
-                  setuploadFilesize(e.target.files[0].size);
-                  setuploadFiletype(e.target.files[0].type);
                   setuploadFile(e.target.files[0]);
-                  console.log(uploadFiletype);
-                  uploadFiletype = uploadFiletype.split("/")[0];
-                  /*  if (uploadFiletype.localeCompare("image") != 0) {
-                    console.log(uploadFiletype);
-                    alert("please select an image");
-                    setCorrectfiletype(false);
-                  }*/
                 }}
               />
               <p className="create-post-caption-heading">
@@ -283,30 +267,21 @@ let Home = (props) => {
                 className="create-new-post-btn"
                 onClick={async (e) => {
                   e.preventDefault();
-                  if (correctfileType == false) {
-                    alert(
-                      "Hi there's a problem with the file you are tryring to upload 🤔. It's either not an image or the size is too big!"
-                    );
-                    alert(
-                      "If you want to upload a video please go to reels section 😊"
-                    );
-                  } else {
-                    e.target.innerText = "POSTED";
-                    setcreateBoxOpen(false);
-                    Createpost(
-                      value.uid,
-                      uploadFilename,
-                      uploadCaption,
-                      id,
-                      userName,
-                      pfpUrl,
-                      uploadFile,
-                      "feedItems",
-                      "posts",
-                      "post",
-                      timestamp
-                    );
-                  }
+                  e.target.innerText = "POSTED";
+                  setcreateBoxOpen(false);
+                  Createpost(
+                    value?.uid,
+                    uploadFilename,
+                    uploadCaption,
+                    id,
+                    userName,
+                    pfpUrl,
+                    uploadFile,
+                    "feedItems",
+                    "posts",
+                    "post",
+                    timestamp
+                  );
                 }}
               >
                 POST
@@ -323,7 +298,7 @@ let Home = (props) => {
             to={{
               pathname: "/reels",
               state: {
-                uid: value ? value.uid : "",
+                uid: value ? value?.uid : "",
               },
             }}
             style={{ textDecoration: "none" }}
@@ -346,7 +321,7 @@ let Home = (props) => {
             to={{
               pathname: "/chats",
               state: {
-                uid: value ? value.uid : "",
+                uid: value ? value?.uid : "",
                 username: userName,
                 pfpUrl: pfpUrl,
               },
@@ -384,33 +359,33 @@ let Home = (props) => {
                       <button
                         className="request-allow-btn"
                         onClick={async () => {
-                          let deluid = "request" + request.ruid; //uid to be deleted from requests collection
+                          let deluid = "request" + request?.ruid; //uid to be deleted from requests collection
                           await firestore //adding the user to current user's followers
                             .collection("users")
-                            .doc(value.uid)
+                            .doc(value?.uid)
                             .collection("followers")
-                            .doc(request.ruid)
+                            .doc(request?.ruid)
                             .set({
-                              name: request.name,
-                              ruid: request.ruid,
-                              pfp: request.pfp,
+                              name: request?.name,
+                              ruid: request?.ruid,
+                              pfp: request?.pfp,
                             });
                           await firestore
                             .collection("users")
-                            .doc(request.ruid)
+                            .doc(request?.ruid)
                             .update({
                               followingCount:
                                 firebase.firestore.FieldValue.increment(1),
                             });
                           await firestore
                             .collection("users")
-                            .doc(value.uid)
+                            .doc(value?.uid)
                             .collection("requests")
                             .doc(deluid)
                             .delete();
                           await firestore
                             .collection("users")
-                            .doc(value.uid)
+                            .doc(value?.uid)
                             .update({
                               followersCount:
                                 firebase.firestore.FieldValue.increment(1),
@@ -425,9 +400,9 @@ let Home = (props) => {
                         onClick={async (e) => {
                           await firestore
                             .collection("users")
-                            .doc(value.uid)
+                            .doc(value?.uid)
                             .collection("requests")
-                            .doc("request" + request.ruid)
+                            .doc("request" + request?.ruid)
                             .delete();
                         }}
                       ></i>
@@ -470,9 +445,9 @@ let Home = (props) => {
                           onClick={async (e) => {
                             await firestore
                               .collection("users")
-                              .doc(value.uid)
+                              .doc(value?.uid)
                               .collection("requests")
-                              .doc("request" + request.ruid)
+                              .doc("request" + request?.ruid)
                               .delete();
                           }}
                         ></i>
@@ -499,7 +474,7 @@ let Home = (props) => {
                       history.push({
                         pathname: `/story/${value.uid}`,
                         state: {
-                          uid: value.uid,
+                          uid: value?.uid,
                           uname: userName,
                           upfp: pfpUrl,
                         },
@@ -513,7 +488,7 @@ let Home = (props) => {
                     history.push({
                       pathname: "/createstory",
                       state: {
-                        uid: value.uid,
+                        uid: value?.uid,
                         uname: userName,
                         upfp: pfpUrl,
                       },
@@ -543,7 +518,15 @@ let Home = (props) => {
                         }}
                       />
                     </div>
-                    <h6>{e.storyByUn}</h6>
+                    <Link
+                      id="link"
+                      to={{
+                        pathname: `/profile/${e.storyByUn}`,
+                        state: { uid: e?.storyByUid },
+                      }}
+                    >
+                      <h6>{e.storyByUn}</h6>
+                    </Link>
                   </li>
                 );
               })}
@@ -589,7 +572,7 @@ let Home = (props) => {
               <Suggestions
                 username={userName}
                 profilepic={pfpUrl}
-                uid={value.uid}
+                uid={value?.uid}
               />
             </>
           ) : (
