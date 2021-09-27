@@ -62,7 +62,15 @@ let Register = () => {
                 alert("Please make a strong password");
                 return;
               }
-              auth.createUserWithEmailAndPassword(currUserEmail, currUserPswd);
+              auth
+                .createUserWithEmailAndPassword(currUserEmail, currUserPswd)
+                .then((res) => {
+                  console.log(res);
+                })
+                .catch((err) => {
+                  console.log(err.message);
+                  alert(err.message);
+                });
             }}
             type="submit"
             class="registerbtn"

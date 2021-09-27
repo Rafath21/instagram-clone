@@ -51,7 +51,15 @@ let Login = () => {
           <button
             onClick={(e) => {
               e.preventDefault();
-              auth.signInWithEmailAndPassword(currUserEmail, currUserPswd);
+              auth
+                .signInWithEmailAndPassword(currUserEmail, currUserPswd)
+                .then((res) => {
+                  console.log(res);
+                })
+                .catch((err) => {
+                  console.log(err.message);
+                  alert(err.message);
+                });
             }}
             type="submit"
             class="loginbtn"

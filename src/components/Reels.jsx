@@ -24,6 +24,7 @@ let Reels = () => {
       unsubscription();
     };
   }, []);
+  console.log(feedReels);
   return (
     <div className="reels-container">
       {feedReels.map((reel) => {

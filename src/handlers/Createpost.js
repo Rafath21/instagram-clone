@@ -1,6 +1,6 @@
 import { auth, storage, firestore } from "../firebase";
 import firebase from "firebase/app";
-let Createpost=async(currUserId,filename,caption,id,userName,pfpUrl,uploadFile,collectionf,collectionO,docname,atHour)=>{
+let Createpost=async(currUserId,filename,caption,id,userName,pfpUrl,uploadFile,collectionf,collectionO,docname,timestamp)=>{
                     await firestore
                     .collection("users")
                     .doc(currUserId)
@@ -36,7 +36,7 @@ let Createpost=async(currUserId,filename,caption,id,userName,pfpUrl,uploadFile,c
                         .collection(collectionO)
                         .doc(currUserId + docname + id)
                         .update({
-                          hour: atHour,
+                          timestamp: timestamp,
                           postUrl: url,
                           comments: [],
                           likes: [],
@@ -50,7 +50,7 @@ let Createpost=async(currUserId,filename,caption,id,userName,pfpUrl,uploadFile,c
                         .collection(collectionf)
                         .doc(currUserId + docname + id)
                         .set({
-                          hour: atHour,
+                          timestamp: timestamp,
                           feedItemurl: url,
                           postedBy: userName,
                           postedBypfp: pfpUrl,
@@ -67,7 +67,7 @@ let Createpost=async(currUserId,filename,caption,id,userName,pfpUrl,uploadFile,c
                           .collection(collectionf)
                           .doc(currUserId + docname + id)
                           .set({
-                            hour: atHour,
+                            timestamp: timestamp,
                             feedItemurl: url,
                             postedBy: userName,
                             postedBypfp: pfpUrl,

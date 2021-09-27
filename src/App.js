@@ -9,9 +9,9 @@ import Reels from "./components/Reels"
 import {BrowserRouter as Router,Route,Switch} from "react-router-dom";
 import Chats from "./components/Chats";
 import ChatWindow from "./components/ChatWindow";
-import Mainpost from "./components/Mainpost";
 import StoryComponent from "./components/StoryComponent";
 import Createstory from './components/Createstory';
+import Post from "./components/Post";
 function App() {
   return (
     <>
@@ -37,9 +37,6 @@ function App() {
           <Route path="/chats">
             <Chats/>
           </Route>
-          <Route path="/mainpost">
-            <Mainpost/>
-          </Route>
           <Route path="/chatwindow">
             <ChatWindow/>
           </Route>
@@ -49,6 +46,9 @@ function App() {
           <Route path="/story/:uid">
             <StoryComponent/>
             </Route>
+            <Route path="/post">
+              <Post/>
+              </Route>
           <Route path="/">
             <Home/>
           </Route>

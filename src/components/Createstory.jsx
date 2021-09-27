@@ -18,6 +18,8 @@ let Createstory = () => {
   let currUserId = location.state.uid;
   let currUsername = location.state.uname;
   let currUserpfp = location.state.upfp;
+  let timestamp = firebase.firestore.FieldValue.serverTimestamp(); //Hour at which the post was created
+
   console.log(location.state);
   async function createNewStory() {
     let followers = []; //followers of the current follower
@@ -55,6 +57,7 @@ let Createstory = () => {
               storyByUid: currUserId,
               storyByUn: currUsername,
               storyBypfp: currUserpfp,
+              timestamp: timestamp,
             },
 
             { merge: true }
@@ -75,6 +78,7 @@ let Createstory = () => {
                 storyByUid: currUserId,
                 storyByUn: currUsername,
                 storyBypfp: currUserpfp,
+                timestamp: timestamp,
               },
               { merge: true }
             );

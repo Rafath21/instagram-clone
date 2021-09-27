@@ -36,6 +36,7 @@ let Home = (props) => {
   let [searchSuggOpen, setSearchSuggOpen] = useState(false);
   let [searchSugg, setSearchSugg] = useState([]);
   let [searchUid, setsearchUid] = useState(null);
+  let [correctfileType, setCorrectfiletype] = useState(true);
   let [allUsers, setallUsers] = useState([
     {
       uid: "",
@@ -65,7 +66,7 @@ let Home = (props) => {
     ],
   };
   let id = Date.now();
-  let atHour = new Date().getHours(); //Hour at which the post was created
+  let timestamp = firebase.firestore.FieldValue.serverTimestamp(); //Hour at which the post was created
   let value = useContext(AuthContext);
   useEffect(async () => {
     let document = await firestore.collection("users").doc(value?.uid).get();
@@ -129,6 +130,7 @@ let Home = (props) => {
       .collection("users")
       .doc(value.uid)
       .collection("feedItems")
+      .orderBy("timestamp", "desc")
       .onSnapshot((querySnapshot) => {
         setfeedPosts(
           querySnapshot.docs.map((doc) => {
@@ -165,7 +167,7 @@ let Home = (props) => {
           <input
             className="header-search-input"
             type="text"
-            placeholder="Search"
+            placeholder="Who are you looking for?"
             onClick={(e) => {
               setSearchSuggOpen(true);
               setsearchValue(e.target.value);
@@ -244,6 +246,7 @@ let Home = (props) => {
               <p className="create-post-heading">Create New Post</p>
               <input
                 type="file"
+                accept="image/*"
                 className="create-post-input"
                 onClick={(e) => {
                   e.target.value = null;
@@ -252,18 +255,17 @@ let Home = (props) => {
                   if (!e.target.files[0]) return;
 
                   setuploadFilename(e.target.files[0].name);
+                  console.log("checking");
                   setuploadFilesize(e.target.files[0].size);
                   setuploadFiletype(e.target.files[0].type);
                   setuploadFile(e.target.files[0]);
-                  uploadFiletype = uploadFiletype.split("/")[0];
                   console.log(uploadFiletype);
-                  if (
-                    uploadFiletype.localeCompare("image") != 0 &&
-                    uploadFiletype.localeCompare("video") != 0
-                  ) {
+                  uploadFiletype = uploadFiletype.split("/")[0];
+                  /*  if (uploadFiletype.localeCompare("image") != 0) {
                     console.log(uploadFiletype);
                     alert("please select an image");
-                  }
+                    setCorrectfiletype(false);
+                  }*/
                 }}
               />
               <p className="create-post-caption-heading">
@@ -281,22 +283,30 @@ let Home = (props) => {
                 className="create-new-post-btn"
                 onClick={async (e) => {
                   e.preventDefault();
-                  console.log(e);
-                  e.target.innerText = "POSTED";
-                  setcreateBoxOpen(false);
-                  Createpost(
-                    value.uid,
-                    uploadFilename,
-                    uploadCaption,
-                    id,
-                    userName,
-                    pfpUrl,
-                    uploadFile,
-                    "feedItems",
-                    "posts",
-                    "post",
-                    atHour
-                  );
+                  if (correctfileType == false) {
+                    alert(
+                      "Hi there's a problem with the file you are tryring to upload 🤔. It's either not an image or the size is too big!"
+                    );
+                    alert(
+                      "If you want to upload a video please go to reels section 😊"
+                    );
+                  } else {
+                    e.target.innerText = "POSTED";
+                    setcreateBoxOpen(false);
+                    Createpost(
+                      value.uid,
+                      uploadFilename,
+                      uploadCaption,
+                      id,
+                      userName,
+                      pfpUrl,
+                      uploadFile,
+                      "feedItems",
+                      "posts",
+                      "post",
+                      timestamp
+                    );
+                  }
                 }}
               >
                 POST
@@ -515,7 +525,6 @@ let Home = (props) => {
                 <h6>{userName}</h6>
               </li>
               {storiesArr.map((e) => {
-                console.log(storiesArr);
                 return (
                   <li className="story-list-item">
                     <div className="story-img-container">

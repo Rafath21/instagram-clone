@@ -5,6 +5,8 @@ import { firestore } from "../firebase";
 import handleLikes from "../handlers/handleLikes";
 import handleComments from "../handlers/handleComments";
 import { Link } from "react-router-dom";
+import firebase from "firebase/app";
+
 import "../css/reels.css";
 let VideoCard = (props) => {
   let [username, setUsername] = useState("");
@@ -24,7 +26,7 @@ let VideoCard = (props) => {
   let [currUserLike, setCurrUserlike] = useState(false);
   let uid = props.value.uid;
   let id = Date.now();
-  let atHour = new Date().getHours();
+  let timestamp = firebase.firestore.FieldValue.serverTimestamp(); //Hour at which the post was created
   useEffect(async () => {
     let details = await firestore.collection("users").doc(uid).get();
     setUsername(details.data().username);
@@ -139,6 +141,7 @@ postedCaption: "New Video"*/
             <input
               type="file"
               className="create-post-input"
+              accept="video/*"
               onClick={(e) => {
                 e.target.value = null;
               }}
@@ -148,7 +151,11 @@ postedCaption: "New Video"*/
                 setuploadFilesize(e.target.files[0].size);
                 setuploadFiletype(e.target.files[0].type);
                 setuploadFile(e.target.files[0]);
-                console.log(uploadFiletype);
+                console.log(uploadFilename + " " + uploadFilesize);
+                /* if (uploadFilesize > 15728640) {
+                  alert("Sorry! The video size cannot be more than 15mb😅");
+                  e.target.value = null;
+                }*/
                 /*if (uploadFiletype.split("/")[0] !== "video") {
                 setuploadFile("");
                 setCreateReelOpen(false);
@@ -187,7 +194,7 @@ postedCaption: "New Video"*/
                   "reelsFeed",
                   "reels",
                   "reel",
-                  atHour
+                  timestamp
                 );
               }}
             >

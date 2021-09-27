@@ -41,6 +41,7 @@ let Profile = (props) => {
     isOpen: false,
     postId: "",
   });
+  let timestamp = firebase.firestore.FieldValue.serverTimestamp(); //Hour at which the post was created
   console.log(value.uid);
   useEffect(async () => {
     let doc = await firestore.collection("users").doc(value.uid).get();
@@ -62,6 +63,7 @@ let Profile = (props) => {
         .collection("users")
         .doc(value.uid)
         .collection("posts")
+        .orderBy("timestamp", "desc")
         .get();
       let arr = [];
       docc.forEach((doc) => {
@@ -196,6 +198,31 @@ let Profile = (props) => {
         .update({
           followersCount: firebase.firestore.FieldValue.increment(1),
         });
+      let getRecentDocs = await firestore
+        .collection("users")
+        .doc(value.uid)
+        .collection("posts")
+        .get();
+      console.log(getRecentDocs);
+      getRecentDocs.forEach(async (doc) => {
+        console.log(doc.data());
+        await firestore
+          .collection("users")
+          .doc(currUser.uid)
+          .collection("feedItems")
+          .doc(currUser.uid + "post" + Date.now())
+          .set({
+            timestamp: timestamp,
+            feedItemurl: doc.data().postUrl,
+            postedBy: username,
+            postedBypfp: pfpUrl,
+            postedCaption: doc.data().caption,
+            likes: doc.data().likes,
+            comments: doc.data().comments,
+            postId: doc.data().postId,
+            postedByUid: value.uid,
+          });
+      });
     }
   }
   console.log("status:", restrictedStatus);
@@ -203,63 +230,67 @@ let Profile = (props) => {
     <div class="profile-main-container">
       <div class="profile-container">
         <div class="profile-header">
-          <img class="profile-pfp" src={pfpUrl} />
-          <div class="profile-details">
-            <p class="profile-username">{username}</p>
-            <div class="posts-followers-following-container">
-              <p class="profile-posts-number">
-                <b>{postsCount}</b> Posts
-              </p>
-              <p
-                class="profile-followers-number"
-                onClick={() => {
-                  setfollowersBoxOpen(true);
-                }}
-              >
-                <b>{followersCount}</b> Followers
-              </p>
-              <p
-                class="profile-following-number"
-                onClick={() => {
-                  setfollowsBoxOpen(true);
-                }}
-              >
-                <b>{followingCount}</b> Following
-              </p>
-            </div>
-            {ownProfile ? (
-              <Link to={{ pathname: "/setup" }}>
-                <div className="edit-profile-btn">Edit profile</div>
-              </Link>
-            ) : (
-              <div className="two-btns">
-                <Link
-                  to={{
-                    pathname: "/chatwindow",
-                    state: {
-                      senderUid: value.uid,
-                      senderPfp: pfpUrl,
-                      senderUn: username,
-                      ownUid: currUser.uid,
-                      ownUsername: currUn,
-                      ownpfp: currPfp,
-                    },
-                  }}
-                  style={{ textDecoration: "none" }}
-                >
-                  <button className="profile-sendMsg">Send Message</button>
-                </Link>
-                <button
-                  className="follow-status"
-                  onClick={(e) => {
-                    handleFollow(e);
+          <div class="profile-subheader">
+            <img class="profile-pfp" src={pfpUrl} />
+            <div class="profile-details">
+              <p class="profile-username">{username}</p>
+              <div class="posts-followers-following-container">
+                <p class="profile-posts-number">
+                  <b>{postsCount}</b> Posts
+                </p>
+                <p
+                  class="profile-followers-number"
+                  onClick={() => {
+                    setfollowersBoxOpen(true);
                   }}
                 >
-                  {currUserFollow}
-                </button>
+                  <b>{followersCount}</b> Followers
+                </p>
+                <p
+                  class="profile-following-number"
+                  onClick={() => {
+                    setfollowsBoxOpen(true);
+                  }}
+                >
+                  <b>{followingCount}</b> Following
+                </p>
               </div>
-            )}
+              {ownProfile ? (
+                <Link to={{ pathname: "/setup" }}>
+                  <div className="edit-profile-btn">Edit profile</div>
+                </Link>
+              ) : (
+                <div className="two-btns">
+                  <Link
+                    to={{
+                      pathname: "/chatwindow",
+                      state: {
+                        senderUid: value.uid,
+                        senderPfp: pfpUrl,
+                        senderUn: username,
+                        ownUid: currUser.uid,
+                        ownUsername: currUn,
+                        ownpfp: currPfp,
+                      },
+                    }}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <button className="profile-sendMsg">Send Message</button>
+                  </Link>
+                  <button
+                    className="follow-status"
+                    onClick={(e) => {
+                      handleFollow(e);
+                    }}
+                  >
+                    {currUserFollow}
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
+
+          <div className="profile-bio">{bio}</div>
         </div>
         {followersBoxOpen ? (
           <div className="followers-box-container">
@@ -314,7 +345,6 @@ let Profile = (props) => {
         ) : (
           ""
         )}
-        <div className="profile-bio">{bio}</div>
         <div class="profile-posts-container">
           <p class="posts-title">POSTS</p>
           <hr />

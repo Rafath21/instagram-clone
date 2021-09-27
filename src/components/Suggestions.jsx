@@ -7,11 +7,12 @@ import { Link } from "react-router-dom";
 
 let Suggestions = (props) => {
   let [suggestions, setSuggestions] = useState([]);
+  let timestamp = firebase.firestore.FieldValue.serverTimestamp(); //Hour at which the post was created
+
   useEffect(() => {
     let f = async () => {
       let arr = [];
       let followingArr = [];
-      //figure out-pending
       let following = await firestore
         .collection("users")
         .doc(props.uid)
@@ -93,6 +94,7 @@ let Suggestions = (props) => {
                       .collection("users")
                       .doc(element.uid)
                       .get();
+
                     let req = "request" + props.uid;
                     if (reqDoc.data().typeOfAccount == "private") {
                       element.followStatus = "Requested";
@@ -158,6 +160,31 @@ let Suggestions = (props) => {
                           followersCount:
                             firebase.firestore.FieldValue.increment(1),
                         });
+                      let getRecentDocs = await firestore
+                        .collection("users")
+                        .doc(element.uid)
+                        .collection("posts")
+                        .get();
+                      console.log(getRecentDocs);
+                      getRecentDocs.forEach(async (doc) => {
+                        console.log(doc.data());
+                        await firestore
+                          .collection("users")
+                          .doc(props.uid)
+                          .collection("feedItems")
+                          .doc(props.uid + "post" + Date.now())
+                          .set({
+                            timestamp: timestamp,
+                            feedItemurl: doc.data().postUrl,
+                            postedBy: element.username,
+                            postedBypfp: element.photoURL,
+                            postedCaption: doc.data().caption,
+                            likes: doc.data().likes,
+                            comments: doc.data().comments,
+                            postId: doc.data().postId,
+                            postedByUid: element.uid,
+                          });
+                      });
                     }
                   }}
                 >

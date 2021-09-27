@@ -1,8 +1,13 @@
 [+]fix searching
 [+]fix stories
-[+]fix likes feature
-[+]suggestion box responsive
+[-]fix likes feature 👏🥇✔ Done Alhamdulillah
+[-]suggestion box responsive 👏🥇✔ Done Alhamdulillah
 [+] ipad pro responsive
 [+]fix images
-[+] theme
-[+] reels snap effect
+[-] theme 👏🥇✔ Done Alhamdulillah
+[+] reels snap effect 
+
+-> z-indices
+-> story selection
+-> video sizes etc
+[-] Authentication error display 👏🥇✔ Done Alhamdulillah

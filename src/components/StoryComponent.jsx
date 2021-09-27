@@ -77,7 +77,7 @@ let StoryComponent = () => {
           onAllStoriesEnd={redirectToHome}
         />
       ) : (
-        <h1>You have not created any stories in last 24 hours</h1>
+        <h1>No Stories yet!</h1>
       )}
     </div>
   );
