@@ -5,11 +5,13 @@ import firebase from "firebase/app";
 import "../css/App.css";
 import Postcard from "./Postcard";
 import { AuthContext } from "../AuthProvider";
+import Profileloader from "../Loaders/Profileloader";
 let Profile = (props) => {
   const location = useLocation();
   let value = {
     uid: location.state.uid,
   };
+  let [loading, setLoading] = useState(false);
   let currUser = useContext(AuthContext);
   let [pfpUrl, setpfpUrl] = useState("");
   let [username, setusername] = useState("");
@@ -44,8 +46,9 @@ let Profile = (props) => {
   let timestamp = firebase.firestore.FieldValue.serverTimestamp(); //Hour at which the post was created
   console.log(value.uid);
   useEffect(async () => {
-    let doc = await firestore.collection("users").doc(value.uid).get();
-    let details = doc.data();
+    setLoading(true);
+    let docd = await firestore.collection("users").doc(value.uid).get();
+    let details = docd.data();
     setpfpUrl(details.photoURL);
     setusername(details.username);
     setBio(details.bio);
@@ -65,44 +68,39 @@ let Profile = (props) => {
         .collection("posts")
         .orderBy("timestamp", "desc")
         .get();
-      let arr = [];
+      let arr1 = [];
       docc.forEach((doc) => {
         let obj = {};
         obj["postId"] = doc.data().postId;
         obj["postUrl"] = doc.data().postUrl;
-        arr.push(obj);
+        arr1.push(obj);
       });
-      setPosts(arr);
+      setPosts(arr1);
     }
-  }, []);
-  useEffect(async () => {
     let followers = await firestore
       .collection("users")
       .doc(location.state.uid)
       .collection("followers")
       .get();
-    let arr = [];
+    let arr2 = [];
     followers.forEach((doc) => {
-      arr.push(doc.data());
+      arr2.push(doc.data());
     });
-    setFollowers(arr);
-  }, []);
-  useEffect(async () => {
+    setFollowers(arr2);
     let follows = await firestore
       .collection("users")
       .doc(location.state.uid)
       .collection("following")
       .get();
-    let arr = [];
+    let arr3 = [];
     follows.forEach((doc) => {
-      arr.push(doc.data());
+      arr3.push(doc.data());
     });
-    setFollows(arr);
-  }, []);
-  useEffect(async () => {
+    setFollows(arr3);
     let doc = await firestore.collection("users").doc(currUser.uid).get();
     setcurrPfp(doc.data().photoURL);
     setcurrUn(doc.data().username);
+    setLoading(false);
   }, []);
   useEffect(async () => {
     //checking if the user's account is public or private
@@ -227,187 +225,195 @@ let Profile = (props) => {
   }
   console.log("status:", restrictedStatus);
   return (
-    <div class="profile-main-container">
-      <div class="profile-container">
-        <div class="profile-header">
-          <div class="profile-subheader">
-            <img class="profile-pfp" src={pfpUrl} />
-            <div class="profile-details">
-              <p class="profile-username">{username}</p>
-              <div class="posts-followers-following-container">
-                <p class="profile-posts-number">
-                  <b>{postsCount}</b> Posts
-                </p>
-                <p
-                  class="profile-followers-number"
-                  onClick={() => {
-                    setfollowersBoxOpen(true);
-                  }}
-                >
-                  <b>{followersCount}</b> Followers
-                </p>
-                <p
-                  class="profile-following-number"
-                  onClick={() => {
-                    setfollowsBoxOpen(true);
-                  }}
-                >
-                  <b>{followingCount}</b> Following
-                </p>
-              </div>
-              {ownProfile ? (
-                <Link to={{ pathname: "/setup" }}>
-                  <div className="edit-profile-btn">Edit profile</div>
-                </Link>
-              ) : (
-                <div className="two-btns">
-                  <Link
-                    to={{
-                      pathname: `/chatwindow/${username}`,
-                      state: {
-                        senderUid: value.uid,
-                        senderPfp: pfpUrl,
-                        senderUn: username,
-                        ownUid: currUser.uid,
-                        ownUsername: currUn,
-                        ownpfp: currPfp,
-                      },
-                    }}
-                    style={{ textDecoration: "none" }}
-                  >
-                    <button className="profile-sendMsg">Send Message</button>
-                  </Link>
-                  <button
-                    className="follow-status"
-                    onClick={(e) => {
-                      handleFollow(e);
-                    }}
-                  >
-                    {currUserFollow}
-                  </button>
+    <>
+      {loading ? (
+        <Profileloader />
+      ) : (
+        <div class="profile-main-container">
+          <div class="profile-container">
+            <div class="profile-header">
+              <div class="profile-subheader">
+                <img class="profile-pfp" src={pfpUrl} />
+                <div class="profile-details">
+                  <p class="profile-username">{username}</p>
+                  <div class="posts-followers-following-container">
+                    <p class="profile-posts-number">
+                      <b>{postsCount}</b> Posts
+                    </p>
+                    <p
+                      class="profile-followers-number"
+                      onClick={() => {
+                        setfollowersBoxOpen(true);
+                      }}
+                    >
+                      <b>{followersCount}</b> Followers
+                    </p>
+                    <p
+                      class="profile-following-number"
+                      onClick={() => {
+                        setfollowsBoxOpen(true);
+                      }}
+                    >
+                      <b>{followingCount}</b> Following
+                    </p>
+                  </div>
+                  {ownProfile ? (
+                    <Link to={{ pathname: "/setup" }}>
+                      <div className="edit-profile-btn">Edit profile</div>
+                    </Link>
+                  ) : (
+                    <div className="two-btns">
+                      <Link
+                        to={{
+                          pathname: `/chatwindow/${username}`,
+                          state: {
+                            senderUid: value.uid,
+                            senderPfp: pfpUrl,
+                            senderUn: username,
+                            ownUid: currUser.uid,
+                            ownUsername: currUn,
+                            ownpfp: currPfp,
+                          },
+                        }}
+                        style={{ textDecoration: "none" }}
+                      >
+                        <button className="profile-sendMsg">
+                          Send Message
+                        </button>
+                      </Link>
+                      <button
+                        className="follow-status"
+                        onClick={(e) => {
+                          handleFollow(e);
+                        }}
+                      >
+                        {currUserFollow}
+                      </button>
+                    </div>
+                  )}
                 </div>
+              </div>
+
+              <div className="profile-bio">{bio}</div>
+            </div>
+            {followersBoxOpen ? (
+              <div className="followers-box-container">
+                <div className="followers-box-header">
+                  <i
+                    class="fas fa-arrow-left"
+                    id="followers-back"
+                    onClick={() => {
+                      setfollowersBoxOpen(false);
+                    }}
+                  ></i>
+                  <p className="followers-heading">Followers</p>
+                  <hr></hr>
+                </div>
+                <div className="followers-container">
+                  {followers.map((e, index) => {
+                    return (
+                      <div className="followers-inner">
+                        <img src={e.pfp} alt="" className="followers-pfp" />
+                        <p className="follower-username">{e.name}</p>
+                        <hr></hr>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+            {followsBoxOpen ? (
+              <div className="follows-box-container">
+                <div className="follows-box-header">
+                  <i
+                    id="follows-back"
+                    class="fas fa-arrow-left"
+                    onClick={() => {
+                      setfollowsBoxOpen(false);
+                    }}
+                  ></i>
+                  <p className="follows-heading">Following</p>
+                  <hr></hr>
+                </div>
+                {follows.map((e, index) => {
+                  return (
+                    <div className="follows-inner">
+                      <img src={e.pfp} alt="" className="follows-pfp" />
+                      <p className="follows-username">{e.name}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              ""
+            )}
+            <div class="profile-posts-container">
+              <p class="posts-title">POSTS</p>
+              <hr />
+              {restrictedStatus ? (
+                <div class="profile-posts">
+                  {posts.map((e) => {
+                    return (
+                      <img
+                        class="profile-post"
+                        src={e.postUrl}
+                        onClick={async () => {
+                          setModal({
+                            isOpen: true,
+                            postId: e.postId,
+                          });
+                          let doc = await firestore
+                            .collection("users")
+                            .doc(value.uid)
+                            .collection("posts")
+                            .doc(e.postId)
+                            .get();
+                          console.log(doc.data());
+                          setPost({
+                            ...post,
+
+                            postedCaption: doc.data().caption,
+                            comments: doc.data().comments,
+                            likes: doc.data().likes,
+                            feedItemurl: doc.data().postUrl,
+                            postId: e.postId,
+                            postedBy: username,
+                            postedBypfp: pfpUrl,
+                            postedByUid: value.uid,
+                          });
+                          console.log(post);
+                        }}
+                      />
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="acc-is-private">This Account is private</div>
               )}
             </div>
           </div>
-
-          <div className="profile-bio">{bio}</div>
-        </div>
-        {followersBoxOpen ? (
-          <div className="followers-box-container">
-            <div className="followers-box-header">
+          {modal.isOpen && (
+            <div className="main-post-card-container">
               <i
                 class="fas fa-arrow-left"
-                id="followers-back"
+                id="back-btn"
                 onClick={() => {
-                  setfollowersBoxOpen(false);
+                  if (modal.isOpen) setModal({ isOpen: false });
                 }}
               ></i>
-              <p className="followers-heading">Followers</p>
-              <hr></hr>
+              <Postcard
+                post={post}
+                username={username}
+                pfpUrl={pfpUrl}
+                value={value}
+              />
             </div>
-            <div className="followers-container">
-              {followers.map((e, index) => {
-                return (
-                  <div className="followers-inner">
-                    <img src={e.pfp} alt="" className="followers-pfp" />
-                    <p className="follower-username">{e.name}</p>
-                    <hr></hr>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        ) : (
-          ""
-        )}
-        {followsBoxOpen ? (
-          <div className="follows-box-container">
-            <div className="follows-box-header">
-              <i
-                id="follows-back"
-                class="fas fa-arrow-left"
-                onClick={() => {
-                  setfollowsBoxOpen(false);
-                }}
-              ></i>
-              <p className="follows-heading">Following</p>
-              <hr></hr>
-            </div>
-            {follows.map((e, index) => {
-              return (
-                <div className="follows-inner">
-                  <img src={e.pfp} alt="" className="follows-pfp" />
-                  <p className="follows-username">{e.name}</p>
-                </div>
-              );
-            })}
-          </div>
-        ) : (
-          ""
-        )}
-        <div class="profile-posts-container">
-          <p class="posts-title">POSTS</p>
-          <hr />
-          {restrictedStatus ? (
-            <div class="profile-posts">
-              {posts.map((e) => {
-                return (
-                  <img
-                    class="profile-post"
-                    src={e.postUrl}
-                    onClick={async () => {
-                      setModal({
-                        isOpen: true,
-                        postId: e.postId,
-                      });
-                      let doc = await firestore
-                        .collection("users")
-                        .doc(value.uid)
-                        .collection("posts")
-                        .doc(e.postId)
-                        .get();
-                      console.log(doc.data());
-                      setPost({
-                        ...post,
-
-                        postedCaption: doc.data().caption,
-                        comments: doc.data().comments,
-                        likes: doc.data().likes,
-                        feedItemurl: doc.data().postUrl,
-                        postId: e.postId,
-                        postedBy: username,
-                        postedBypfp: pfpUrl,
-                        postedByUid: value.uid,
-                      });
-                      console.log(post);
-                    }}
-                  />
-                );
-              })}
-            </div>
-          ) : (
-            <div className="acc-is-private">This Account is private</div>
           )}
         </div>
-      </div>
-      {modal.isOpen && (
-        <div className="main-post-card-container">
-          <i
-            class="fas fa-arrow-left"
-            id="back-btn"
-            onClick={() => {
-              if (modal.isOpen) setModal({ isOpen: false });
-            }}
-          ></i>
-          <Postcard
-            post={post}
-            username={username}
-            pfpUrl={pfpUrl}
-            value={value}
-          />
-        </div>
       )}
-    </div>
+    </>
   );
 };
 export default Profile;

@@ -1,13 +1,13 @@
-[+]fix searching
-[+]fix stories
-[-]fix likes feature 👏🥇✔ Done Alhamdulillah
-[-]suggestion box responsive 👏🥇✔ Done Alhamdulillah
-[+] ipad pro responsive
-[+]fix images
-[-] theme 👏🥇✔ Done Alhamdulillah
-[+] reels snap effect 
-
--> z-indices
--> story selection
+[+]Fix searching
+[+]Fix stories
+[-]Fix likes feature 👏🥇✔ Done Alhamdulillah
+[-]Make suggestion box responsive 👏🥇✔ Done Alhamdulillah
+[+]Make the entire thing ipad pro responsive
+[+]Fix image radii
+[-] Finalize the theme 👏🥇✔ Done Alhamdulillah
+[+] Apply reels snap effect 
+[+] Conditional redering with loaders  
+-> z-indices 👏🥇✔ Done Alhamdulillah
+-> story selection 
 -> video sizes etc
 [-] Authentication error display 👏🥇✔ Done Alhamdulillah

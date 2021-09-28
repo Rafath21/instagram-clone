@@ -4,7 +4,7 @@ import "firebase/auth";
 import "firebase/storage";
 var firebaseConfig = {
 
-    apiKey: "AIzaSyCj-55e0qjdfAs6E3-RBd7cI94644XqcZo",
+    apiKey:"AIzaSyCj-55e0qjdfAs6E3-RBd7cI94644XqcZo",
 
     authDomain: "instagram-clone-dfad6.firebaseapp.com",
 

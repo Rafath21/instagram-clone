@@ -185,6 +185,31 @@ let Suggestions = (props) => {
                             postedByUid: element.uid,
                           });
                       });
+                      let getRecentReels = await firestore
+                        .collection("users")
+                        .doc(element.uid)
+                        .collection("reels")
+                        .get();
+                      console.log(getRecentDocs);
+                      getRecentReels.forEach(async (doc) => {
+                        console.log(doc.data());
+                        await firestore
+                          .collection("users")
+                          .doc(props.uid)
+                          .collection("reelsFeed")
+                          .doc(props.uid + "reel" + Date.now())
+                          .set({
+                            timestamp: timestamp,
+                            feedItemurl: doc.data().postUrl,
+                            postedBy: element.username,
+                            postedBypfp: element.photoURL,
+                            postedCaption: doc.data().caption,
+                            likes: doc.data().likes,
+                            comments: doc.data().comments,
+                            postId: doc.data().postId,
+                            postedByUid: element.uid,
+                          });
+                      });
                     }
                   }}
                 >

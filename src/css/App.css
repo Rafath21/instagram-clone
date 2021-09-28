@@ -297,6 +297,10 @@ hr {
   height: 100%;
   border-radius: 50%;
 }
+.own-stories-circle,
+.others-stories {
+  border: 3px solid rgb(211 37 81);
+}
 .stories-posts-sidebar-container {
   display: flex;
   flex-direction: row;

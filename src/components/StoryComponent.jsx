@@ -5,6 +5,7 @@ import { firestore } from "../firebase";
 import { useContext } from "react";
 import { AuthContext } from "../AuthProvider";
 import "../css/stories.css";
+import StoryLoader from "../Loaders/StoryLoader";
 let StoryComponent = () => {
   let match = useRouteMatch();
   let value = useContext(AuthContext);
@@ -67,19 +68,21 @@ let StoryComponent = () => {
   }
 
   return (
-    <div className="main-story-container">
-      {postedStories.length > 0 ? (
-        <Stories
-          stories={getStories()}
-          defaultInterval={5000}
-          width={"100%"}
-          height="100vh"
-          onAllStoriesEnd={redirectToHome}
-        />
+    <>
+      {loading ? (
+        <StoryLoader />
       ) : (
-        <h1>No Stories yet!</h1>
+        <div className="main-story-container">
+          <Stories
+            stories={getStories()}
+            defaultInterval={5000}
+            width={"100%"}
+            height="100vh"
+            onAllStoriesEnd={redirectToHome}
+          />
+        </div>
       )}
-    </div>
+    </>
   );
 };
 export default StoryComponent;

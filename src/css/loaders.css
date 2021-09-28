@@ -3,7 +3,7 @@
   flex-direction: column;
   width: 100vw;
   height: 100vh;
-  background: #ffff;
+  background: #d1d8ec;
   padding: 2rem;
   overflow: hidden;
   justify-content: space-around;
@@ -24,7 +24,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: #fafafa;
+  background: #d1d8ec;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
@@ -40,7 +40,7 @@
   margin-left: 20px;
 }
 .profile-circle {
-  margin-left: -258px;
+  margin-left: -182px;
 }
 .chats-loader-container,
 .reels-loader-container {
@@ -71,10 +71,30 @@
   height: 100vh;
   display: flex;
   flex-direction: row;
-  border: 2px solid #ffff;
+  border: 2px solid #d1d8ec;
 }
 .reels-loader-container {
   background: #00000082;
+}
+.story-loader-container {
+  height: 100vh;
+  background: rgb(0, 0, 0);
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  align-items: center;
+  overflow: hidden;
+}
+.story-header-loader {
+  display: flex;
+  flex-direction: row;
+  margin-left: -11rem;
+}
+.story-loader-main {
+  margin-left: -15px;
+}
+.story-postedby-loader {
+  margin-left: 0.5rem;
 }
 @media screen and (max-width: 1024px) {
   .home-loader-container {
@@ -89,5 +109,15 @@
   }
   .profile-circle {
     margin-left: 0;
+  }
+  .story-loader-container {
+    padding: 0;
+  }
+  .story-header-loader,
+  .story-loader-main {
+    margin-left: 0;
+  }
+  .profile-loader-container {
+    justify-content: none;
   }
 }
