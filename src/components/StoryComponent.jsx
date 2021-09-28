@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Stories from "react-insta-stories";
-import { useRouteMatch, useLocation, useHistory } from "react-router-dom";
+import { useRouteMatch, useLocation, useHistory, Link } from "react-router-dom";
 import { firestore } from "../firebase";
 import { useContext } from "react";
 import { AuthContext } from "../AuthProvider";
@@ -52,8 +52,18 @@ let StoryComponent = () => {
         content: (props) => (
           <div className="story-container">
             <div className="story-header">
-              <img src={storyBypfp} />
-              <p>{storyByun}</p>
+              <Link
+                id="link"
+                to={{
+                  pathname: `/profile/${storyByun}`,
+                  state: {
+                    uid: storyByUid,
+                  },
+                }}
+              >
+                <img src={storyBypfp} />
+                <p>{storyByun}</p>
+              </Link>
             </div>
             <div className="story-image-container">
               <img className="story-image" src={story.storyImg} />

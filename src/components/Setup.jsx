@@ -7,8 +7,6 @@ import { AuthContext } from "../AuthProvider";
 let Setup = () => {
   let [userName, setUserName] = useState("");
   let [name, setName] = useState("");
-  let [size, setSize] = useState("");
-  let [type, setType] = useState("");
   let [bio, setBio] = useState("");
   let history = useHistory();
   let defaultPfp =
@@ -19,15 +17,19 @@ let Setup = () => {
   let [imgUrl, setimgUrl] = useState(null);
   let [accountType, setAccountType] = useState("private");
   let value = useContext(AuthContext);
+  console.log("Main console:", accountType);
+  function handleTypechange(e) {
+    setAccountType(e.currentTarget.value);
+  }
   return (
-    <div class="setup-container">
+    <div className="setup-container">
       {value ? "" : <Redirect to={{ pathname: "/home" }}></Redirect>}
       {imgUrl ? (
         <Redirect to={{ pathname: "/home", state: { username: userName } }} />
       ) : (
         ""
       )}
-      <div class="setup-profile-pic-container">
+      <div className="setup-profile-pic-container">
         <img src={imgUrl ? imgUrl : defaultPfp} alt="profile-pic" />
         <input
           type="file"
@@ -39,18 +41,11 @@ let Setup = () => {
             if (!e.target.files[0]) return;
 
             setName(e.target.files[0].name);
-            setSize(e.target.files[0].size);
-            setType(e.target.files[0].type);
-
             setFile(e.target.files[0]);
-
-            let types = type.split("/");
-            setType(types[0]);
-            console.log(type);
           }}
         />
       </div>
-      <div class="setup-username-container">
+      <div className="setup-username-container">
         <p>Username:</p>
         <input
           type="text"
@@ -60,20 +55,20 @@ let Setup = () => {
           }}
         />
       </div>
-      <div class="setup-account-type-container">
+      <div className="setup-account-type-container">
         <p>I want my account to be:</p>
         <select
-          id="account-type"
           onChange={(e) => {
-            setAccountType(e.target.value);
-            console.log(accountType);
+            handleTypechange(e);
+            console.log("Value changed");
           }}
+          id="account-type"
         >
           <option value="private">Private</option>
           <option value="public">Public</option>
         </select>
       </div>
-      <div class="setup-bio-container">
+      <div className="setup-bio-container">
         <p>Bio:</p>
         <textarea
           placeholder="what describes you best?"
@@ -82,7 +77,7 @@ let Setup = () => {
           }}
         ></textarea>
       </div>
-      <div class="setup-submit-btn">
+      <div className="setup-submit-btn">
         <button
           type="submit"
           onClick={async (e) => {
@@ -94,6 +89,7 @@ let Setup = () => {
               alert("You are only allowed to have 164 characters in your bio.");
               return;
             } else {
+              console.log("in execution else");
               await firestore.collection("users").doc(value.uid).update({
                 username: userName,
               });

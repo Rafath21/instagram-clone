@@ -7,6 +7,7 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "@trendyol-js/react-carousel": "^2.0.0",
     "@yisheng90/react-loading": "^1.4.4",
     "firebase": "^8.9.1",
     "react": "^17.0.2",
@@ -14,9 +15,6 @@
     "react-insta-stories": "^2.2.4",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
-    "react-slick": "^0.28.1",
-    "react-slick-carousel": "^0.14.9",
-    "slick-carousel": "^1.8.1",
     "web-vitals": "^1.1.2"
   },
   "scripts": {

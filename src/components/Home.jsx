@@ -8,11 +8,9 @@ import { useEffect, useContext, useState } from "react";
 import Postcard from "./Postcard";
 import { Link, useHistory } from "react-router-dom";
 import "../css/Responsive.css";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import Createpost from "../handlers/Createpost";
 import HomeLoader from "../Loaders/HomeLoader";
+import { Carousel } from "@trendyol-js/react-carousel";
 let Home = (props) => {
   let [userName, setUserName] = useState("");
   let [pfpUrl, setpfpUrl] = useState("");
@@ -42,36 +40,15 @@ let Home = (props) => {
       pfpUrl: "",
     },
   ]);
-  let settings = {
-    //infinite: true,
-    speed: 500,
-    arrows: false,
-    slidesToShow: storiesArr.length > 6 ? 6 : storiesArr.length,
-    //slidesToScroll: 3,
-    cssEase: "linear",
-    responsive: [
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: storiesArr.length > 4 ? 4 : storiesArr.length,
-          arrows: false,
-
-          //slidesToScroll: 2,
-          //infinite: true,
-          cssEase: "linear",
-        },
-      },
-    ],
-  };
   let id = Date.now();
   let timestamp = firebase.firestore.FieldValue.serverTimestamp(); //Hour at which the post was created
   let value = useContext(AuthContext);
   useEffect(async () => {
     let document = await firestore.collection("users").doc(value?.uid).get();
     let creds = document.data();
-    settypeOfAccount(creds.typeOfAccount);
-    setUserName(creds.username);
-    setpfpUrl(creds.photoURL);
+    settypeOfAccount(creds?.typeOfAccount);
+    setUserName(creds?.username);
+    setpfpUrl(creds?.photoURL);
   }, []);
   useEffect(async () => {
     let unsubscriptionStories = await firestore
@@ -419,18 +396,18 @@ let Home = (props) => {
                 <>
                   <div className="follows-container">
                     <div className="follows-container-follows-heading">
-                      Activity
+                      <h4>Activity</h4>
+                      <i
+                        class="fas fa-window-close"
+                        id="request-container-close-btn"
+                        onClick={() => {
+                          setreqOpen(false);
+                        }}
+                      ></i>
                     </div>
-                    <i
-                      class="fas fa-window-close"
-                      id="request-container-close-btn"
-                      onClick={() => {
-                        setreqOpen(false);
-                      }}
-                    ></i>
-                    {allRequests.map((request, index) => {
-                      return (
-                        <div key={index} className="follows-container-follows">
+                    <div className="follows-container-follows">
+                      {allRequests.map((request, index) => {
+                        return (
                           <div className="follows-container-inner-follows">
                             <img
                               src={request.pfp}
@@ -456,9 +433,9 @@ let Home = (props) => {
                               }}
                             ></i>
                           </div>
-                        </div>
-                      );
-                    })}
+                        );
+                      })}
+                    </div>
                   </div>
                 </>
               )}
@@ -506,7 +483,17 @@ let Home = (props) => {
                     >
                       +
                     </button>
-                    <h6>{userName}</h6>
+                    <Link
+                      id="link"
+                      to={{
+                        pathname: `/profile/${userName}`,
+                        state: {
+                          uid: value.uid,
+                        },
+                      }}
+                    >
+                      <h6>{userName}</h6>
+                    </Link>
                   </li>
                   {storiesArr.map((e) => {
                     return (

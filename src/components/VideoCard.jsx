@@ -44,7 +44,6 @@ let VideoCard = (props) => {
       {loading ? (
         <ReelsLoader />
       ) : (
-        <div className="main-video-container">
           <div className="video-card">
             <>
               <video
@@ -251,7 +250,6 @@ let VideoCard = (props) => {
               ""
             )}
           </div>
-        </div>
       )}
     </>
   );

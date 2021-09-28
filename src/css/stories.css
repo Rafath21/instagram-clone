@@ -18,6 +18,7 @@
   height: 70%;
   width: 100%;
   margin-top: 5%;
+  text-align: center;
 }
 .story-image {
   max-width: 100%;
@@ -93,5 +94,9 @@
 @media screen and (max-width: 1024px) {
   .story-container {
     width: 100vw;
+  }
+  .create-story-container {
+    width: 100%;
+    left: 0;
   }
 }

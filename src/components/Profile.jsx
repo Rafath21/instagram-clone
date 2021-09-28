@@ -46,7 +46,7 @@ let Profile = (props) => {
     postId: "",
   });
   let timestamp = firebase.firestore.FieldValue.serverTimestamp(); //Hour at which the post was created
-  console.log(value.uid);
+  console.log(followers);
   useEffect(async () => {
     setLoading(true);
     let docd = await firestore.collection("users").doc(value.uid).get();
@@ -258,14 +258,16 @@ let Profile = (props) => {
                   <p className="follows-heading">Following</p>
                   <hr></hr>
                 </div>
-                {follows.map((e, index) => {
-                  return (
-                    <div className="follows-inner">
-                      <img src={e.pfp} alt="" className="follows-pfp" />
-                      <p className="follows-username">{e.name}</p>
-                    </div>
-                  );
-                })}
+                <div className="followers-container">
+                  {follows.map((e, index) => {
+                    return (
+                      <div className="follows-inner">
+                        <img src={e.pfp} alt="" className="follows-pfp" />
+                        <p className="follows-username">{e.name}</p>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             ) : (
               ""

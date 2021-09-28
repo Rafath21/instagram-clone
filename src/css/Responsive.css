@@ -9,6 +9,10 @@
   .home-sidebar {
     display: none;
   }
+  .video-card {
+    width: 100vw;
+    scroll-snap-align: start;
+  }
   .requests-container {
     width: 80%;
   }
@@ -151,7 +155,6 @@
     position: absolute;
     left: 103px;
     top: 27%;
-    z-index: 100;
   }
   .header-search-box {
     margin-top: 15px;
