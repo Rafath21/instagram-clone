@@ -4,7 +4,7 @@ import { firestore, auth } from "../firebase";
 import { AuthContext } from "../AuthProvider";
 import firebase from "firebase/app";
 import { Link } from "react-router-dom";
-
+import handleFollow from "../handlers/handleFollow";
 let Suggestions = (props) => {
   let [suggestions, setSuggestions] = useState([]);
   let timestamp = firebase.firestore.FieldValue.serverTimestamp(); //Hour at which the post was created
@@ -94,8 +94,21 @@ let Suggestions = (props) => {
                       .collection("users")
                       .doc(element.uid)
                       .get();
-
                     let req = "request" + props.uid;
+                    if (reqDoc.data().typeOfAccount == "private") {
+                      e.target.innerText = "Requested";
+                    } else {
+                      e.target.innerText = "Following";
+                    }
+                    handleFollow(
+                      element.uid,
+                      element.username,
+                      element.photoURL,
+                      props.uid,
+                      props.username,
+                      props.profilepic
+                    );
+                    /* let req = "request" + props.uid;
                     if (reqDoc.data().typeOfAccount == "private") {
                       element.followStatus = "Requested";
                       e.target.innerText = "Requested";
@@ -210,7 +223,7 @@ let Suggestions = (props) => {
                             postedByUid: element.uid,
                           });
                       });
-                    }
+                    }*/
                   }}
                 >
                   {element.followStatus}

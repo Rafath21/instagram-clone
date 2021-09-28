@@ -6,6 +6,8 @@ import "../css/App.css";
 import Postcard from "./Postcard";
 import { AuthContext } from "../AuthProvider";
 import Profileloader from "../Loaders/Profileloader";
+import handleFollow from "../handlers/handleFollow";
+
 let Profile = (props) => {
   const location = useLocation();
   let value = {
@@ -133,95 +135,14 @@ let Profile = (props) => {
       });
     }
   }, []);
-  async function handleFollow(e) {
+  async function handlefollow(e) {
     let reqDoc = await firestore.collection("users").doc(value.uid).get();
-    let req = "request" + currUser.uid;
     if (reqDoc.data().typeOfAccount == "private") {
       setcurrUserFollow("Requested");
-      await firestore
-        .collection("users")
-        .doc(value.uid)
-        .collection("requests")
-        .doc(req)
-        .set({
-          name: currUn,
-          pfp: currPfp,
-          ruid: currUser.uid,
-        });
     } else {
-      let docc = "fl" + value.uid;
-      let flr = "fr" + currUser.uid;
       setcurrUserFollow("Following");
-
-      await firestore //adding the current user to suggested user's followers
-        .collection("users")
-        .doc(currUser.uid)
-        .collection("following")
-        .doc(value.uid)
-        .set({
-          name: username,
-          fluid: value.uid,
-          pfp: pfpUrl,
-        });
-      await firestore
-        .collection("users")
-        .doc(currUser.uid)
-        .update({
-          followingCount: firebase.firestore.FieldValue.increment(1),
-        });
-
-      await firestore //adding the current user to suggested user's request list
-        .collection("users") //will be deleted after the user deletes it themselves
-        .doc(value.uid)
-        .collection("requests")
-        .doc(req)
-        .set({
-          name: currUn,
-          pfp: currPfp,
-          ruid: currUser.uid,
-        });
-      await firestore //adding the current user to suggested user's followers list
-        .collection("users")
-        .doc(value.uid)
-        .collection("followers")
-        .doc(currUser.uid)
-        .set({
-          name: currUn,
-          pfp: currPfp,
-          ruid: currUser.uid,
-        });
-      await firestore
-        .collection("users")
-        .doc(value.uid)
-        .update({
-          followersCount: firebase.firestore.FieldValue.increment(1),
-        });
-      let getRecentDocs = await firestore
-        .collection("users")
-        .doc(value.uid)
-        .collection("posts")
-        .get();
-      console.log(getRecentDocs);
-      getRecentDocs.forEach(async (doc) => {
-        console.log(doc.data());
-        await firestore
-          .collection("users")
-          .doc(currUser.uid)
-          .collection("feedItems")
-          .doc(currUser.uid + "post" + Date.now())
-          .set({
-            timestamp: timestamp,
-            feedItemurl: doc.data().postUrl,
-            postedBy: username,
-            postedBypfp: pfpUrl,
-            postedCaption: doc.data().caption,
-            likes: doc.data().likes,
-            comments: doc.data().comments,
-            postId: doc.data().postId,
-            postedByUid: value.uid,
-          });
-      });
     }
+    handleFollow(value.uid, username, pfpUrl, currUser.uid, currUn, currPfp);
   }
   console.log("status:", restrictedStatus);
   return (
@@ -284,7 +205,7 @@ let Profile = (props) => {
                       <button
                         className="follow-status"
                         onClick={(e) => {
-                          handleFollow(e);
+                          handlefollow(e);
                         }}
                       >
                         {currUserFollow}

@@ -1,15 +1,13 @@
-//other user's uid,username,pfp
-//own uid,username,pfp
-HandleFollow()
-let HandleFollow=async (otherUserUid,otherUserUn,otherUserPfp,ownUid,ownPfp,ownUn) => {
-                    let reqDoc = await firestore
+import { firestore, auth } from "../firebase";
+import firebase from "firebase/app";
+let handleFollow=async (otherUserUid,otherUserUn,otherUserPfp,ownUid,ownUn,ownPfp) => {
+  let timestamp = firebase.firestore.FieldValue.serverTimestamp(); //Hour at which the post was created
+                 let reqDoc = await firestore
                       .collection("users")
                       .doc(otherUserUid)
                       .get();                    
                     let req = "request" + ownUid;
                     if (reqDoc.data().typeOfAccount == "private") {
-                      //element.followStatus = "Requested";
-                    //  e.target.innerText = "Requested";
                       await firestore
                         .collection("users")
                         .doc(otherUserUid)
@@ -23,8 +21,6 @@ let HandleFollow=async (otherUserUid,otherUserUn,otherUserPfp,ownUid,ownPfp,ownU
                     } else {
                       let docc = "fl" + otherUserUid;
                       let flr = "fr" + ownUid;
-                      //element.followStatus = "Following";
-                      //e.target.innerText = "Following";
 
                       await firestore //adding the current user to suggested user's followers
                         .collection("users")
@@ -46,7 +42,7 @@ let HandleFollow=async (otherUserUid,otherUserUn,otherUserPfp,ownUid,ownPfp,ownU
 
                       await firestore //adding the current user to suggested user's request list
                         .collection("users") //will be deleted after the user deletes it themselves
-                        .doc(element.uid)
+                        .doc(otherUserUid)
                         .collection("requests")
                         .doc(req)
                         .set({
@@ -120,4 +116,5 @@ let HandleFollow=async (otherUserUid,otherUserUn,otherUserPfp,ownUid,ownPfp,ownU
                           });
                       });
                     }
-                  }
+}
+export default handleFollow;

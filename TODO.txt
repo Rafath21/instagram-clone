@@ -11,3 +11,4 @@
 -> story selection 
 -> video sizes etc
 [-] Authentication error display 👏🥇✔ Done Alhamdulillah
+[+] Fix followers and following containers on profile

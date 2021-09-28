@@ -70,7 +70,7 @@ let Setup = () => {
           }}
         >
           <option value="private">Private</option>
-          <option value="private">Public</option>
+          <option value="public">Public</option>
         </select>
       </div>
       <div class="setup-bio-container">
