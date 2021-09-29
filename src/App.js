@@ -11,8 +11,6 @@ import Chats from "./components/Chats";
 import ChatWindow from "./components/ChatWindow";
 import StoryComponent from "./components/StoryComponent";
 import Createstory from './components/Createstory';
-import Post from "./components/Post";
-import Loadtest from "./components/Loadtest";
 function App() {
   return (
     <>
@@ -41,18 +39,12 @@ function App() {
           <Route path="/chatwindow/">
             <ChatWindow/>
           </Route>
-          <Route path="/loadtest">
-            <Loadtest/>
-            </Route>
           <Route path="/createstory">
             <Createstory/>
             </Route>
           <Route path="/story/:uid">
             <StoryComponent/>
             </Route>
-            <Route path="/post">
-              <Post/>
-              </Route>
           <Route path="/">
             <Home/>
           </Route>

@@ -12,7 +12,7 @@ let Login = () => {
     <div>
       {value ? <Redirect to="/home" /> : ""}
       <div className="login-form-container">
-        <div class="form-container">
+        <div className="form-container">
           <h1>Welcome Back!</h1>
           <h3>Please Login</h3>
           <hr />
@@ -68,7 +68,7 @@ let Login = () => {
           </button>
         </div>
 
-        <div class="container-signin">
+        <div className="container-signin">
           <button onClick={signInWithGoogle} className="login-with-google">
             Login with Google
           </button>

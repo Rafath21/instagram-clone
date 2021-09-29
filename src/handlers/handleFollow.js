@@ -115,6 +115,30 @@ let handleFollow=async (otherUserUid,otherUserUn,otherUserPfp,ownUid,ownUn,ownPf
                             postedByUid: otherUserUid,
                           });
                       });
+                      let getRecentStory=await firestore.collection("users").doc(otherUserUid).collection("stories").doc(otherUserUid).get();
+                      if(getRecentStory.exists){
+                        console.log("in story exists");
+                        console.log("other user uid",otherUserUid);
+                        console.log(getRecentStory.data())
+                          await firestore
+            .collection("users")
+            .doc(ownUid)
+            .collection("storiesFeed")
+            .doc(otherUserUid)
+            .set(
+              {
+                postedStories: firebase.firestore.FieldValue.arrayUnion({
+                  storyCaption: getRecentStory.data().storyCaption,
+                  storyImg: getRecentStory.data().storyImg,
+                }),
+                storyByUid: otherUserUid,
+                storyByUn: otherUserUn,
+                storyBypfp: otherUserPfp,
+                timestamp: timestamp,
+              },
+              { merge: true }
+            );
+                      }
                     }
 }
 export default handleFollow;

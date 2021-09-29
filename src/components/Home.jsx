@@ -4,13 +4,12 @@ import { Redirect } from "react-router-dom";
 import "../css/App.css";
 import Suggestions from "./Suggestions";
 import { AuthContext } from "../AuthProvider";
-import { useEffect, useContext, useState } from "react";
+import { useEffect, useContext, useState, useRef } from "react";
 import Postcard from "./Postcard";
 import { Link, useHistory } from "react-router-dom";
 import "../css/Responsive.css";
 import Createpost from "../handlers/Createpost";
 import HomeLoader from "../Loaders/HomeLoader";
-import { Carousel } from "@trendyol-js/react-carousel";
 let Home = (props) => {
   let [userName, setUserName] = useState("");
   let [pfpUrl, setpfpUrl] = useState("");
@@ -21,6 +20,7 @@ let Home = (props) => {
   let [uploadFilename, setuploadFilename] = useState("");
   let [uploadFile, setuploadFile] = useState("");
   let [uploadCaption, setuploadCaption] = useState("");
+  let postCapref = useRef();
   let [feedPosts, setfeedPosts] = useState([]);
   let [searchValue, setsearchValue] = useState("");
   let [notificationCount, setnotificationCount] = useState("");
@@ -43,6 +43,9 @@ let Home = (props) => {
   let id = Date.now();
   let timestamp = firebase.firestore.FieldValue.serverTimestamp(); //Hour at which the post was created
   let value = useContext(AuthContext);
+  function clearCaption() {
+    postCapref.current.value = "";
+  }
   useEffect(async () => {
     let document = await firestore.collection("users").doc(value?.uid).get();
     let creds = document.data();
@@ -233,6 +236,7 @@ let Home = (props) => {
                     Write your caption here...
                   </p>
                   <textarea
+                    ref={postCapref}
                     type="text"
                     className="create-post-caption"
                     onChange={(e) => {
@@ -243,6 +247,7 @@ let Home = (props) => {
                   <button
                     className="create-new-post-btn"
                     onClick={async (e) => {
+                      clearCaption();
                       e.preventDefault();
                       e.target.innerText = "POSTED";
                       setcreateBoxOpen(false);
@@ -488,7 +493,7 @@ let Home = (props) => {
                       to={{
                         pathname: `/profile/${userName}`,
                         state: {
-                          uid: value.uid,
+                          uid: value?.uid,
                         },
                       }}
                     >

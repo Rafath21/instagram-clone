@@ -150,19 +150,19 @@ let Profile = (props) => {
       {loading ? (
         <Profileloader />
       ) : (
-        <div class="profile-main-container">
-          <div class="profile-container">
-            <div class="profile-header">
-              <div class="profile-subheader">
-                <img class="profile-pfp" src={pfpUrl} />
-                <div class="profile-details">
-                  <p class="profile-username">{username}</p>
-                  <div class="posts-followers-following-container">
-                    <p class="profile-posts-number">
+        <div className="profile-main-container">
+          <div className="profile-container">
+            <div className="profile-header">
+              <div className="profile-subheader">
+                <img className="profile-pfp" src={pfpUrl} />
+                <div className="profile-details">
+                  <p className="profile-username">{username}</p>
+                  <div className="posts-followers-following-container">
+                    <p className="profile-posts-number">
                       <b>{postsCount}</b> Posts
                     </p>
                     <p
-                      class="profile-followers-number"
+                      className="profile-followers-number"
                       onClick={() => {
                         setfollowersBoxOpen(true);
                       }}
@@ -170,7 +170,7 @@ let Profile = (props) => {
                       <b>{followersCount}</b> Followers
                     </p>
                     <p
-                      class="profile-following-number"
+                      className="profile-following-number"
                       onClick={() => {
                         setfollowsBoxOpen(true);
                       }}
@@ -233,7 +233,7 @@ let Profile = (props) => {
                 <div className="followers-container">
                   {followers.map((e, index) => {
                     return (
-                      <div className="followers-inner">
+                      <div className="followers-inner" key={index}>
                         <img src={e.pfp} alt="" className="followers-pfp" />
                         <p className="follower-username">{e.name}</p>
                         <hr></hr>
@@ -261,7 +261,7 @@ let Profile = (props) => {
                 <div className="followers-container">
                   {follows.map((e, index) => {
                     return (
-                      <div className="follows-inner">
+                      <div className="follows-inner" key={index}>
                         <img src={e.pfp} alt="" className="follows-pfp" />
                         <p className="follows-username">{e.name}</p>
                       </div>
@@ -272,15 +272,16 @@ let Profile = (props) => {
             ) : (
               ""
             )}
-            <div class="profile-posts-container">
-              <p class="posts-title">POSTS</p>
+            <div className="profile-posts-container">
+              <p className="posts-title">POSTS</p>
               <hr />
               {restrictedStatus ? (
-                <div class="profile-posts">
-                  {posts.map((e) => {
+                <div className="profile-posts">
+                  {posts.map((e, index) => {
                     return (
                       <img
-                        class="profile-post"
+                        className="profile-post"
+                        key={index}
                         src={e.postUrl}
                         onClick={async () => {
                           setModal({

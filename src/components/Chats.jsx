@@ -43,7 +43,7 @@ let Chats = () => {
             <hr></hr>
           </div>
           <div className="chats">
-            {allChats.map((e) => {
+            {allChats.map((e, index) => {
               return (
                 <>
                   <Link
@@ -60,7 +60,7 @@ let Chats = () => {
                     }}
                     style={{ textDecoration: "none" }}
                   >
-                    <div className="chat" id="link">
+                    <div className="chat" id="link" key={index}>
                       <img src={e.senderPfp} />
                       <h4>{e.senderUsername}</h4>
                     </div>

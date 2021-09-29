@@ -33,11 +33,8 @@ let Reels = () => {
         <ReelsLoader />
       ) : (
         <div className="reels-container">
-          {feedReels.map((reel) => {
-            if(feedReels.length>0)
-            return <VideoCard value={value} reel={reel} />;
-            else
-            return <h2>Please follow people to see reels 😍</h2>
+          {feedReels.map((reel, index) => {
+            return <VideoCard value={value} reel={reel} key={index} />;
           })}
         </div>
       )}

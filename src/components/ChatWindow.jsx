@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { firestore } from "../firebase";
 import { AuthContext } from "../AuthProvider";
@@ -12,6 +12,7 @@ let ChatWindow = () => {
   let senderpfp = location.state.senderPfp;
   let senderUn = location.state.senderUn;
   let [msgs, setMsgs] = useState([]);
+  let msgRef = useRef();
   console.log(senderUn);
   console.log(senderpfp);
   useEffect(async () => {
@@ -29,6 +30,7 @@ let ChatWindow = () => {
     };
   }, []);
   async function handleSendmsg() {
+    msgRef.current.value = "";
     let msgId = value.uid + "msg" + Date.now();
     await firestore
       .collection("users")
@@ -85,7 +87,7 @@ let ChatWindow = () => {
         <h4>{senderUn}</h4>
       </div>
       <div className="chat-window-messages">
-        {msgs?.map((e) => {
+        {msgs?.map((e,index) => {
           let classname = "";
           if (e.chatId.split("msg")[0] == value.uid) {
             classname = "chat-message-own";
@@ -93,7 +95,7 @@ let ChatWindow = () => {
             classname = "chat-message-sender";
           }
           return (
-            <div className={classname}>
+            <div className={classname} key={index}>
               <p>{e.msg}</p>
             </div>
           );
@@ -101,6 +103,7 @@ let ChatWindow = () => {
       </div>
       <div className="chat-window-msgform">
         <textarea
+          ref={msgRef}
           type="text"
           onChange={(e) => {
             setCurrMsg(e.target.value);

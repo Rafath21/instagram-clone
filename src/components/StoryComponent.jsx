@@ -53,7 +53,7 @@ let StoryComponent = () => {
           <div className="story-container">
             <div className="story-header">
               <Link
-                id="link"
+                className="story-link"
                 to={{
                   pathname: `/profile/${storyByun}`,
                   state: {

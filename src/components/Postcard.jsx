@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 import "../css/App.css";
-import { useEffect, useState } from "react";
-import { firestore } from "../firebase";
-import firebase from "firebase/app";
+import { useEffect, useState, useRef } from "react";
 import handleLikes from "../handlers/handleLikes";
 import handleComments from "../handlers/handleComments";
 let Postcard = (props) => {
@@ -13,7 +11,10 @@ let Postcard = (props) => {
   let [commentBoxOpen, setcommentBoxOpen] = useState(false);
   let currUserId = props.value?.uid;
   let [flag, setFlag] = useState(false);
-
+  let commentRef = useRef();
+  function clearComment() {
+    commentRef.current.value = "";
+  }
   useEffect(() => {
     let f = async () => {
       setComments(props.post.comments);
@@ -107,22 +108,22 @@ let Postcard = (props) => {
           <p className="post-caption">{props.post.postedCaption}</p>
         </div>
         {commentBoxOpen ? (
-          <div class="post-comment-form-container">
-            <div class="comment-form-header">
+          <div className="post-comment-form-container">
+            <div className="comment-form-header">
               <i
                 class="fas fa-arrow-left"
                 onClick={() => {
                   if (commentBoxOpen) setcommentBoxOpen(false);
                 }}
               ></i>
-              <p class="comment-title">Comments</p>
+              <p className="comment-title">Comments</p>
             </div>
-            <div class="comment-form-comments">
-              {comments.map((e) => {
+            <div className="comment-form-comments">
+              {comments.map((e, index) => {
                 console.log(comments.length);
                 return (
-                  <div class="comment-form-inner">
-                    <img class="comment-pfp" src={e.upfpUrl} />
+                  <div className="comment-form-inner" key={index}>
+                    <img className="comment-pfp" src={e.upfpUrl} />
                     <Link
                       to={{
                         pathname: `/profile/${e.uname}`,
@@ -132,24 +133,26 @@ let Postcard = (props) => {
                       }}
                       style={{ textDecoration: "none" }}
                     >
-                      <p class="comment-username">{e.uname}</p>
+                      <p className="comment-username">{e.uname}</p>
                     </Link>
-                    <p class="post-comment">{e.ucomment}</p>
+                    <p className="post-comment">{e.ucomment}</p>
                   </div>
                 );
               })}
             </div>
 
-            <div class="comment-form">
+            <div className="comment-form">
               <textarea
-                class="user-comment"
+                ref={commentRef}
+                className="user-comment"
                 onChange={(e) => {
                   setcurrUserComment(e.currentTarget.value);
                 }}
               ></textarea>
               <button
-                class="user-comment-post-button"
+                className="user-comment-post-button"
                 onClick={async () => {
+                  clearComment();
                   handleCurrUserComments();
                   let arr = [];
                   arr = [...comments];
@@ -170,11 +173,11 @@ let Postcard = (props) => {
           ""
         )}
 
-        <div class="post-comments-container">
+        <div className="post-comments-container">
           {comments.length <= 2 ? (
-            comments.map((e) => {
+            comments.map((e, index) => {
               return (
-                <div class="post-comments-inner">
+                <div className="post-comments-inner" key={index}>
                   <Link
                     to={{
                       pathname: `/profile/${e.uname}`,
@@ -184,9 +187,9 @@ let Postcard = (props) => {
                     }}
                     style={{ textDecoration: "none" }}
                   >
-                    <p class="comment-username">{e.uname}</p>
+                    <p className="comment-username">{e.uname}</p>
                   </Link>
-                  <p class="post-comment">{e.ucomment}</p>
+                  <p className="post-comment">{e.ucomment}</p>
                 </div>
               );
             })

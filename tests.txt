@@ -1,0 +1,46 @@
+TESTS:
+👉If the user is able to sign up/sign in-using Google or email/password method.
+👉If the function for checking registration/login validity working properly.
+👉If the user is able to setup their account i.e Username,Bio,Profile picture etc.
+👉If the user has not selected any picture for their profile, the photoURL attribute in their document should
+point to the default user picture.
+👉If the user is able to edit their profile with ease-Switching the account from public to private etc
+👉If their followers count get increased in the database when someone starts following them.
+👉If their following count get increased in the database when they start following someone.
+👉If the user is able to restrict the users from viewing their posts(from the people) who don't follow(If their account is private).
+👉If the user is able to look through posts of all the other users whose accounts are public.
+👉If the user is able to look through posts of the all the users they follow(irrespective of their accounts
+being private or public.)
+👉If the user is able to post pictures with captions.
+👉If the user is able to post reels with captions.
+👉If the user's followers get updates of their(curr user's) posts,stories,reels updates in realtime.
+👉If the user's account is private they should be able to see all the requests in their notifications modal.
+👉If the user's account is public they should get all the notifications about all the people who started following them.
+👉When the user A starts following user B and it succeeds, user B's recent posts should get added to user A's
+feed.
+👉As soon as a user deletes their notificatations/requests-it should get deleted from the database too.
+👉If the user is able to like a post and it reflects in the database.
+👉If the user is able to unlike a post soon after they realised they clicked on like icon accidentally
+and this reflects in the database.
+👉If the user is able to comment on a post in realtime.
+👉If the user is able to read all the comments under a post they have access to.
+👉If the story updates of a user's following get added to the story feed.
+👉If the user is able to send messages to anyone.
+👉If the user is able to get new message notifications.
+👉If a user is able to "search" for someone using their username.
+👉If a user is able to create stories with ease.
+👉The process of action "FOLLOW" is working correctly.
+Which involves the following steps:
+User A clicks the "follow" button next to user B's username.
+case 1:
+->If the user B's account is private, the text on the button should change to "Requested" and this request
+with all the necessary information of user A should get added to "requests" collection of user B.
+->User B sees the request and decides what to do.
+case a: "Allow" user A to follow them.
+The request doc gets deleted from user B's "requests" collection.
+A document with all the necessary details of user A gets added to user B's "followers" collection.
+A document with all the necessary details of user B gets added to user A's "following" collection.
+->case b: User B refuses to allow the User A to follow them i.e. User B deletes the request without
+clicking on "Allow" button.
+The request simply gets removed from the database.
+👉If a user is able to delete their account permanently.

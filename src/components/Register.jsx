@@ -58,8 +58,8 @@ let Register = () => {
                 alert("Invalid email address!");
                 return;
               }
-              if (currUserPswd.length < 10) {
-                alert("Please make a strong password");
+              if (currUserPswd.length < 6) {
+                alert("Password must contain at least 6 characters.🤔");
                 return;
               }
               auth
@@ -73,16 +73,16 @@ let Register = () => {
                 });
             }}
             type="submit"
-            class="registerbtn"
+            className="registerbtn"
           >
             Register
           </button>
-          <div class="container-signin">
+          <div className="container-signin">
             <button onClick={signInWithGoogle} className="login-with-google">
               SignUp with Google
             </button>
           </div>
-          <div class="container-signin">
+          <div className="container-signin">
             <p>
               Already have an account?
               <Link id="link-login" to="/login">

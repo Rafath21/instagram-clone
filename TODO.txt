@@ -1,16 +1,17 @@
-[+]Fix searching
-[+]Fix stories
+[-]Fix searching 👏🥇✔ Done Alhamdulillah
+[-]Fix stories 👏🥇✔ Done Alhamdulillah
 [-]Fix likes feature 👏🥇✔ Done Alhamdulillah
 [-]Make suggestion box responsive 👏🥇✔ Done Alhamdulillah
 [+]Make the entire thing ipad pro responsive
 [-]Fix image radii 👏🥇✔ Done Alhamdulillah
 [-] Finalize the theme 👏🥇✔ Done Alhamdulillah
-[+] Apply reels snap effect 
-[+] Conditional redering with loaders  
-[+] z-indices 👏🥇✔ Done Alhamdulillah
+[-] Apply reels snap effect 👏🥇✔ Done Alhamdulillah
+[-] Conditional redering with loaders 👏🥇✔ Done Alhamdulillah
+[-] z-indices 👏🥇✔ Done Alhamdulillah
 -> story selection 
-[+] video sizes etc
+[-] video sizes etc
 [-] Authentication error display 👏🥇✔ Done Alhamdulillah
 [-] Fix followers and following containers on profile 👏🥇✔ Done Alhamdulillah
                   <Carousel disableArrows={true} infinite={false} show={5}>
-[+] reels playing
+[-] reels playing
+
