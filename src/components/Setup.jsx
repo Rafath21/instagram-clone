@@ -17,7 +17,17 @@ let Setup = () => {
   let [imgUrl, setimgUrl] = useState(null);
   let [accountType, setAccountType] = useState("private");
   let value = useContext(AuthContext);
-  console.log("Main console:", accountType);
+  useEffect(async () => {
+    let user = await firestore.collection("users").doc(value?.uid).get();
+    if (user.exists) {
+      if (user.data()?.bio != undefined) {
+        setBio(user.data().bio);
+      }
+      if (user.data()?.typeOfAccount != undefined) {
+        setAccountType(user.data().typeOfAccount);
+      }
+    }
+  }, []);
   function handleTypechange(e) {
     setAccountType(e.currentTarget.value);
   }
@@ -82,6 +92,7 @@ let Setup = () => {
           type="submit"
           onClick={async (e) => {
             e.preventDefault();
+            e.currentTarget.value = "setting up..";
             if (userName == "") {
               alert("Please enter a username");
               return;

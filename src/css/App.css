@@ -386,7 +386,7 @@ hr {
   height: 80vh;
 }
 .post-card-container {
-  height: 107%;
+  height: 109%;
   background: #e6e3e3;
   display: flex;
   flex-direction: column;
@@ -394,6 +394,10 @@ hr {
   position: relative;
   border-radius: 7px 7px 7px 7px;
   border: 1px solid grey;
+}
+.no-reels-container {
+  text-align: center;
+  color: #ffff;
 }
 .post-card-header {
   height: 12%;
@@ -597,13 +601,20 @@ hr {
   margin-top: 31px;
   border: none;
   background: var(--secondary);
-  color: white;
+  color: #ffff;
+}
+.no-reels-container > button {
+  background: var(--secondary);
+  padding: 10px;
+  color: #ffff;
+  border-radius: 50px;
 }
 .home-signout-btn,
 .suggestion-follow-btn,
 .user-comment-post-button,
 .create-reel-btn,
-.request-allow-btn {
+.request-allow-btn,
+.create-new-post-btn {
   border-radius: 50px;
   box-shadow: 12px 12px 24px #a9afbf, -12px -12px 24px #f9ffff;
 }
@@ -785,9 +796,11 @@ hr {
   color: #808080;
   margin-top: 5px;
 }
-.post-comment-form-container,
-.reels-comments-container {
+.post-comment-form-container {
   background: #fafafa;
+}
+.reels-comments-container {
+  background: rgb(0, 0, 0);
 }
 .post-comment-form-container {
   background: #fafafa;
@@ -807,7 +820,6 @@ hr {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  background: #ffff;
 }
 .comment-form-header {
   color: rgb(0, 0, 0);
@@ -818,7 +830,7 @@ hr {
   flex-direction: row;
 }
 .reels-comments-header {
-  color: rgb(0, 0, 0);
+  color: #ffff;
   border-bottom: 2px solid #80808069;
   border-top: 2px solid #80808069;
   font-size: 10px;
@@ -846,6 +858,7 @@ hr {
   flex-direction: column;
   margin-left: 7px;
   margin-bottom: 11%;
+  height: 80%;
 }
 .comment-form-inner {
   display: flex;
@@ -861,7 +874,7 @@ hr {
   align-items: center;
   width: 100;
   height: 54px;
-  color: rgb(0, 0, 0) !important;
+  color: #ffff !important;
 }
 .reel-comments-inner p {
   font-size: 13px;
@@ -1075,16 +1088,15 @@ hr {
 }
 .main-post-card-container {
   width: 39%;
-  height: 94vh;
   margin-top: 2%;
   margin-left: 29%;
-  background: #fafafa;
   position: relative;
   z-index: 100;
 }
 #back-btn {
   font-size: 25px;
   margin-top: 1%;
+  color: #ffff;
 }
 .notifications,
 .messages {
@@ -1397,7 +1409,6 @@ hr {
 .edit-profile-btn,
 .profile-pfp,
 .create-post-container,
-.create-reel-container,
 .setup-container,
 .followers-box-container,
 .follows-box-container {
@@ -1410,8 +1421,7 @@ hr {
   outline: none;
 }
 
-.create-post-container > textarea,
-.create-reel-container > textarea {
+.create-post-container > textarea {
   box-shadow: 12px 12px 24px #c9cfe3, -12px -12px 24px #d9e1f5;
   border: none;
   outline: none;

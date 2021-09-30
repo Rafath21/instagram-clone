@@ -92,6 +92,10 @@ let Createstory = () => {
       .put(uploadFile);
 
     uploadPost.on("clicked", f1, f2, f3);
+    setTimeout(() => {
+      console.log("in set timeout");
+      history.push("/");
+    }, 5000);
   }
   return (
     <div className="create-story-container">
@@ -127,7 +131,6 @@ let Createstory = () => {
           console.log(e);
           e.target.innerText = "POSTED";
           createNewStory();
-          history.push("/");
         }}
       >
         POST

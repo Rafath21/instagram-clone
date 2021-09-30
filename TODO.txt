@@ -16,4 +16,5 @@
 [-] reels playing
 [+] when someone deletes their account all their posts from their followers' feedItems should get deleted.
 [+] profile requested thing
+[+] Refresh the page when you start following someone or post something
 

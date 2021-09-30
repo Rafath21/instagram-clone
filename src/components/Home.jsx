@@ -110,7 +110,9 @@ let Home = (props) => {
           })
         );
       });
+
     setLoading(false);
+
     return () => {
       unsubscriptionStories();
       unsubscriptionChats();
@@ -249,8 +251,6 @@ let Home = (props) => {
                     onClick={async (e) => {
                       clearCaption();
                       e.preventDefault();
-                      e.target.innerText = "POSTED";
-                      setcreateBoxOpen(false);
                       Createpost(
                         value?.uid,
                         uploadFilename,
@@ -264,6 +264,12 @@ let Home = (props) => {
                         "post",
                         timestamp
                       );
+
+                      e.target.innerText = "POSTING..";
+                      setTimeout(() => {
+                        e.target.innerText = "POSTED!";
+                        setcreateBoxOpen(false);
+                      }, 4000);
                     }}
                   >
                     POST

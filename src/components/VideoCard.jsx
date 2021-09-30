@@ -9,8 +9,6 @@ import firebase from "firebase/app";
 import ReelsLoader from "../Loaders/ReelsLoader";
 import "../css/reels.css";
 let VideoCard = (props) => {
-  let [username, setUsername] = useState("");
-  let [pfpUrl, setpfpUrl] = useState("");
   let [commentboxOpen, setCommentBoxOpen] = useState(false);
   let [playing, setPlaying] = useState(true);
   let [createReelOpen, setCreateReelOpen] = useState(false);
@@ -54,13 +52,7 @@ let VideoCard = (props) => {
       if (currentTarget) observer.unobserve(currentTarget);
     };
   }, [videoRef]);
-  useEffect(async () => {
-    let details = await firestore.collection("users").doc(uid).get();
-    setUsername(details.data().username);
-    setpfpUrl(details.data().photoURL);
-  }, []);
-  console.log(props);
-
+console.log(props);
   useEffect(async () => {
     setLoading(true);
     setfeedItem(props.reel.feedItemurl);
@@ -204,8 +196,8 @@ let VideoCard = (props) => {
                     uploadFilename,
                     uploadCaption,
                     id,
-                    username,
-                    pfpUrl,
+                    props.username,
+                    props.pfpUrl,
                     uploadFile,
                     "reelsFeed",
                     "reels",
@@ -232,7 +224,7 @@ let VideoCard = (props) => {
                 <h3>Comments</h3>
               </div>
               <div className="reel-comments">
-                {props.reel.comments?.map((element,index) => {
+                {props.reel.comments?.map((element, index) => {
                   console.log(props.reel.comments);
                   return (
                     <div className="reel-comments-inner" key={index}>
@@ -272,8 +264,8 @@ let VideoCard = (props) => {
                       currUserComment,
                       "reels",
                       "reelsFeed",
-                      username,
-                      pfpUrl
+                      props.username,
+                      props.pfpUrl
                     );
                   }}
                 >
