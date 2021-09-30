@@ -49,19 +49,19 @@ let Profile = (props) => {
   console.log(followers);
   useEffect(async () => {
     setLoading(true);
-    let docd = await firestore.collection("users").doc(value.uid).get();
+    let docd = await firestore.collection("users").doc(value?.uid).get();
     let details = docd.data();
-    setpfpUrl(details.photoURL);
-    setusername(details.username);
-    setBio(details.bio);
-    if (details.followersCount != undefined) {
-      setFollowersCount(details.followersCount);
+    setpfpUrl(details?.photoURL);
+    setusername(details?.username);
+    setBio(details?.bio);
+    if (details?.followersCount != undefined) {
+      setFollowersCount(details?.followersCount);
     }
-    if (details.followingCount != undefined) {
-      setFollowingCount(details.followingCount);
+    if (details?.followingCount != undefined) {
+      setFollowingCount(details?.followingCount);
     }
     if (postsCount != undefined) {
-      setpostsCount(details.postsCount);
+      setpostsCount(details?.postsCount);
     }
     if (postsCount != undefined) {
       let docc = await firestore
@@ -73,15 +73,15 @@ let Profile = (props) => {
       let arr1 = [];
       docc.forEach((doc) => {
         let obj = {};
-        obj["postId"] = doc.data().postId;
-        obj["postUrl"] = doc.data().postUrl;
+        obj["postId"] = doc.data()?.postId;
+        obj["postUrl"] = doc.data()?.postUrl;
         arr1.push(obj);
       });
       setPosts(arr1);
     }
     let followers = await firestore
       .collection("users")
-      .doc(location.state.uid)
+      .doc(location.state?.uid)
       .collection("followers")
       .get();
     let arr2 = [];
@@ -111,11 +111,11 @@ let Profile = (props) => {
       .doc(location.state.uid)
       .get();
 
-    if (location.state.uid == currUser.uid) {
+    if (location.state?.uid == currUser?.uid) {
       setownProfile(true);
     }
     if (
-      data.data().typeOfAccount == "public" ||
+      data.data()?.typeOfAccount == "public" ||
       location.state.uid == currUser.uid
     ) {
       console.log("in if");
@@ -123,13 +123,13 @@ let Profile = (props) => {
     } else {
       let ownData = await firestore
         .collection("users")
-        .doc(currUser.uid)
+        .doc(currUser?.uid)
         .collection("following")
         .get();
       ownData.forEach((doc) => {
-        if (doc.data().fluid == location.state.uid) {
+        if (doc.data()?.fluid == location.state?.uid) {
           setcurrUserFollow("Following");
-          console.log("conditional render:", doc.data().fluid);
+          console.log("conditional render:", doc.data()?.fluid);
           setrestrictedStatus(true);
         }
       });

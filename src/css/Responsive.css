@@ -14,7 +14,8 @@
     scroll-snap-align: start;
   }
   .requests-container {
-    width: 80%;
+    width: 100%;
+    left: -2%;
   }
   .home-header {
     height: 32%;

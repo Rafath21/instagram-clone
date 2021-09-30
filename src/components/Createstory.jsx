@@ -100,6 +100,7 @@ let Createstory = () => {
         <p>Choose photo..</p>
         <input
           type="file"
+          accept="image/*"
           onChange={(e) => {
             if (!e.target.files[0]) return;
             setuploadFilename(e.target.files[0].name);
@@ -108,10 +109,6 @@ let Createstory = () => {
             setuploadFile(e.target.files[0]);
             uploadFiletype = uploadFiletype.split("/")[0];
             console.log(uploadFiletype);
-            if (uploadFiletype.localeCompare("image") != 0) {
-              console.log(uploadFiletype);
-              alert("please select an image");
-            }
           }}
         />
       </div>

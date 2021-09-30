@@ -376,6 +376,108 @@ let Home = (props) => {
                                   followersCount:
                                     firebase.firestore.FieldValue.increment(1),
                                 });
+                              await firestore //adding the user to current user's followers
+                                .collection("users")
+                                .doc(request?.ruid)
+                                .collection("following")
+                                .doc(value?.uid)
+                                .set({
+                                  name: userName,
+                                  ruid: value?.uid,
+                                  pfp: pfpUrl,
+                                });
+
+                              let getRecentDocs = await firestore
+                                .collection("users")
+                                .doc(value?.uid)
+                                .collection("posts")
+                                .get();
+                              getRecentDocs.forEach(async (doc) => {
+                                await firestore
+                                  .collection("users")
+                                  .doc(request?.ruid)
+                                  .collection("feedItems")
+                                  .doc(doc.data().postId)
+                                  .set({
+                                    timestamp: timestamp,
+                                    feedItemurl: doc.data().postUrl,
+                                    postedBy: userName,
+                                    postedBypfp: pfpUrl,
+                                    postedCaption: doc.data().caption,
+                                    likes: doc.data().likes,
+                                    comments: doc.data().comments,
+                                    postId: doc.data().postId,
+                                    postedByUid: value?.uid,
+                                  });
+                              });
+
+                              let getRecentReels = await firestore
+                                .collection("users")
+                                .doc(value?.uid)
+                                .collection("reels")
+                                .get();
+
+                              getRecentReels.forEach(async (doc) => {
+                                await firestore
+                                  .collection("users")
+                                  .doc(request?.ruid)
+                                  .collection("reelsFeed")
+                                  .doc(doc.data().postId)
+                                  .set({
+                                    timestamp: timestamp,
+                                    feedItemurl: doc.data().postUrl,
+                                    postedBy: userName,
+                                    postedBypfp: pfpUrl,
+                                    postedCaption: doc.data().caption,
+                                    likes: doc.data().likes,
+                                    comments: doc.data().comments,
+                                    postId: doc.data().postId,
+                                    postedByUid: value?.uid,
+                                  });
+                              });
+
+                              let getRecentStory = await firestore
+                                .collection("users")
+                                .doc(value?.uid)
+                                .collection("stories")
+                                .doc(request?.ruid)
+                                .get();
+                              console.log("in story exists");
+                              if (getRecentStory.exists) {
+                                let allStories =
+                                  getRecentStory.data()?.postedStories;
+
+                                await firestore
+                                  .collection("users")
+                                  .doc(request?.ruid)
+                                  .collection("storiesFeed")
+                                  .doc(value?.uid)
+                                  .set(
+                                    {
+                                      storyByUid: value?.uid,
+                                      storyByUn: userName,
+                                      storyBypfp: pfpUrl,
+                                      timestamp: timestamp,
+                                    },
+                                    { merge: true }
+                                  );
+                                allStories.map(async (story) => {
+                                  await firestore
+                                    .collection("users")
+                                    .doc(request?.ruid)
+                                    .collection("storiesFeed")
+                                    .doc(value?.uid)
+                                    .update(
+                                      {
+                                        postedStories:
+                                          firebase.firestore.FieldValue.arrayUnion(
+                                            story
+                                          ),
+                                      },
+                                      { merge: true }
+                                    );
+                                });
+                              }
                             }}
                           >
                             Allow

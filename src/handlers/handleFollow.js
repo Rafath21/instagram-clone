@@ -17,6 +17,7 @@ let handleFollow=async (otherUserUid,otherUserUn,otherUserPfp,ownUid,ownUn,ownPf
                           name: ownUn,
                           pfp: ownPfp,
                           ruid: ownUid,
+                          msg:"wants to follow you"
                         });
                     } else {
                       let docc = "fl" + otherUserUid;
@@ -49,6 +50,7 @@ let handleFollow=async (otherUserUid,otherUserUn,otherUserPfp,ownUid,ownUn,ownPf
                           name: ownUn,
                           pfp: ownPfp,
                           ruid: ownUid,
+                          msg:"started following you"
                         });
                       await firestore //adding the current user to suggested user's followers list
                         .collection("users")
@@ -72,12 +74,13 @@ let handleFollow=async (otherUserUid,otherUserUn,otherUserPfp,ownUid,ownUn,ownPf
                         .doc(otherUserUid)
                         .collection("posts")
                         .get();
-                      getRecentDocs.forEach(async (doc) => {
+                        console.log(getRecentDocs)
+                          getRecentDocs.forEach(async (doc) => {
                         await firestore
                           .collection("users")
                           .doc(ownUid)
                           .collection("feedItems")
-                          .doc(ownUid + "post" + Date.now())
+                          .doc(doc.data().postId)
                           .set({
                             timestamp: timestamp,
                             feedItemurl: doc.data().postUrl,
@@ -90,19 +93,21 @@ let handleFollow=async (otherUserUid,otherUserUn,otherUserPfp,ownUid,ownUn,ownPf
                             postedByUid: otherUserUid,
                           });
                       });
+                        
+                        
+                      
                       let getRecentReels = await firestore
                         .collection("users")
                         .doc(otherUserUid)
                         .collection("reels")
                         .get();
-                      console.log(getRecentDocs);
-                      getRecentReels.forEach(async (doc) => {
-                        console.log(doc.data());
+                      console.log(getRecentReels);
+                          getRecentReels.forEach(async (doc) => {
                         await firestore
                           .collection("users")
                           .doc(ownUid)
                           .collection("reelsFeed")
-                          .doc(ownUid + "reel" + Date.now())
+                          .doc(doc.data().postId)
                           .set({
                             timestamp: timestamp,
                             feedItemurl: doc.data().postUrl,
@@ -115,11 +120,14 @@ let handleFollow=async (otherUserUid,otherUserUn,otherUserPfp,ownUid,ownUn,ownPf
                             postedByUid: otherUserUid,
                           });
                       });
+                      
+                    
                       let getRecentStory=await firestore.collection("users").doc(otherUserUid).collection("stories").doc(otherUserUid).get();
-                      if(getRecentStory.exists){
                         console.log("in story exists");
                         console.log("other user uid",otherUserUid);
-                        console.log(getRecentStory.data())
+                        if(getRecentStory.exists){
+                               let allStories=getRecentStory.data()?.postedStories;
+
                           await firestore
             .collection("users")
             .doc(ownUid)
@@ -127,10 +135,6 @@ let handleFollow=async (otherUserUid,otherUserUn,otherUserPfp,ownUid,ownUn,ownPf
             .doc(otherUserUid)
             .set(
               {
-                postedStories: firebase.firestore.FieldValue.arrayUnion({
-                  storyCaption: getRecentStory.data().storyCaption,
-                  storyImg: getRecentStory.data().storyImg,
-                }),
                 storyByUid: otherUserUid,
                 storyByUn: otherUserUn,
                 storyBypfp: otherUserPfp,
@@ -138,7 +142,25 @@ let handleFollow=async (otherUserUid,otherUserUn,otherUserPfp,ownUid,ownUn,ownPf
               },
               { merge: true }
             );
+            if(allStories.length>0){
+                allStories.map(async(story)=>{
+               await firestore
+            .collection("users")
+            .doc(ownUid)
+            .collection("storiesFeed")
+            .doc(otherUserUid)
+            .update(
+              {
+                  postedStories: firebase.firestore.FieldValue.arrayUnion(story),
+               },
+              { merge: true }
+            );
+            })
+            }
+                        }
+                   
+            
+            
                       }
-                    }
 }
 export default handleFollow;

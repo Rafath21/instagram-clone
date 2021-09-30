@@ -14,4 +14,6 @@
 [-] Fix followers and following containers on profile 👏🥇✔ Done Alhamdulillah
                   <Carousel disableArrows={true} infinite={false} show={5}>
 [-] reels playing
+[+] when someone deletes their account all their posts from their followers' feedItems should get deleted.
+[+] profile requested thing
 

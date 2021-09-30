@@ -8,14 +8,13 @@ const handleLikes=async(currUserId,postedByUid,postId,collectionO,collectionf)=>
       .collection(collectionO)
       .doc(postId);
     perform(postDocRef,currUserId);
-    if(postedByUid==currUserId){
 let ownDocRef = firestore
         .collection("users")
-        .doc(currUserId)
+        .doc(postedByUid)
         .collection(collectionf)
         .doc(postId);
       perform(ownDocRef,currUserId);
-    }
+    
     let querySnapshot = await firestore
       .collection("users")
       .doc(postedByUid)
@@ -54,6 +53,7 @@ async function perform(mainDocRef,currUserId) {
       }
     }
     else{
+      console.log(check);
         console.log("it does not exist");
     }
   }
