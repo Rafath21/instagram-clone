@@ -392,7 +392,6 @@ hr {
   flex-direction: column;
   margin-top: 20px;
   position: relative;
-  border-radius: 7px 7px 7px 7px;
   border: 1px solid grey;
 }
 .no-reels-container {
@@ -1476,8 +1475,8 @@ hr {
   padding: 5px;
 }
 .post-card-container {
-  -webkit-border-radius: 50px;
-  border-radius: 50px;
+  -webkit-border-radius: 30px;
+  border-radius: 30px;
   background: #d1d8ec;
   -webkit-box-shadow: 12px 12px 24px #a9afbf, -12px -12px 24px #f9ffff;
   box-shadow: 12px 12px 24px #a9afbf, -12px -12px 24px #f9ffff;
