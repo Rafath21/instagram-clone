@@ -20,7 +20,6 @@ let Createstory = () => {
   let currUserpfp = location.state.upfp;
   let timestamp = firebase.firestore.FieldValue.serverTimestamp(); //Hour at which the post was created
 
-  console.log(location.state);
   async function createNewStory() {
     let followers = []; //followers of the current follower
     let querySnapshotfr = await firestore
@@ -32,12 +31,12 @@ let Createstory = () => {
       followers.push(doc.data());
     });
     let f1 = (snapshot) => {
-      console.log(snapshot.bytesTransferred);
-      console.log(snapshot.totalBytes);
+      //console.log(snapshot.bytesTransferred);
+      //console.log(snapshot.totalBytes);
     };
     //f2 function passed to state_changed event for error handling
     let f2 = (error) => {
-      console.log(error);
+     // console.log(error);
     };
     let f3 = () => {
       let p = uploadPost.snapshot.ref.getDownloadURL();
@@ -82,7 +81,7 @@ let Createstory = () => {
               },
               { merge: true }
             );
-          console.log("Successfully added");
+          //console.log("Successfully added");
         });
       });
     };
@@ -93,7 +92,7 @@ let Createstory = () => {
 
     uploadPost.on("clicked", f1, f2, f3);
     setTimeout(() => {
-      console.log("in set timeout");
+      //console.log("in set timeout");
       history.push("/");
     }, 5000);
   }
@@ -112,7 +111,7 @@ let Createstory = () => {
             setuploadFiletype(e.target.files[0].type);
             setuploadFile(e.target.files[0]);
             uploadFiletype = uploadFiletype.split("/")[0];
-            console.log(uploadFiletype);
+            //console.log(uploadFiletype);
           }}
         />
       </div>
@@ -128,7 +127,7 @@ let Createstory = () => {
       <button
         onClick={async (e) => {
           e.preventDefault();
-          console.log(e);
+          //console.log(e);
           e.target.innerText = "POSTED";
           createNewStory();
         }}

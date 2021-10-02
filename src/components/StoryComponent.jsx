@@ -17,8 +17,6 @@ let StoryComponent = () => {
   let [postedStories, setPostedStories] = useState([]);
   let [loading, setLoading] = useState(true);
   useEffect(async () => {
-    console.log("value:", value.uid);
-    console.log("posted by:", storyByUid);
     let postedStory;
     if (storyByUid == value.uid) {
       postedStory = await firestore
@@ -41,13 +39,11 @@ let StoryComponent = () => {
     setLoading(false);
   }, []);
 
-  console.log(postedStories);
   function redirectToHome() {
     history.push("/");
   }
   function getStories() {
     let stories = postedStories.map((story) => {
-      console.log(story);
       return {
         content: (props) => (
           <div className="story-container">

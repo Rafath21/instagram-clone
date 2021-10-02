@@ -21,7 +21,6 @@ let AuthProvider=({children})=>{
                         photoURL,
                     });
                 }
-                console.log(user);
                 setCurrentUser({displayName,email,uid,photoURL});
             }else{
                 setCurrentUser(user);

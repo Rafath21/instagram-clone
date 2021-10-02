@@ -65,10 +65,9 @@ let Register = () => {
               auth
                 .createUserWithEmailAndPassword(currUserEmail, currUserPswd)
                 .then((res) => {
-                  console.log(res);
+                  // console.log(res);
                 })
                 .catch((err) => {
-                  console.log(err.message);
                   alert(err.message);
                 });
             }}

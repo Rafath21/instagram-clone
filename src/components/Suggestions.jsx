@@ -30,7 +30,7 @@ let Suggestions = (props) => {
         if (un != unh) {
           arr.push(newDoc);
         } else {
-          console.log("they matched so skipping");
+          //console.log("they matched so skipping");
         }
       });
       arr = arr.filter((e) => {

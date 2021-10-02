@@ -46,7 +46,6 @@ let Profile = (props) => {
     postId: "",
   });
   let timestamp = firebase.firestore.FieldValue.serverTimestamp(); //Hour at which the post was created
-  console.log(followers);
   useEffect(async () => {
     setLoading(true);
     let docd = await firestore.collection("users").doc(value?.uid).get();
@@ -104,9 +103,7 @@ let Profile = (props) => {
     setcurrUn(doc.data().username);
     setLoading(false);
   }, []);
-  console.log("my uid:", currUser.uid);
-  console.log("my username:", currUn);
-  console.log("my pfp:", currPfp);
+
   useEffect(async () => {
     //checking if the user's account is public or private
     let data = await firestore
@@ -121,7 +118,6 @@ let Profile = (props) => {
       data.data()?.typeOfAccount == "public" ||
       location.state.uid == currUser.uid
     ) {
-      console.log("in if");
       setrestrictedStatus(true);
     }
     let ownData = await firestore
@@ -130,16 +126,13 @@ let Profile = (props) => {
       .collection("following")
       .get();
     ownData.forEach((doc) => {
-      console.log(doc.data());
       if (doc.data()?.fluid == location.state?.uid) {
         setcurrUserFollow("Following");
-        console.log("conditional render:", doc.data()?.fluid);
         setrestrictedStatus(true);
       }
     });
   }, []);
   async function handlefollow(e) {
-    console.log("in handle follow");
     let reqDoc = await firestore.collection("users").doc(value.uid).get();
     if (reqDoc.data().typeOfAccount == "private") {
       setcurrUserFollow("Requested");
@@ -148,7 +141,6 @@ let Profile = (props) => {
     }
     handleFollow(value.uid, username, pfpUrl, currUser.uid, currUn, currPfp);
   }
-  console.log("status:", restrictedStatus);
   return (
     <>
       {loading ? (
@@ -202,12 +194,7 @@ let Profile = (props) => {
                         }}
                         style={{ textDecoration: "none" }}
                       >
-                        <button
-                          className="profile-sendMsg"
-                          onClick={() => {
-                            console.log("send msg clicked");
-                          }}
-                        >
+                        <button className="profile-sendMsg">
                           Send Message
                         </button>
                       </Link>
@@ -303,7 +290,6 @@ let Profile = (props) => {
                             .collection("posts")
                             .doc(e.postId)
                             .get();
-                          console.log(doc.data());
                           setPost({
                             ...post,
 
@@ -316,7 +302,6 @@ let Profile = (props) => {
                             postedBypfp: pfpUrl,
                             postedByUid: value.uid,
                           });
-                          console.log(post);
                         }}
                       />
                     );

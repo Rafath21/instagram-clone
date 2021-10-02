@@ -70,7 +70,6 @@ let Setup = () => {
         <select
           onChange={(e) => {
             handleTypechange(e);
-            console.log("Value changed");
           }}
           id="account-type"
         >
@@ -100,7 +99,6 @@ let Setup = () => {
               alert("You are only allowed to have 164 characters in your bio.");
               return;
             } else {
-              console.log("in execution else");
               await firestore.collection("users").doc(value.uid).update({
                 username: userName,
               });
@@ -127,12 +125,12 @@ let Setup = () => {
                 setProfile(true);
               } else {
                 let f1 = (snapshot) => {
-                  console.log(snapshot.bytesTransferred);
-                  console.log(snapshot.totalBytes);
+                  //console.log(snapshot.bytesTransferred);
+                  //console.log(snapshot.totalBytes);
                 };
                 //f2 function passed to state_changed event for error handling
                 let f2 = (error) => {
-                  console.log(error);
+                  // console.log(error);
                 };
 
                 let f3 = () => {
@@ -147,7 +145,6 @@ let Setup = () => {
                 let uploadPfp = storage
                   .ref(`/pfps/${value.uid}/${Date.now() + name}`)
                   .put(file);
-                console.log(uploadPfp._uploadUrl);
                 uploadPfp.on("clicked", f1, f2, f3);
                 setProfile(true);
               }

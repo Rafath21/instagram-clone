@@ -13,8 +13,7 @@ let ChatWindow = () => {
   let senderUn = location.state.senderUn;
   let [msgs, setMsgs] = useState([]);
   let msgRef = useRef();
-  console.log(senderUn);
-  console.log(senderpfp);
+
   useEffect(async () => {
     let unsubscription = await firestore
       .collection("users")
@@ -22,7 +21,6 @@ let ChatWindow = () => {
       .collection("chats")
       .doc(location.state.senderUid)
       .onSnapshot((querySnapshot) => {
-        console.log(querySnapshot.data());
         setMsgs(querySnapshot.data()?.msgs);
       });
     return () => {
@@ -87,7 +85,7 @@ let ChatWindow = () => {
         <h4>{senderUn}</h4>
       </div>
       <div className="chat-window-messages">
-        {msgs?.map((e,index) => {
+        {msgs?.map((e, index) => {
           let classname = "";
           if (e.chatId.split("msg")[0] == value.uid) {
             classname = "chat-message-own";

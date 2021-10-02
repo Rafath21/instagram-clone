@@ -52,7 +52,6 @@ let VideoCard = (props) => {
       if (currentTarget) observer.unobserve(currentTarget);
     };
   }, [videoRef]);
-console.log(props);
   useEffect(async () => {
     setLoading(true);
     setfeedItem(props.reel.feedItemurl);
@@ -225,7 +224,6 @@ console.log(props);
               </div>
               <div className="reel-comments">
                 {props.reel.comments?.map((element, index) => {
-                  console.log(props.reel.comments);
                   return (
                     <div className="reel-comments-inner" key={index}>
                       <Link

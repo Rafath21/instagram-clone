@@ -232,7 +232,6 @@ let Home = (props) => {
                     onChange={(e) => {
                       if (!e.target.files[0]) return;
                       setuploadFilename(e.target.files[0].name);
-                      console.log("checking");
                       setuploadFile(e.target.files[0]);
                     }}
                   />
@@ -450,7 +449,6 @@ let Home = (props) => {
                                 .collection("stories")
                                 .doc(request?.ruid)
                                 .get();
-                              console.log("in story exists");
                               if (getRecentStory.exists) {
                                 let allStories =
                                   getRecentStory.data()?.postedStories;
@@ -618,7 +616,6 @@ let Home = (props) => {
                             className="others-stories"
                             src={e.storyBypfp}
                             onClick={() => {
-                              console.log("story clicked");
                               history.push({
                                 pathname: `/story/${e.storyByUn}`,
                                 state: {

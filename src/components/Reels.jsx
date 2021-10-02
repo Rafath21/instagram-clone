@@ -94,17 +94,16 @@ let Reels = () => {
                       e.target.value = null;
                     }}
                     onChange={(e) => {
-                       if (!e.target.files[0]) return;
+                      if (!e.target.files[0]) return;
                       setuploadFilename(e.target.files[0].name);
                       let size = e.target.files[0].size;
                       setuploadFile(e.target.files[0]);
-                      console.log(size);
-                    if (size > 15728640) {
-                      alert(
-                       "Sorry! The video size cannot be more than 15mb😅"
-                      );
-                      e.target.value = null;
-                       }
+                      if (size > 15728640) {
+                        alert(
+                          "Sorry! The video size cannot be more than 15mb😅"
+                        );
+                        e.target.value = null;
+                      }
                     }}
                   />
                   <p className="create-reel-caption-heading">

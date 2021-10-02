@@ -25,7 +25,6 @@ let Postcard = (props) => {
     };
     f();
   }, []);
-  console.log("props:", props);
   async function handleCurrUserlike() {
     handleLikes(
       currUserId,
@@ -120,7 +119,6 @@ let Postcard = (props) => {
             </div>
             <div className="comment-form-comments">
               {comments.map((e, index) => {
-                console.log(comments.length);
                 return (
                   <div className="comment-form-inner" key={index}>
                     <img className="comment-pfp" src={e.upfpUrl} />
@@ -198,7 +196,6 @@ let Postcard = (props) => {
               <p
                 className="show-comments-title"
                 onClick={() => {
-                  console.log("show more clicked");
                   setcommentBoxOpen(true);
                 }}
               >
