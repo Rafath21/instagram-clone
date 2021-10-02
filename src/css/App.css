@@ -327,7 +327,7 @@ hr {
   width: 100%;
 }
 .stories-container > li {
-  width: 20%;
+  width: 22%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -383,7 +383,7 @@ hr {
 }
 .home-posts {
   margin-top: 30px;
-  height: 80vh;
+  height: 83vh;
 }
 .post-card-container {
   height: 109%;
@@ -428,7 +428,7 @@ hr {
 }
 #post-pic {
   max-height: 101%;
-  width: 40%;
+  width: 80%;
 }
 .own-story {
   width: 1rem;
@@ -614,7 +614,9 @@ hr {
 .user-comment-post-button,
 .create-reel-btn,
 .request-allow-btn,
-.create-new-post-btn {
+.create-new-post-btn,
+.follow-status,
+.profile-sendMsg {
   border-radius: 50px;
   box-shadow: 12px 12px 24px #a9afbf, -12px -12px 24px #f9ffff;
 }
@@ -1480,6 +1482,7 @@ hr {
   -webkit-box-shadow: 12px 12px 24px #a9afbf, -12px -12px 24px #f9ffff;
   box-shadow: 12px 12px 24px #a9afbf, -12px -12px 24px #f9ffff;
   border: none;
+  overflow: hidden;
 }
 .comment-form > textarea {
   padding: 15px;

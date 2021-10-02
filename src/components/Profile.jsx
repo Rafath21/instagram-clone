@@ -120,22 +120,23 @@ let Profile = (props) => {
     ) {
       console.log("in if");
       setrestrictedStatus(true);
-    } else {
-      let ownData = await firestore
-        .collection("users")
-        .doc(currUser?.uid)
-        .collection("following")
-        .get();
-      ownData.forEach((doc) => {
-        if (doc.data()?.fluid == location.state?.uid) {
-          setcurrUserFollow("Following");
-          console.log("conditional render:", doc.data()?.fluid);
-          setrestrictedStatus(true);
-        }
-      });
     }
+    let ownData = await firestore
+      .collection("users")
+      .doc(currUser?.uid)
+      .collection("following")
+      .get();
+    ownData.forEach((doc) => {
+      console.log(doc.data());
+      if (doc.data()?.fluid == location.state?.uid) {
+        setcurrUserFollow("Following");
+        console.log("conditional render:", doc.data()?.fluid);
+        setrestrictedStatus(true);
+      }
+    });
   }, []);
   async function handlefollow(e) {
+    console.log("in handle follow");
     let reqDoc = await firestore.collection("users").doc(value.uid).get();
     if (reqDoc.data().typeOfAccount == "private") {
       setcurrUserFollow("Requested");
@@ -198,14 +199,19 @@ let Profile = (props) => {
                         }}
                         style={{ textDecoration: "none" }}
                       >
-                        <button className="profile-sendMsg">
+                        <button
+                          className="profile-sendMsg"
+                          onClick={() => {
+                            console.log("send msg clicked");
+                          }}
+                        >
                           Send Message
                         </button>
                       </Link>
                       <button
                         className="follow-status"
                         onClick={(e) => {
-                          handlefollow(e);
+                          if (currUserFollow != "Following") handlefollow(e);
                         }}
                       >
                         {currUserFollow}

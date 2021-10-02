@@ -36,7 +36,7 @@ function App() {
           <Route path="/chats">
             <Chats/>
           </Route>
-          <Route path="/chatwindow/">
+          <Route path="/chatwindow/:username">
             <ChatWindow/>
           </Route>
           <Route path="/createstory">

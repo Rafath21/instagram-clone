@@ -144,7 +144,9 @@ let Home = (props) => {
           {value ? "" : <Redirect to="/register" />}
           <div className="home-header">
             <Link id="link" to="/home">
-              <div className="home-header-title">Instagram-clone</div>
+              <div className="home-header-title" id="header">
+                Instagram-clone
+              </div>
             </Link>
             <div className="header-search-box">
               <input
@@ -278,7 +280,7 @@ let Home = (props) => {
               ) : (
                 ""
               )}
-              <Link id="link" to={{ pathname: "/home" }}>
+              <Link id="link" to={{ pathname: "/#header" }}>
                 <i class="fas fa-home" title="Home" id="home-icon"></i>
               </Link>
               <Link

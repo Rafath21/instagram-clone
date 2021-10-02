@@ -105,4 +105,11 @@
     width: 100%;
     left: 0;
   }
+  .story-container {
+    height: 93vh;
+  }
+  .story-header img {
+    height: 100%;
+    width: 49%;
+  }
 }

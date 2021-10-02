@@ -174,7 +174,7 @@ let Postcard = (props) => {
         )}
 
         <div className="post-comments-container">
-          {comments.length <= 2 ? (
+          {comments.length <= 1 ? (
             comments.map((e, index) => {
               return (
                 <div className="post-comments-inner" key={index}>

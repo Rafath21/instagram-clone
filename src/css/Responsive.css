@@ -9,9 +9,16 @@
   .home-sidebar {
     display: none;
   }
+  .reels-container {
+    height: 95vh;
+    margin-top: 8%;
+  }
   .video-card {
     width: 100vw;
     scroll-snap-align: start;
+  }
+  .stories-container > li:nth-child(n + 2) {
+    margin-left: 15px;
   }
   .requests-container {
     width: 100%;
@@ -64,15 +71,17 @@
   }
   .post-img {
     height: 91%;
+    width: 16%;
   }
   .profile-post {
-    width: 176px;
+    width: 103%;
     height: 164px;
     object-fit: contain;
   }
   .main-post-card-container {
     width: 100%;
     margin-left: 0;
+    margin-top: 185px;
   }
   .create-post-container {
     left: 10px;
@@ -135,6 +144,17 @@
     width: 100vw;
     left: 5%;
   }
+  .chat-window-container {
+    height: 95vh;
+    margin-top: 3%;
+  }
+  .story-img-container > img {
+    width: 111%;
+    object-fit: cover;
+    height: 93%;
+    border-radius: 50%;
+    margin-left: 4px;
+  }
   .post-card-container {
     width: 97vw;
     margin-left: 3px;
@@ -150,12 +170,15 @@
     width: 90%;
   }
   #suggestions-icon {
-    display: inline;
+    display: inline-block;
     font-size: 23px;
     font-weight: 600;
-    position: absolute;
-    left: 103px;
-    top: 27%;
+    position: relative;
+    top: 45%;
+    right: 6px;
+  }
+  .posts-title {
+    margin-top: 114px;
   }
   .header-search-box {
     margin-top: 15px;
@@ -205,5 +228,8 @@
   .login-form-container {
     width: 100%;
     left: 0;
+  }
+  .profile-header {
+    min-height: 45vh;
   }
 }

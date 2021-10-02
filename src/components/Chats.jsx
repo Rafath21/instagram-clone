@@ -48,7 +48,7 @@ let Chats = () => {
                 <>
                   <Link
                     to={{
-                      pathname: "chatwindow",
+                      pathname: `chatwindow/${e.senderUsername}`,
                       state: {
                         senderUid: e.senderUid,
                         senderPfp: e.senderPfp,
