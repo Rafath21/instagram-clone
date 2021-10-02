@@ -9,7 +9,7 @@ let Postcard = (props) => {
   let [currUserLike, setCurrUserLike] = useState(false);
   let [currUserComment, setcurrUserComment] = useState("");
   let [commentBoxOpen, setcommentBoxOpen] = useState(false);
-  let currUserId = props.value?.uid;
+  let currUserId = props.uid;
   let [flag, setFlag] = useState(false);
   let commentRef = useRef();
   function clearComment() {
@@ -25,7 +25,7 @@ let Postcard = (props) => {
     };
     f();
   }, []);
-  console.log(props.post.likes);
+  console.log("props:", props);
   async function handleCurrUserlike() {
     handleLikes(
       currUserId,
@@ -160,7 +160,7 @@ let Postcard = (props) => {
                     uname: props.username,
                     ucomment: currUserComment,
                     upfpUrl: props.pfpUrl,
-                    uid: props.value.uid,
+                    uid: props.uid,
                   });
                   setComments(arr);
                 }}

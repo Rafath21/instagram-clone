@@ -104,6 +104,9 @@ let Profile = (props) => {
     setcurrUn(doc.data().username);
     setLoading(false);
   }, []);
+  console.log("my uid:", currUser.uid);
+  console.log("my username:", currUn);
+  console.log("my pfp:", currPfp);
   useEffect(async () => {
     //checking if the user's account is public or private
     let data = await firestore
@@ -335,9 +338,9 @@ let Profile = (props) => {
               ></i>
               <Postcard
                 post={post}
-                username={username}
-                pfpUrl={pfpUrl}
-                value={value}
+                username={currUn}
+                pfpUrl={currPfp}
+                uid={currUser.uid}
               />
             </div>
           )}

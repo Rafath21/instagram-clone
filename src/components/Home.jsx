@@ -651,7 +651,7 @@ let Home = (props) => {
                       <Postcard
                         key={index}
                         post={post}
-                        value={value}
+                        uid={value?.uid}
                         username={userName}
                         pfpUrl={pfpUrl}
                       />
