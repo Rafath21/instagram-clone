@@ -2,21 +2,22 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 import "firebase/storage";
+import { apiKey,authDomain,projectId,storageBucket,messagingSenderId,appId,measurementId } from "./secrets";
 var firebaseConfig = {
 
-    apiKey:"AIzaSyCj-55e0qjdfAs6E3-RBd7cI94644XqcZo",
+    apiKey:apiKey,
 
-    authDomain: "instagram-clone-dfad6.firebaseapp.com",
+    authDomain: authDomain,
 
-    projectId: "instagram-clone-dfad6",
+    projectId: projectId,
 
-    storageBucket: "instagram-clone-dfad6.appspot.com",
+    storageBucket: storageBucket,
 
-    messagingSenderId: "926886933918",
+    messagingSenderId: messagingSenderId,
 
-    appId: "1:926886933918:web:22317863c37efc0b97128f",
+    appId: appId,
 
-    measurementId: "G-PY1G5C42R4"
+    measurementId: measurementId
   };
   
 
